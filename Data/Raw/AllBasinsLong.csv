@@ -1,4 +1,4 @@
-Incubation Replicate,Site,Basin,Substrate,Rate,Unamended control rate,Adjusted Rate,Microarrary Replicate,Unique mcr genes,Quantity mcrgenes,Total Methane (µM),Unamended control total,Adjusted Total
+Incubation Replicate,Site,Basin,Substrate,Rate,Unamended control rate,Adjusted Rate,Microarrary Replicate,Unique mcr genes,Quantity mcrgenes,Total Methane (microM),Unamended control total,Adjusted Total
 O,1,Illinois Basin,Formate,0.3783,0.0015,0.3768,1,5,6268.7302,27.35788889,1.599335556,25.75855333
 X,1,Illinois Basin,Formate,0.4754,0.0051,0.4703,1,5,6268.7302,37.87333333,0.643572222,37.22976111
 O,1,Illinois Basin,Acetate,1.8155,0.0015,1.814,1,5,6268.7302,71.78833333,1.599335556,70.18899778

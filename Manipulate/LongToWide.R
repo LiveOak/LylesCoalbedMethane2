@@ -39,6 +39,8 @@ Widen <- function( d ) {
   dsMicroarray3 <- d[d$MicroarraryReplicate==3, ]
   
   data.frame(
+    TotalAdjusted1 = dsIncubation1$TotalAdjusted[1],
+    TotalAdjusted2 = dsIncubation2$TotalAdjusted[1],
     Rate1 = dsIncubation1$AdjustedRate[1],
     Rate2 = dsIncubation2$AdjustedRate[1],
     Unique1 = dsMicroarray1$UniqueMcrGenes[1],
@@ -48,6 +50,9 @@ Widen <- function( d ) {
     Quantity2 = dsMicroarray2$QuantityMcrGenes[1],
     Quantity3 = dsMicroarray3$QuantityMcrGenes[1],
     
+    
+    TotalAdjustedZ1 = dsIncubation1$TotalAdjustedZ[1],
+    TotalAdjustedZ2 = dsIncubation2$TotalAdjustedZ[1],
     RateZ1 = dsIncubation1$AdjustedRateZ[1],
     RateZ2 = dsIncubation2$AdjustedRateZ[1],
     UniqueZ1 = dsMicroarray1$UniqueMcrGenesZ[1],
@@ -67,6 +72,7 @@ dsWide <- plyr::ddply(dsLong, c("Substrate", "Site", "Basin"), Widen)
 # dsWide$UniqueMean <- (dsWide$Unique1 + dsWide$Unique2 + dsWide$Unique3) / 3
 
 #This generalizes to the other basins:
+dsWide$TotalAdjustedMean <- rowMeans(dsWide[, c("TotalAdjusted1", "TotalAdjusted2")])
 dsWide$RateMean <- rowMeans(dsWide[, c("Rate1", "Rate2")])
 dsWide$QuantityMean <- rowMeans(dsWide[, c("Quantity1", "Quantity2", "Quantity3")], na.rm=T)
 dsWide$UniqueMean <- rowMeans(dsWide[, c("Unique1", "Unique2", "Unique3")], na.rm=T)

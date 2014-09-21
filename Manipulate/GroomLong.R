@@ -29,16 +29,19 @@ dsLong <- plyr::rename(dsLong, replace=c(
   , "Adjusted.Rate" = "AdjustedRate"
   , "Microarrary.Replicate" = "MicroarraryReplicate"
   , "Unique.mcr.genes" = "UniqueMcrGenes"
-  , "Quantity.mcrgenes" = "QuantityMcrGenes"
+  , "Quantity.mcrgenes" = "QuantityMcrGenes"  
+  , "Total.Methane..microM." = "TotalMethaneInMicroMoles" 
+  , "Unamended.control.total" = "TotalMethaneUnamendedControlInMicroMoles"
+  , "Adjusted.Total" = "TotalAdjusted" #MethaneInMicroMoles
 ))
 ############################
 #+ TweakData
 # dsLong <- dsLong[dsLong$Basin %in% basinsToInclude, ]
 
+dsLong$TotalAdjustedZ <- scale(dsLong$TotalAdjusted)
 dsLong$AdjustedRateZ <- scale(dsLong$AdjustedRate)
 dsLong$UniqueMcrGenesZ <- scale(dsLong$UniqueMcrGenes)
 dsLong$QuantityMcrGenesZ <- scale(dsLong$QuantityMcrGenes)
-
 
 ############################
 #+ PrintTable
@@ -48,4 +51,6 @@ knitr::kable(dsLong, format="markdown")
 ## @knitr SaveToDisk
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
 #saveRDS(dsWide, file=pathOutput, compress="xz")
+
+# Save as a CSV so it's readable with a text editor.
 write.csv(dsLong, file=pathOutput, row.names=F)
