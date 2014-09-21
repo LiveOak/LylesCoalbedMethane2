@@ -179,6 +179,8 @@ hljs.initHighlightingOnLoad();
 </head>
 
 <body>
+<!-- rmarkdown v1 -->
+
 <h1>IllinoisSemCorrelations</h1>
 
 <p>This report takes an SEM approach to fitting the Illinois Basin replicates</p>
@@ -189,15 +191,15 @@ hljs.initHighlightingOnLoad();
 
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 
-<pre><code class="r"># require(xtable)
-require(knitr)
-require(plyr)
-# require(scales) #For formating values in graphs
-require(RColorBrewer)
-require(ggplot2) #For graphing
-# require(lavaan) #For graphing
-# require(OpenMx) #For graphing
-# require(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+<pre><code class="r"># library(xtable)
+library(knitr)
+library(plyr)
+# library(scales) #For formating values in graphs
+library(RColorBrewer)
+library(ggplot2) #For graphing
+library(lavaan) #For graphing
+# library(OpenMx) #For graphing
+# library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
 #####################################
 </code></pre>
 
@@ -252,14 +254,14 @@ dsWideIllinois &lt;- dsWide[dsWide$Basin==&quot;Illinois Basin&quot;, ]
 
 <h1>Marginals</h1>
 
-<pre><code class="r">ggplot(dsLongIllinois, aes(x=AdjustedRate)) + 
+<pre><code class="r">ggplot(dsLongIllinois, aes(x=TotalAdjusted)) + 
   geom_density() +
   facet_grid(Substrate~IncubationReplicate, scales=&quot;free_y&quot;) +
   theme_bw() +
   labs(title=&quot;Illinois Basin&quot;)
 </code></pre>
 
-<p><img src="data:image/png;base64,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" alt="plot of chunk Marginals"/> </p>
+<p><img src="data:image/png;base64,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" alt="plot of chunk Marginals"/> </p>
 
 <pre><code class="r">ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) + 
   geom_density() +
@@ -303,30 +305,231 @@ dsWideIllinois &lt;- dsWide[dsWide$Basin==&quot;Illinois Basin&quot;, ]
 # cor(dsWide[,  c(&quot;QuantityZ1&quot;, &quot;QuantityZ2&quot;, &quot;QuantityZ3&quot;)])
 # cor(dsWide[,  c(&quot;Quantity1&quot;, &quot;Quantity2&quot;, &quot;Quantity3&quot;)])
 
-#  model &lt;- &quot;
-#   # measurement model
-# #   Rate =~ 1*RateZ1 + 1*RateZ2
-# #   Rate =~ 1*Rate1 + 1*Rate2
+model &lt;- &quot;
+  # measurement model
+#   Rate =~ 1*RateZ1 + 1*RateZ2
+#   Rate =~ 1*Rate1 + 1*Rate2
 #   Quantity =~ 1*QuantityZ1 + 1*QuantityZ2 + 1*QuantityZ3
-# #   Quantity =~ q*Quantity1 + q*Quantity2 + q*Quantity3
+#   Quantity =~ q*Quantity1 + q*Quantity2 + q*Quantity3
 #   Rate =~ RateZ1 
-# #   Quantity =~ QuantityZ1 
-#   
-#   # regressions
+  Quantity =~ QuantityZ1 
+#   Total =~ TotalAdjusted1
+  Total =~ 1*TotalAdjusted1 + 1*TotalAdjusted2
+
+  # regressions
 #   Rate ~ Quantity
-# 
-#   # fix variances of factors
+  Total ~ Quantity
+
+  # fix variances of factors
 #     Rate ~~ 1*Rate
-#     Quantity ~~ 1*Quantity
-# &quot;
-# 
-# for( substrate in substrateOrder ) {
-#   cat(&quot;============ &quot;, substrate, &quot; ==============\n&quot;)
-#   dsSubstrate &lt;- dsWide[dsWide$Substrate==substrate, ]
-#   fit &lt;- sem(model, data = dsSubstrate)
-#   summary(fit, standardized = FALSE)
-# }
-# # fit &lt;- sem(model, data = dsWide)
+    Total ~~ 1*Total
+    Quantity ~~ 1*Quantity
+&quot;
+# substrateOrder &lt;- c(&quot;Formate&quot;)
+for( substrate in substrateOrder ) {
+  cat(&quot;============ &quot;, substrate, &quot; ==============\n&quot;)
+  dsSubstrate &lt;- dsWide[dsWide$Substrate==substrate, ]
+  fit &lt;- sem(model, data = dsSubstrate)
+  summary(fit, standardized = FALSE)
+}
+</code></pre>
+
+<pre><code>============  Formate  ==============
+lavaan (0.5-16) converged normally after  20 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic                6.012
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.111
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(&gt;|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity          0.501    2.750    0.182    0.856
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1   146.755   55.845
+    TotalAdjustd2   367.132  139.138
+
+============  Acetate  ==============
+</code></pre>
+
+<pre><code>Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
+varTable(fit) to investigate
+</code></pre>
+
+<pre><code>lavaan (0.5-16) converged normally after  21 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic                7.081
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.069
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(&gt;|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity         -2.261    6.029   -0.375    0.708
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1   844.696  319.643
+    TotalAdjustd2  1273.807  481.831
+
+============  Propionate  ==============
+</code></pre>
+
+<pre><code>Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
+varTable(fit) to investigate
+</code></pre>
+
+<pre><code>lavaan (0.5-16) converged normally after  21 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic               49.296
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(&gt;|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity         -3.574    8.212   -0.435    0.663
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1  1639.293  619.972
+    TotalAdjustd2  2221.191  839.909
+
+============  Butyrate  ==============
+</code></pre>
+
+<pre><code>Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
+varTable(fit) to investigate
+</code></pre>
+
+<pre><code>lavaan (0.5-16) converged normally after  21 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic               26.722
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(&gt;|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity        -12.653   12.707   -0.996    0.319
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1  4369.617 1651.938
+    TotalAdjustd2  4679.467 1769.050
+
+============  Valerate  ==============
+</code></pre>
+
+<pre><code>Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
+varTable(fit) to investigate
+</code></pre>
+
+<pre><code>lavaan (0.5-16) converged normally after  22 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic               23.899
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(&gt;|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity        -12.832   14.149   -0.907    0.364
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1  4632.955 1751.470
+    TotalAdjustd2  7088.595 2679.615
+</code></pre>
+
+<pre><code class="r"># # fit &lt;- sem(model, data = dsWide)
 # # summary(fit, standardized = FALSE)
 </code></pre>
 
@@ -348,10 +551,10 @@ dsWideIllinois &lt;- dsWide[dsWide$Basin==&quot;Illinois Basin&quot;, ]
 
 <p>For the sake of documentation and reproducibility, the current report was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 2014-06-18, 14:17 -0500
+<pre><code>Report created by Will at 2014-09-21, 13:50 -0500
 </code></pre>
 
-<pre><code>R version 3.1.0 Patched (2014-06-15 r65949)
+<pre><code>R version 3.1.1 Patched (2014-09-17 r66626)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -362,12 +565,13 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_1.0.0      RColorBrewer_1.0-5 plyr_1.8.1         knitr_1.6         
+[1] lavaan_0.5-16      ggplot2_1.0.0      RColorBrewer_1.0-5 plyr_1.8.1         knitr_1.6         
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_0.10     grid_3.1.0       gtable_0.1.2    
- [7] labeling_0.2     MASS_7.3-33      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.2      reshape2_1.4    
-[13] scales_0.2.4     stringr_0.6.2    tools_3.1.0     
+ [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0      grid_3.1.1       gtable_0.1.2    
+ [7] labeling_0.3     MASS_7.3-34      mnormt_1.5-1     munsell_0.4.2    pbivnorm_0.5-1   proto_0.3-10    
+[13] quadprog_1.5-5   Rcpp_0.11.2      reshape2_1.4     scales_0.2.4     stats4_3.1.1     stringr_0.6.2   
+[19] tools_3.1.1     
 </code></pre>
 
 </body>

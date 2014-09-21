@@ -1,3 +1,4 @@
+<!-- rmarkdown v1 -->
 IllinoisSemCorrelations
 =================================================
 This report takes an SEM approach to fitting the Illinois Basin replicates
@@ -10,15 +11,15 @@ This report takes an SEM approach to fitting the Illinois Basin replicates
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 
 ```r
-# require(xtable)
-require(knitr)
-require(plyr)
-# require(scales) #For formating values in graphs
-require(RColorBrewer)
-require(ggplot2) #For graphing
-# require(lavaan) #For graphing
-# require(OpenMx) #For graphing
-# require(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+# library(xtable)
+library(knitr)
+library(plyr)
+# library(scales) #For formating values in graphs
+library(RColorBrewer)
+library(ggplot2) #For graphing
+library(lavaan) #For graphing
+# library(OpenMx) #For graphing
+# library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
 #####################################
 ```
 
@@ -79,7 +80,7 @@ dsWideIllinois <- dsWide[dsWide$Basin=="Illinois Basin", ]
 # Marginals
 
 ```r
-ggplot(dsLongIllinois, aes(x=AdjustedRate)) + 
+ggplot(dsLongIllinois, aes(x=TotalAdjusted)) + 
   geom_density() +
   facet_grid(Substrate~IncubationReplicate, scales="free_y") +
   theme_bw() +
@@ -134,29 +135,240 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
 # cor(dsWide[,  c("QuantityZ1", "QuantityZ2", "QuantityZ3")])
 # cor(dsWide[,  c("Quantity1", "Quantity2", "Quantity3")])
 
-#  model <- "
-#   # measurement model
-# #   Rate =~ 1*RateZ1 + 1*RateZ2
-# #   Rate =~ 1*Rate1 + 1*Rate2
+model <- "
+  # measurement model
+#   Rate =~ 1*RateZ1 + 1*RateZ2
+#   Rate =~ 1*Rate1 + 1*Rate2
 #   Quantity =~ 1*QuantityZ1 + 1*QuantityZ2 + 1*QuantityZ3
-# #   Quantity =~ q*Quantity1 + q*Quantity2 + q*Quantity3
+#   Quantity =~ q*Quantity1 + q*Quantity2 + q*Quantity3
 #   Rate =~ RateZ1 
-# #   Quantity =~ QuantityZ1 
-#   
-#   # regressions
+  Quantity =~ QuantityZ1 
+#   Total =~ TotalAdjusted1
+  Total =~ 1*TotalAdjusted1 + 1*TotalAdjusted2
+  
+  # regressions
 #   Rate ~ Quantity
-# 
-#   # fix variances of factors
+  Total ~ Quantity
+
+  # fix variances of factors
 #     Rate ~~ 1*Rate
-#     Quantity ~~ 1*Quantity
-# "
-# 
-# for( substrate in substrateOrder ) {
-#   cat("============ ", substrate, " ==============\n")
-#   dsSubstrate <- dsWide[dsWide$Substrate==substrate, ]
-#   fit <- sem(model, data = dsSubstrate)
-#   summary(fit, standardized = FALSE)
-# }
+    Total ~~ 1*Total
+    Quantity ~~ 1*Quantity
+"
+# substrateOrder <- c("Formate")
+for( substrate in substrateOrder ) {
+  cat("============ ", substrate, " ==============\n")
+  dsSubstrate <- dsWide[dsWide$Substrate==substrate, ]
+  fit <- sem(model, data = dsSubstrate)
+  summary(fit, standardized = FALSE)
+}
+```
+
+```
+============  Formate  ==============
+lavaan (0.5-16) converged normally after  20 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic                6.012
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.111
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(>|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity          0.501    2.750    0.182    0.856
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1   146.755   55.845
+    TotalAdjustd2   367.132  139.138
+
+============  Acetate  ==============
+```
+
+```
+Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
+varTable(fit) to investigate
+```
+
+```
+lavaan (0.5-16) converged normally after  21 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic                7.081
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.069
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(>|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity         -2.261    6.029   -0.375    0.708
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1   844.696  319.643
+    TotalAdjustd2  1273.807  481.831
+
+============  Propionate  ==============
+```
+
+```
+Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
+varTable(fit) to investigate
+```
+
+```
+lavaan (0.5-16) converged normally after  21 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic               49.296
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(>|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity         -3.574    8.212   -0.435    0.663
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1  1639.293  619.972
+    TotalAdjustd2  2221.191  839.909
+
+============  Butyrate  ==============
+```
+
+```
+Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
+varTable(fit) to investigate
+```
+
+```
+lavaan (0.5-16) converged normally after  21 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic               26.722
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(>|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity        -12.653   12.707   -0.996    0.319
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1  4369.617 1651.938
+    TotalAdjustd2  4679.467 1769.050
+
+============  Valerate  ==============
+```
+
+```
+Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
+varTable(fit) to investigate
+```
+
+```
+lavaan (0.5-16) converged normally after  22 iterations
+
+  Number of observations                            14
+
+  Estimator                                         ML
+  Minimum Function Test Statistic               23.899
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter estimates:
+
+  Information                                 Expected
+  Standard Errors                             Standard
+
+                   Estimate  Std.err  Z-value  P(>|z|)
+Latent variables:
+  Quantity =~
+    QuantityZ1        1.000
+  Total =~
+    TotalAdjustd1     1.000
+    TotalAdjustd2     1.000
+
+Regressions:
+  Total ~
+    Quantity        -12.832   14.149   -0.907    0.364
+
+Variances:
+    Total             1.000
+    Quantity          1.000
+    QuantityZ1        0.000
+    TotalAdjustd1  4632.955 1751.470
+    TotalAdjustd2  7088.595 2679.615
+```
+
+```r
 # # fit <- sem(model, data = dsWide)
 # # summary(fit, standardized = FALSE)
 ```
@@ -173,11 +385,11 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2014-06-18, 14:17 -0500
+Report created by Will at 2014-09-21, 13:50 -0500
 ```
 
 ```
-R version 3.1.0 Patched (2014-06-15 r65949)
+R version 3.1.1 Patched (2014-09-17 r66626)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -188,10 +400,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_1.0.0      RColorBrewer_1.0-5 plyr_1.8.1         knitr_1.6         
+[1] lavaan_0.5-16      ggplot2_1.0.0      RColorBrewer_1.0-5 plyr_1.8.1         knitr_1.6         
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_0.10     grid_3.1.0       gtable_0.1.2    
- [7] labeling_0.2     MASS_7.3-33      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.2      reshape2_1.4    
-[13] scales_0.2.4     stringr_0.6.2    tools_3.1.0     
+ [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0      grid_3.1.1       gtable_0.1.2    
+ [7] labeling_0.3     MASS_7.3-34      mnormt_1.5-1     munsell_0.4.2    pbivnorm_0.5-1   proto_0.3-10    
+[13] quadprog_1.5-5   Rcpp_0.11.2      reshape2_1.4     scales_0.2.4     stats4_3.1.1     stringr_0.6.2   
+[19] tools_3.1.1     
 ```
