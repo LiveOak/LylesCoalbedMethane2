@@ -1,3 +1,4 @@
+<!-- rmarkdown v1 -->
 Graphs of MCR vs Rate Relationship
 =================================================
 This report looks at the relationship between MCR genes and Adjusted Rates
@@ -10,13 +11,13 @@ This report looks at the relationship between MCR genes and Adjusted Rates
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 
 ```r
-require(knitr)
-require(plyr)
-require(scales) #For formating values in graphs
-require(RColorBrewer)
-require(grid) #For graphing
-require(ggplot2) #For graphing
-# require(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+library(knitr)
+library(plyr)
+library(scales) #For formating values in graphs
+library(RColorBrewer)
+library(grid) #For graphing
+library(ggplot2) #For graphing
+# library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
 #####################################
 ```
 
@@ -77,6 +78,8 @@ CalculateSiteRange <- function( d ) {
   data.frame(
     RateMin = min(d$AdjustedRate, na.rm=T),
     RateMax = max(d$AdjustedRate, na.rm=T),
+    TotalAdjustedMin = min(d$TotalAdjusted, na.rm=T),
+    TotalAdjustedMax = max(d$TotalAdjusted, na.rm=T),
     UniqueMcrGenesMin = min(d$UniqueMcrGenes, na.rm=T),
     UniqueMcrGenesMax = max(d$UniqueMcrGenes, na.rm=T),
     QuantityMcrGenesMin = min(d$QuantityMcrGenes, na.rm=T),
@@ -87,9 +90,13 @@ dsSiteRange <- plyr::ddply(.data=dsLong, .variables=c("Basin", "Site", "Substrat
 
 dsCorrelation <- plyr::ddply(dsWide, c("Basin", "Substrate"), summarize, 
                              CorrRateUnique=cor(RateMean, UniqueMean, use="pairwise.complete.obs"),
-                             CorrRateQuantity=cor(RateMean, QuantityMean, use="pairwise.complete.obs"))
+                             CorrRateQuantity=cor(RateMean, QuantityMean, use="pairwise.complete.obs"), 
+                             CorrTotalUnique=cor(TotalAdjustedMean, UniqueMean, use="pairwise.complete.obs"),
+                             CorrTotalQuantity=cor(TotalAdjustedMean, QuantityMean, use="pairwise.complete.obs"))
 dsCorrelation$CorrRateUniquePretty <- paste0("italic(r)==", round(dsCorrelation$CorrRateUnique, 2))
 dsCorrelation$CorrRateQuantityPretty <- paste0("italic(r)==", round(dsCorrelation$CorrRateQuantity, 2))
+dsCorrelation$CorrTotalUniquePretty <- paste0("italic(r)==", round(dsCorrelation$CorrTotalUnique, 2))
+dsCorrelation$CorrTotalQuantityPretty <- paste0("italic(r)==", round(dsCorrelation$CorrTotalQuantity, 2))
 
 sitesIllinois <- sort(unique(dsLong[dsLong$Basin=="Illinois Basin", "Site"]))
 sitesCook <- sort(unique(dsLong[dsLong$Basin=="Cook Inlet gas field", "Site"]))
@@ -110,7 +117,7 @@ names(paletteSiteLight) <- c(sitesIllinois, sitesCook, sitesPowder)
 # Marginals
 
 ```r
-ggplot(dsLongIllinois, aes(x=AdjustedRate)) + 
+ggplot(dsLongIllinois, aes(x=TotalAdjusted)) + 
   geom_density() +
   facet_grid(Substrate~IncubationReplicate, scales="free_y") +
   ReportTheme +
@@ -152,23 +159,23 @@ The these scatterplots combine the site means, with the individual replicate mea
 
 ![plot of chunk LayeredScatterplots](Figures/LayeredScatterplots1.png) ![plot of chunk LayeredScatterplots](Figures/LayeredScatterplots2.png) 
 
-|Basin                |Substrate  | CorrRateUnique| CorrRateQuantity|
-|:--------------------|:----------|--------------:|----------------:|
-|Illinois Basin       |Formate    |        -0.1981|          -0.3652|
-|Illinois Basin       |Acetate    |        -0.4134|          -0.5084|
-|Illinois Basin       |Propionate |        -0.5498|          -0.5827|
-|Illinois Basin       |Butyrate   |        -0.5554|          -0.5613|
-|Illinois Basin       |Valerate   |        -0.5851|          -0.5878|
-|Cook Inlet gas field |Formate    |         0.5709|           0.2731|
-|Cook Inlet gas field |Acetate    |         0.5702|           0.2018|
-|Cook Inlet gas field |Propionate |         0.2726|          -0.0720|
-|Cook Inlet gas field |Butyrate   |         0.9834|           0.7040|
-|Cook Inlet gas field |Valerate   |         0.7888|           0.2273|
-|Powder River Basin   |Formate    |        -0.8813|          -0.9344|
-|Powder River Basin   |Acetate    |         0.7355|           0.6244|
-|Powder River Basin   |Propionate |         0.3246|           0.3564|
-|Powder River Basin   |Butyrate   |         0.4556|           0.5487|
-|Powder River Basin   |Valerate   |         0.7757|           0.7652|
+|Basin                |Substrate  | CorrRateUnique| CorrRateQuantity| CorrTotalUnique| CorrTotalQuantity|
+|:--------------------|:----------|--------------:|----------------:|---------------:|-----------------:|
+|Illinois Basin       |Formate    |        -0.1981|          -0.3652|         -0.1286|           -0.3022|
+|Illinois Basin       |Acetate    |        -0.4134|          -0.5084|         -0.2660|           -0.4114|
+|Illinois Basin       |Propionate |        -0.5498|          -0.5827|         -0.6270|           -0.6240|
+|Illinois Basin       |Butyrate   |        -0.5554|          -0.5613|         -0.5815|           -0.5841|
+|Illinois Basin       |Valerate   |        -0.5851|          -0.5878|         -0.5858|           -0.5911|
+|Cook Inlet gas field |Formate    |         0.5709|           0.2731|          0.6507|            0.3044|
+|Cook Inlet gas field |Acetate    |         0.5702|           0.2018|          0.9186|            0.6106|
+|Cook Inlet gas field |Propionate |         0.2726|          -0.0720|          0.4597|           -0.0451|
+|Cook Inlet gas field |Butyrate   |         0.9834|           0.7040|          0.9777|            0.6585|
+|Cook Inlet gas field |Valerate   |         0.7888|           0.2273|          0.8078|            0.2692|
+|Powder River Basin   |Formate    |        -0.8813|          -0.9344|         -0.8073|           -0.7243|
+|Powder River Basin   |Acetate    |         0.7355|           0.6244|         -0.0827|            0.0223|
+|Powder River Basin   |Propionate |         0.3246|           0.3564|          0.2869|            0.3104|
+|Powder River Basin   |Butyrate   |         0.4556|           0.5487|         -0.2675|           -0.2959|
+|Powder River Basin   |Valerate   |         0.7757|           0.7652|         -0.3009|           -0.2353|
 
 # Questions
 ## Unanswered Questions
@@ -182,11 +189,11 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2014-06-18, 15:54 -0500
+Report created by Will at 2014-09-21, 13:40 -0500
 ```
 
 ```
-R version 3.1.0 Patched (2014-06-15 r65949)
+R version 3.1.1 Patched (2014-09-17 r66626)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -200,7 +207,7 @@ other attached packages:
 [1] ggplot2_1.0.0      RColorBrewer_1.0-5 scales_0.2.4       plyr_1.8.1         knitr_1.6         
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_0.10     gtable_0.1.2     labeling_0.2    
- [7] MASS_7.3-33      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.2      reshape2_1.4     stringr_0.6.2   
-[13] tools_3.1.0     
+ [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0      gtable_0.1.2     labeling_0.3    
+ [7] MASS_7.3-34      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.2      reshape2_1.4     stringr_0.6.2   
+[13] tools_3.1.1     
 ```
