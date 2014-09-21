@@ -5,9 +5,9 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 ############################
 #+ LoadPackages
-require(knitr)
-require(plyr)
-# require(dplyr)
+library(knitr)
+library(plyr)
+# library(dplyr)
 # library(reshape)
 
 ############################

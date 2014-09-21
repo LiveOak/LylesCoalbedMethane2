@@ -1,15 +1,15 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 #####################################
 ## @knitr LoadPackages
-# require(xtable)
-require(knitr)
-require(plyr)
-# require(scales) #For formating values in graphs
-require(RColorBrewer)
-require(ggplot2) #For graphing
-# require(lavaan) #For graphing
-# require(OpenMx) #For graphing
-# require(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+# library(xtable)
+library(knitr)
+library(plyr)
+# library(scales) #For formating values in graphs
+library(RColorBrewer)
+library(ggplot2) #For graphing
+# library(lavaan) #For graphing
+# library(OpenMx) #For graphing
+# library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
 #####################################
 ## @knitr DeclareGlobals
 options(show.signif.stars=F) #Turn off the annotations on p-values

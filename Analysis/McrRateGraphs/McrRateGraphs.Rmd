@@ -12,7 +12,7 @@ This report looks at the relationship between MCR genes and Adjusted Rates
 <!-- Set the report-wide options, and point to the external code file. -->
 ```{r set_options, echo=F}
 # cat("Working directory: ", getwd())
-require(knitr)
+library(knitr)
 opts_chunk$set(
   results='show', 
   comment = NA, 
