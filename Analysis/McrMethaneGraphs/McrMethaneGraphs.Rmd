@@ -1,7 +1,7 @@
 <!-- rmarkdown v1 -->
-Graphs of MCR vs Rate Relationship
+Graphs of MCR vs Methane Production Relationship
 =================================================
-This report looks at the relationship between MCR genes and Adjusted Rates
+This report looks at the relationship between MCR genes and Adjusted Total Methane Production
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
 ```{r, echo=F, message=F} 
@@ -27,7 +27,7 @@ opts_chunk$set(
 
 echoChunks <- TRUE
 options(width=120) #So the output is 50% wider than the default.
-read_chunk("./Analysis/McrRateGraphs/McrRateGraphs.R") #This allows knitr to call chunks tagged in the underlying *.R file.
+read_chunk("./Analysis/McrMethaneGraphs/McrMethaneGraphs.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 ```{r LoadPackages, echo=echoChunks, message=FALSE}

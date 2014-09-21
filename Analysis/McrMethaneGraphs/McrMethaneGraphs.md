@@ -1,7 +1,7 @@
 <!-- rmarkdown v1 -->
-Graphs of MCR vs Rate Relationship
+Graphs of MCR vs Methane Production Relationship
 =================================================
-This report looks at the relationship between MCR genes and Adjusted Rates
+This report looks at the relationship between MCR genes and Adjusted Total Methane Production
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
 
@@ -189,7 +189,7 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2014-09-21, 13:40 -0500
+Report created by Will at 2014-09-21, 13:54 -0500
 ```
 
 ```
