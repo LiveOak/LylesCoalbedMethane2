@@ -171,9 +171,9 @@ lavaan (0.5-17) converged normally after  20 iterations
   Number of observations                            14
 
   Estimator                                         ML
-  Minimum Function Test Statistic                6.012
+  Minimum Function Test Statistic                9.622
   Degrees of freedom                                 3
-  P-value (Chi-square)                           0.111
+  P-value (Chi-square)                           0.022
 
 Parameter estimates:
 
@@ -190,14 +190,14 @@ Latent variables:
 
 Regressions:
   Total ~
-    Quantity          0.501    2.750    0.182    0.856
+    Quantity          0.635    2.902    0.219    0.827
 
 Variances:
     Total             1.000
     Quantity          1.000
     QuantityZ1        0.000
-    TotalAdjustd1   146.755   55.845
-    TotalAdjustd2   367.132  139.138
+    TotalAdjustd1   179.645   68.276
+    TotalAdjustd2   334.486  126.800
 
 ============  Acetate  ==============
 ```
@@ -208,14 +208,14 @@ variances are (at least) a factor 1000 times larger than others; use varTable(fi
 ```
 
 ```
-lavaan (0.5-17) converged normally after  21 iterations
+lavaan (0.5-17) converged normally after  22 iterations
 
   Number of observations                            14
 
   Estimator                                         ML
-  Minimum Function Test Statistic                7.081
+  Minimum Function Test Statistic                1.251
   Degrees of freedom                                 3
-  P-value (Chi-square)                           0.069
+  P-value (Chi-square)                           0.741
 
 Parameter estimates:
 
@@ -232,14 +232,14 @@ Latent variables:
 
 Regressions:
   Total ~
-    Quantity         -2.261    6.029   -0.375    0.708
+    Quantity         -1.405    7.327   -0.192    0.848
 
 Variances:
     Total             1.000
     Quantity          1.000
     QuantityZ1        0.000
-    TotalAdjustd1   844.696  319.643
-    TotalAdjustd2  1273.807  481.831
+    TotalAdjustd1  1696.195  641.479
+    TotalAdjustd2  1346.234  509.206
 
 ============  Propionate  ==============
 ```
@@ -250,12 +250,12 @@ variances are (at least) a factor 1000 times larger than others; use varTable(fi
 ```
 
 ```
-lavaan (0.5-17) converged normally after  21 iterations
+lavaan (0.5-17) converged normally after  22 iterations
 
   Number of observations                            14
 
   Estimator                                         ML
-  Minimum Function Test Statistic               49.296
+  Minimum Function Test Statistic               36.448
   Degrees of freedom                                 3
   P-value (Chi-square)                           0.000
 
@@ -274,14 +274,14 @@ Latent variables:
 
 Regressions:
   Total ~
-    Quantity         -3.574    8.212   -0.435    0.663
+    Quantity         -3.119    8.514   -0.366    0.714
 
 Variances:
     Total             1.000
     Quantity          1.000
     QuantityZ1        0.000
-    TotalAdjustd1  1639.293  619.972
-    TotalAdjustd2  2221.191  839.909
+    TotalAdjustd1  1808.216  683.819
+    TotalAdjustd2  2307.821  872.652
 
 ============  Butyrate  ==============
 ```
@@ -292,12 +292,12 @@ variances are (at least) a factor 1000 times larger than others; use varTable(fi
 ```
 
 ```
-lavaan (0.5-17) converged normally after  21 iterations
+lavaan (0.5-17) converged normally after  23 iterations
 
   Number of observations                            14
 
   Estimator                                         ML
-  Minimum Function Test Statistic               26.722
+  Minimum Function Test Statistic               23.541
   Degrees of freedom                                 3
   P-value (Chi-square)                           0.000
 
@@ -316,14 +316,14 @@ Latent variables:
 
 Regressions:
   Total ~
-    Quantity        -12.653   12.707   -0.996    0.319
+    Quantity         -8.544   12.788   -0.668    0.504
 
 Variances:
     Total             1.000
     Quantity          1.000
     QuantityZ1        0.000
-    TotalAdjustd1  4369.617 1651.938
-    TotalAdjustd2  4679.467 1769.050
+    TotalAdjustd1  4312.738 1630.439
+    TotalAdjustd2  4874.870 1842.906
 
 ============  Valerate  ==============
 ```
@@ -339,7 +339,7 @@ lavaan (0.5-17) converged normally after  22 iterations
   Number of observations                            14
 
   Estimator                                         ML
-  Minimum Function Test Statistic               23.899
+  Minimum Function Test Statistic               29.118
   Degrees of freedom                                 3
   P-value (Chi-square)                           0.000
 
@@ -358,14 +358,14 @@ Latent variables:
 
 Regressions:
   Total ~
-    Quantity        -12.832   14.149   -0.907    0.364
+    Quantity        -14.484   13.999   -1.035    0.301
 
 Variances:
     Total             1.000
     Quantity          1.000
     QuantityZ1        0.000
-    TotalAdjustd1  4632.955 1751.470
-    TotalAdjustd2  7088.595 2679.615
+    TotalAdjustd1  4457.782 1685.261
+    TotalAdjustd2  7128.493 2694.695
 ```
 
 ```r
@@ -385,7 +385,7 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2014-12-18, 10:06 -0600
+Report created by Will at 2014-12-18, 11:18 -0600
 ```
 
 ```
