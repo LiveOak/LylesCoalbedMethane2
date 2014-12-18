@@ -161,21 +161,21 @@ The these scatterplots combine the site means, with the individual replicate mea
 
 |Basin                |Substrate  | CorrRateUnique| CorrRateQuantity| CorrTotalUnique| CorrTotalQuantity|
 |:--------------------|:----------|--------------:|----------------:|---------------:|-----------------:|
-|Illinois Basin       |Formate    |     -0.1980670|       -0.3652134|      -0.1286092|        -0.3022350|
-|Illinois Basin       |Acetate    |     -0.4133581|       -0.5084354|      -0.2659818|        -0.4114367|
-|Illinois Basin       |Propionate |     -0.5498238|       -0.5826815|      -0.6269633|        -0.6240425|
-|Illinois Basin       |Butyrate   |     -0.5553904|       -0.5612917|      -0.5814615|        -0.5841232|
-|Illinois Basin       |Valerate   |     -0.5851378|       -0.5878110|      -0.5858189|        -0.5910737|
+|Illinois Basin       |Formate    |     -0.1980670|       -0.3652134|      -0.0153841|        -0.2110309|
+|Illinois Basin       |Acetate    |     -0.4133581|       -0.5084354|      -0.2047249|        -0.3682843|
+|Illinois Basin       |Propionate |     -0.5498238|       -0.5826815|      -0.6929801|        -0.6885130|
+|Illinois Basin       |Butyrate   |     -0.5553904|       -0.5612917|      -0.4907994|        -0.4975343|
+|Illinois Basin       |Valerate   |     -0.5851378|       -0.5878110|      -0.5871181|        -0.5894805|
 |Cook Inlet gas field |Formate    |      0.5709074|        0.2731117|       0.6506798|         0.3043729|
 |Cook Inlet gas field |Acetate    |      0.5702024|        0.2017605|       0.9186390|         0.6106309|
 |Cook Inlet gas field |Propionate |      0.2725748|       -0.0720302|       0.4597091|        -0.0450702|
 |Cook Inlet gas field |Butyrate   |      0.9834206|        0.7040071|       0.9777493|         0.6584533|
 |Cook Inlet gas field |Valerate   |      0.7887965|        0.2272970|       0.8078082|         0.2692478|
-|Powder River Basin   |Formate    |     -0.8812508|       -0.9343846|      -0.8072737|        -0.7243164|
-|Powder River Basin   |Acetate    |      0.7354591|        0.6243768|      -0.0826902|         0.0222708|
-|Powder River Basin   |Propionate |      0.3246438|        0.3563692|       0.2868662|         0.3104001|
-|Powder River Basin   |Butyrate   |      0.4555943|        0.5487025|      -0.2674997|        -0.2959096|
-|Powder River Basin   |Valerate   |      0.7757310|        0.7652107|      -0.3009145|        -0.2353323|
+|Powder River Basin   |Formate    |     -0.8812508|       -0.9343846|      -0.8730939|        -0.8288320|
+|Powder River Basin   |Acetate    |      0.7354591|        0.6243768|       0.3606212|         0.3638370|
+|Powder River Basin   |Propionate |      0.3246438|        0.3563692|       0.3910241|         0.4169247|
+|Powder River Basin   |Butyrate   |      0.4555943|        0.5487025|      -0.3875952|        -0.3042464|
+|Powder River Basin   |Valerate   |      0.7757310|        0.7652107|       0.1108650|         0.1559906|
 
 # Questions
 ## Unanswered Questions
@@ -189,7 +189,7 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2014-12-18, 10:23 -0600
+Report created by Will at 2014-12-18, 10:47 -0600
 ```
 
 ```

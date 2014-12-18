@@ -155,7 +155,8 @@ ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
   facet_grid(Substrate~Basin, scales="free") +
   ReportTheme +
   theme(legend.position="none") +
-  labs(x=expression(Quantity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Adjusted*phantom(0)*Total*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
+  labs(x=expression(Quantity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Methane*phantom(0)*(mu*mol)))
+  #labs(x=expression(Quantity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Adjusted*phantom(0)*Total*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
   #labs(x=expression(Quantity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
 
 ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
@@ -170,8 +171,9 @@ ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
   facet_grid(Substrate~Basin, scales="free") +
   ReportTheme +
   theme(legend.position="none") +  
-  labs(x=expression(Number*phantom(0)*of*phantom(0)*unique*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Adjusted*phantom(0)*Total*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
-#labs(x=expression(Number*phantom(0)*of*phantom(0)*unique*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
+  labs(x=expression(Number*phantom(0)*of*phantom(0)*positive*phantom(0)*italic(mcr)*phantom(0)*probes), y=expression(Methane*phantom(0)*(mu*mol)))
+  # labs(x=expression(Number*phantom(0)*of*phantom(0)*unique*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Adjusted*phantom(0)*Total*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
+  # labs(x=expression(Number*phantom(0)*of*phantom(0)*unique*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
 
 prettyColumns <- grep("Pretty", x=colnames(dsCorrelation))
 kable(dsCorrelation[, -prettyColumns], format="markdown")
