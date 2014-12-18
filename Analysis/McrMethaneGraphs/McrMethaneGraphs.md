@@ -127,9 +127,9 @@ ggplot(dsLongIllinois, aes(x=TotalAdjusted)) +
 ![plot of chunk Marginals](Figures/Marginals-1.png) 
 
 ```r
-ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) + 
+ggplot(dsLongIllinois, aes(x=AdjustedRate)) + 
   geom_density() +
-  facet_grid(Substrate~MicroarraryReplicate, scales="free_y") +
+  facet_grid(Substrate~IncubationReplicate, scales="free_y") +
   ReportTheme +
   labs(title="Illinois Basin")
 ```
@@ -137,7 +137,7 @@ ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) +
 ![plot of chunk Marginals](Figures/Marginals-2.png) 
 
 ```r
-ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) + 
+ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) + 
   geom_density() +
   facet_grid(Substrate~MicroarraryReplicate, scales="free_y") +
   ReportTheme +
@@ -147,17 +147,33 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
 ![plot of chunk Marginals](Figures/Marginals-3.png) 
 
 ```r
+ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) + 
+  geom_density() +
+  facet_grid(Substrate~MicroarraryReplicate, scales="free_y") +
+  ReportTheme +
+  labs(title="Illinois Basin")
+```
+
+![plot of chunk Marginals](Figures/Marginals-4.png) 
+
+```r
 #####################################
 ```
 
 # Scatterplots
 The first pair scatterplot matrices are for the *quantity* of genes, while the second pair is the count of *unique* genes.  Within each pair, the first scatterplot matrix has all replicates (2 incubation and 3 microarray replications per site), while the second within each pair shows a site's average across the replicates.
 
-![plot of chunk Scatterplots](Figures/Scatterplots-1.png) ![plot of chunk Scatterplots](Figures/Scatterplots-2.png) ![plot of chunk Scatterplots](Figures/Scatterplots-3.png) ![plot of chunk Scatterplots](Figures/Scatterplots-4.png) 
+![plot of chunk Scatterplots](Figures/Scatterplots-1.png) ![plot of chunk Scatterplots](Figures/Scatterplots-2.png) ![plot of chunk Scatterplots](Figures/Scatterplots-3.png) 
 
-The these scatterplots combine the site means, with the individual replicate measurements.  The rectangles show the range for each Substrate*Site group of measurements
+```
+Error in inherits(x, "theme"): object 'gQuantity' not found
+```
 
-![plot of chunk LayeredScatterplots](Figures/LayeredScatterplots-1.png) ![plot of chunk LayeredScatterplots](Figures/LayeredScatterplots-2.png) 
+![plot of chunk Scatterplots](Figures/Scatterplots-4.png) 
+
+The these scatterplots combine the site means, with the individual replicate measurements.  The rectangles show the range for each Substrate-by-Site group of measurements.  In these two graphs, the **total** methane produced is shown.
+
+![plot of chunk LayeredScatterplotsTotal](Figures/LayeredScatterplotsTotal-1.png) ![plot of chunk LayeredScatterplotsTotal](Figures/LayeredScatterplotsTotal-2.png) 
 
 |Basin                |Substrate  | CorrRateUnique| CorrRateQuantity| CorrTotalUnique| CorrTotalQuantity|
 |:--------------------|:----------|--------------:|----------------:|---------------:|-----------------:|
@@ -177,6 +193,10 @@ The these scatterplots combine the site means, with the individual replicate mea
 |Powder River Basin   |Butyrate   |      0.4555943|        0.5487025|      -0.3875952|        -0.3042464|
 |Powder River Basin   |Valerate   |      0.7757310|        0.7652107|       0.1108650|         0.1559906|
 
+In these two graphs, the **rate** of methane produced is shown.
+
+![plot of chunk LayeredScatterplotsRate](Figures/LayeredScatterplotsRate-1.png) ![plot of chunk LayeredScatterplotsRate](Figures/LayeredScatterplotsRate-2.png) 
+
 # Questions
 ## Unanswered Questions
  1. - - - 
@@ -189,7 +209,7 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2014-12-18, 10:47 -0600
+Report created by Will at 2014-12-18, 11:09 -0600
 ```
 
 ```

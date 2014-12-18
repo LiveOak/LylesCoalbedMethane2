@@ -50,7 +50,6 @@ Widen <- function( d ) {
     Quantity2 = dsMicroarray2$QuantityMcrGenes[1],
     Quantity3 = dsMicroarray3$QuantityMcrGenes[1],
     
-    
     TotalAdjustedZ1 = dsIncubation1$TotalAdjustedZ[1],
     TotalAdjustedZ2 = dsIncubation2$TotalAdjustedZ[1],
     RateZ1 = dsIncubation1$AdjustedRateZ[1],
