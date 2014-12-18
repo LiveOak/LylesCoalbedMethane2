@@ -87,7 +87,7 @@ ggplot(dsLongIllinois, aes(x=TotalAdjusted)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals1.png) 
+![plot of chunk Marginals](Figures/Marginals-1.png) 
 
 ```r
 ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) + 
@@ -97,7 +97,7 @@ ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals2.png) 
+![plot of chunk Marginals](Figures/Marginals-2.png) 
 
 ```r
 ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) + 
@@ -107,7 +107,7 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals3.png) 
+![plot of chunk Marginals](Figures/Marginals-3.png) 
 
 ```r
 #####################################
@@ -166,7 +166,7 @@ for( substrate in substrateOrder ) {
 
 ```
 ============  Formate  ==============
-lavaan (0.5-16) converged normally after  20 iterations
+lavaan (0.5-17) converged normally after  20 iterations
 
   Number of observations                            14
 
@@ -203,12 +203,12 @@ Variances:
 ```
 
 ```
-Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
-varTable(fit) to investigate
+Warning in lav_data_full(data = data, group = group, group.label = group.label, : lavaan WARNING: some observed
+variances are (at least) a factor 1000 times larger than others; use varTable(fit) to investigate
 ```
 
 ```
-lavaan (0.5-16) converged normally after  21 iterations
+lavaan (0.5-17) converged normally after  21 iterations
 
   Number of observations                            14
 
@@ -245,12 +245,12 @@ Variances:
 ```
 
 ```
-Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
-varTable(fit) to investigate
+Warning in lav_data_full(data = data, group = group, group.label = group.label, : lavaan WARNING: some observed
+variances are (at least) a factor 1000 times larger than others; use varTable(fit) to investigate
 ```
 
 ```
-lavaan (0.5-16) converged normally after  21 iterations
+lavaan (0.5-17) converged normally after  21 iterations
 
   Number of observations                            14
 
@@ -287,12 +287,12 @@ Variances:
 ```
 
 ```
-Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
-varTable(fit) to investigate
+Warning in lav_data_full(data = data, group = group, group.label = group.label, : lavaan WARNING: some observed
+variances are (at least) a factor 1000 times larger than others; use varTable(fit) to investigate
 ```
 
 ```
-lavaan (0.5-16) converged normally after  21 iterations
+lavaan (0.5-17) converged normally after  21 iterations
 
   Number of observations                            14
 
@@ -329,12 +329,12 @@ Variances:
 ```
 
 ```
-Warning: lavaan WARNING: some observed variances are (at least) a factor 1000 times larger than others; use
-varTable(fit) to investigate
+Warning in lav_data_full(data = data, group = group, group.label = group.label, : lavaan WARNING: some observed
+variances are (at least) a factor 1000 times larger than others; use varTable(fit) to investigate
 ```
 
 ```
-lavaan (0.5-16) converged normally after  22 iterations
+lavaan (0.5-17) converged normally after  22 iterations
 
   Number of observations                            14
 
@@ -385,11 +385,11 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2014-09-21, 13:50 -0500
+Report created by Will at 2014-12-18, 10:06 -0600
 ```
 
 ```
-R version 3.1.1 Patched (2014-09-17 r66626)
+R version 3.1.2 Patched (2014-12-11 r67168)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -400,11 +400,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] lavaan_0.5-16      ggplot2_1.0.0      RColorBrewer_1.0-5 plyr_1.8.1         knitr_1.6         
+[1] lavaan_0.5-17      ggplot2_1.0.0      RColorBrewer_1.1-2 plyr_1.8.1         knitr_1.8         
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0      grid_3.1.1       gtable_0.1.2    
- [7] labeling_0.3     MASS_7.3-34      mnormt_1.5-1     munsell_0.4.2    pbivnorm_0.5-1   proto_0.3-10    
-[13] quadprog_1.5-5   Rcpp_0.11.2      reshape2_1.4     scales_0.2.4     stats4_3.1.1     stringr_0.6.2   
-[19] tools_3.1.1     
+ [1] colorspace_1.2-4 digest_0.6.6     evaluate_0.5.5   formatR_1.0      grid_3.1.2       gtable_0.1.2    
+ [7] labeling_0.3     MASS_7.3-35      mnormt_1.5-1     munsell_0.4.2    pbivnorm_0.5-1   proto_0.3-10    
+[13] quadprog_1.5-5   Rcpp_0.11.3      reshape2_1.4.1   scales_0.2.4     stats4_3.1.2     stringr_0.6.2   
+[19] tools_3.1.2     
 ```
