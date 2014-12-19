@@ -98,13 +98,14 @@ model <- "
 #   Rate =~ 1*RateZ1 + 1*RateZ2
 #   Rate =~ 1*Rate1 + 1*Rate2
 #   Quantity =~ 1*QuantityZ1 + 1*QuantityZ2 + 1*QuantityZ3
-  Quantity =~ q*Quantity1 + q*Quantity2 + q*Quantity3
+  Quantity =~ 1*Quantity1 + 1*Quantity2 + 1*Quantity3
+#   Quantity =~ q*Quantity1 + q*Quantity2 + q*Quantity3
 #   Rate =~ RateZ1 
 #   Quantity =~ QuantityZ1 
 #   Total =~ TotalAdjusted1
 #   Total =~ TotalAdjusted2
-#   Total =~ 1*TotalAdjusted1 + 1*TotalAdjusted2
-  Total =~ t*TotalAdjusted1 + t*TotalAdjusted2
+  Total =~ 1*TotalAdjusted1 + 1*TotalAdjusted2
+#   Total =~ t*TotalAdjusted1 + t*TotalAdjusted2
   
   # regressions
 #   Rate ~ Quantity
@@ -112,18 +113,28 @@ model <- "
 
   # fix variances of factors
 #     Rate ~~ 1*Rate
-    Total ~~ 1*Total
-    Quantity ~~ 1*Quantity
+    Total ~~ vT*Total
+    Quantity ~~ vQ*Quantity
 "
-substrateOrder <- c("Formate")
-for( substrate in substrateOrder ) {
-  cat("============ ", substrate, " ==============\n")
-  dsSubstrate <- dsWide[dsWide$Substrate==substrate, ]
+# substrateOrder <- c("Formate")
+# for( substrate in substrateOrder ) {
+#   cat("============ ", substrate, " ==============\n")
+#   dsSubstrate <- dsWide[dsWide$Substrate==substrate & dsWide$Basin=="Illinois Basin", ]
+#   fit <- sem(model, data = dsSubstrate)
+#   summary(fit, standardized = FALSE)
+# }
+
+dsSubstrate <- dsWide[dsWide$Substrate=="Formate" & dsWide$Basin=="Illinois Basin", ]
   fit <- sem(model, data = dsSubstrate)
   summary(fit, standardized = FALSE)
-}
+
 varTable(fit)
 inspect(fit,"theta")
+
+cor(dsSubstrate$TotalAdjusted1, dsSubstrate$TotalAdjusted2)
+M <- cor(dsSubstrate[, c("TotalAdjusted1", "TotalAdjusted2", "Quantity1", "Quantity2", "Quantity3")])
+corrplot::corrplot(M, addCoef.col = "black")
+scattermatrix
 
 # # fit <- sem(model, data = dsWide)
 # # summary(fit, standardized = FALSE)
