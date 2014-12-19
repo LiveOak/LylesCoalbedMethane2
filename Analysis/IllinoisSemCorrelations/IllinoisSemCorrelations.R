@@ -3,7 +3,7 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 ## @knitr LoadPackages
 # library(xtable)
 library(knitr)
-library(plyr)
+# library(plyr)
 # library(scales) #For formating values in graphs
 library(RColorBrewer)
 library(ggplot2) #For graphing
@@ -30,6 +30,9 @@ dsWide <- read.csv(pathInputWide)
 
 #####################################
 ## @knitr TweakData
+dsWide$Quantity1 <- dsWide$Quantity1 / 10000
+dsWide$Quantity2 <- dsWide$Quantity2 / 10000
+dsWide$Quantity3 <- dsWide$Quantity3 / 10000
 
 #Drop the sites without microarray data
 dsLong <- dsLong[!(dsLong$Site %in% sitesToDrop), ]
@@ -95,11 +98,13 @@ model <- "
 #   Rate =~ 1*RateZ1 + 1*RateZ2
 #   Rate =~ 1*Rate1 + 1*Rate2
 #   Quantity =~ 1*QuantityZ1 + 1*QuantityZ2 + 1*QuantityZ3
-#   Quantity =~ q*Quantity1 + q*Quantity2 + q*Quantity3
+  Quantity =~ q*Quantity1 + q*Quantity2 + q*Quantity3
 #   Rate =~ RateZ1 
-  Quantity =~ QuantityZ1 
+#   Quantity =~ QuantityZ1 
 #   Total =~ TotalAdjusted1
-  Total =~ 1*TotalAdjusted1 + 1*TotalAdjusted2
+#   Total =~ TotalAdjusted2
+#   Total =~ 1*TotalAdjusted1 + 1*TotalAdjusted2
+  Total =~ t*TotalAdjusted1 + t*TotalAdjusted2
   
   # regressions
 #   Rate ~ Quantity
@@ -110,12 +115,15 @@ model <- "
     Total ~~ 1*Total
     Quantity ~~ 1*Quantity
 "
-# substrateOrder <- c("Formate")
+substrateOrder <- c("Formate")
 for( substrate in substrateOrder ) {
   cat("============ ", substrate, " ==============\n")
   dsSubstrate <- dsWide[dsWide$Substrate==substrate, ]
   fit <- sem(model, data = dsSubstrate)
   summary(fit, standardized = FALSE)
 }
+varTable(fit)
+inspect(fit,"theta")
+
 # # fit <- sem(model, data = dsWide)
 # # summary(fit, standardized = FALSE)

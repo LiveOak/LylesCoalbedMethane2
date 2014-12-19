@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title></title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<p>This report was automatically generated with the R package <strong>knitr</strong>
+(version 1.8).</p>
+
+<pre><code class="r">rm(list=ls(all=TRUE))
+library(ggplot2)
+library(scales)
+# library(plyr)
+library(grid) #For &#39;unit&#39; function in tick length setting
+library(lawstat) #For Levene&#39;s test
+
+# if( names(dev.cur()) != &quot;null device&quot; ) dev.off()
+# deviceWidth &lt;- 10 #20 #10 #6.5
+# aspectRatio &lt;- .7
+# deviceHeight &lt;- deviceWidth * aspectRatio
+# windows(width=deviceWidth, height=deviceHeight)
+
+csvSummaryPath &lt;- &quot;./Data/Derived/UnpackedSummary.csv&quot;
+#csvCommonGenebankIDs &lt;- &quot;./Data/Derived/CommonGenebankIDs.csv&quot;
+pngFacetedOutputPath &lt;- &quot;./Analysis/SiteUnivariate/FiguresSingle/BarChartFaceted.png&quot;
+pngOutputPath &lt;- &quot;./Analysis/SiteUnivariate/FiguresSingle/BarChart.png&quot;
+
+ds &lt;- read.csv(csvSummaryPath)
+#dsCommonGenebankIDs &lt;- read.csv(csvCommonGenebankIDs)
+
+#ds &lt;- dsRawUnpacked
+#ds &lt;- dsRawUnpacked[dsRawUnpacked$GenbankID %in% dsCommonGenebankIDs$GeneBankID, ]
+#ds &lt;- ds[!is.na(ds$Abundance), ]
+
+geneCategoriesToDrop &lt;- c(&quot;Antibiotic resistance&quot;, &quot;Bacteria phage&quot;, &quot;Bioleaching&quot;, &quot;other category&quot;, &quot;Missing&quot;, 
+  &quot;Stress&quot;, &quot;virulence&quot;) #&quot;Sulfur Oxidation&quot;,
+ds &lt;- ds[!(ds$GeneCategory %in% geneCategoriesToDrop), ]
+
+uniqueSites &lt;- unique(ds$Site)
+
+ds$GeneCategoryPretty &lt;- plyr::revalue(ds$GeneCategory, replace = c(
+  &quot;Sulfur Oxidation&quot; = &quot;Sulfur Oxidation&quot;
+  , &quot;Carbon cycling&quot; = &quot;Carbon Cycling&quot;
+  , &quot;Energy process&quot; = &quot;Energy Process&quot;
+  , &quot;Metal Resistance&quot; = &quot;Metal Resistance&quot;
+  , &quot;Methane Production&quot; = &quot;Methane Production&quot;
+  , &quot;Organic Remediation&quot; = &quot;Organic Remediation&quot;
+  , &quot;Sulfate Reduction&quot; = &quot;Sulfate Reduction&quot;
+))
+
+CategoryMean &lt;- function( d ) {
+  with(d, data.frame(
+    Mean = mean(d$AbudanceRelativeToBasinMean, na.rm=T),
+    Count = sum(!is.na(d$AbudanceRelativeToBasinMean)),
+    SD = sd(d$AbudanceRelativeToBasinMean, na.rm=T),
+    SE = sd(d$AbudanceRelativeToBasinMean, na.rm=T) / sqrt(sum(!is.na(d$AbudanceRelativeToBasinMean)))
+  ))
+}
+dsCategory &lt;- plyr::ddply(ds, &quot;GeneCategory&quot;, CategoryMean)
+dsCategoryPretty &lt;- plyr::ddply(ds, &quot;GeneCategoryPretty&quot;, CategoryMean)
+dsCategoryPretty$MeanPretty &lt;- paste0(round(dsCategoryPretty$Mean*100), &quot;%&quot;)
+# dsCategoryPretty$Label &lt;- paste0(&quot;.&quot;, round(dsCategoryPretty$Mean*100), &quot;%+-%.0&quot;, round(dsCategoryPretty$SE*100))
+dsCategoryPretty$Label &lt;- paste0(&quot;bar(italic(x))==.&quot;, round(dsCategoryPretty$Mean*100), &quot;%+-%.0&quot;, round(dsCategoryPretty$SE*100))
+
+#geneCategory &lt;- &quot;Methane Production&quot;
+#geneCategory &lt;- &quot;Organic Remediation&quot;
+#ds &lt;- ds[ds$GeneCategory== geneCategory, ]
+
+# g &lt;- ggplot(data=ds, aes(x=Site, y=..density.., fill=Basin))
+# #g &lt;- ggplot(data=ds, aes(x=Site, y=..density.., fill=Basin))
+# #g &lt;- ggplot(data=ds, aes(x=Site, y=..density.., fill=Basin, group=GeneCategory))
+# #g &lt;- ggplot(data=ds, aes(x=Site, y=..count../sum(..count..), fill=Basin))
+# #g &lt;- ggplot(data=ds, aes(x=Site, fill=Basin))
+# #g &lt;- ggplot(data=ds, aes(x=Basin, fill=Basin))
+# g + geom_bar(stat=&quot;bin&quot;, binwidth=1, color=&quot;gray70&quot;) +
+#   scale_y_continuous(&quot;Relative Abundance&quot;) +
+#   geom_text(stat=&quot;bin&quot;, binwidth=1,aes(label=..count..), size=4) +
+#   facet_wrap( ~ GeneCategory) #+
+#   #guid
+#1+1+3.5+3.5+4+10+1
+summary(ds)
+</code></pre>
+
+<pre><code>##  GeneCategory          Basin                Site       
+##  Length:126         Length:126         Min.   : 1.000  
+##  Class :character   Class :character   1st Qu.: 4.000  
+##  Mode  :character   Mode  :character   Median : 8.500  
+##                                        Mean   : 8.071  
+##                                        3rd Qu.:12.000  
+##                                        Max.   :15.000  
+##                                                        
+##  AbundanceMean       AbudanceRelativeToBasinMean AbudanceRelativeToBasinSE
+##  Min.   :    8.616   Min.   :0.05882             Min.   :0.00811          
+##  1st Qu.: 3014.929   1st Qu.:0.27711             1st Qu.:0.03217          
+##  Median : 7553.275   Median :0.51357             Median :0.04609          
+##  Mean   : 7015.543   Mean   :0.45003             Mean   :0.05282          
+##  3rd Qu.: 9662.006   3rd Qu.:0.60098             3rd Qu.:0.06181          
+##  Max.   :24946.595   Max.   :0.75258             Max.   :0.12119          
+##                                                  NA&#39;s   :81               
+##  AbudanceRelativeToBasinList AbudanceRelativeToBasinCount     SEHigh      
+##  Length:126                  Min.   :1.000                Min.   :0.2042  
+##  Class :character            1st Qu.:1.000                1st Qu.:0.3620  
+##  Mode  :character            Median :1.000                Median :0.5995  
+##                              Mean   :1.714                Mean   :0.5266  
+##                              3rd Qu.:3.000                3rd Qu.:0.6488  
+##                              Max.   :3.000                Max.   :0.7875  
+##                                                           NA&#39;s   :81      
+##      SELow         RankWithinCategory RankWithinSite   GeneCategoryPretty
+##  Min.   :0.04665   Min.   : 1.0       Min.   : 1.000   Length:126        
+##  1st Qu.:0.18628   1st Qu.: 4.0       1st Qu.: 4.000   Class :character  
+##  Median :0.51173   Median : 7.5       Median : 8.000   Mode  :character  
+##  Mean   :0.42096   Mean   : 7.5       Mean   : 7.849                     
+##  3rd Qu.:0.56492   3rd Qu.:11.0       3rd Qu.:11.000                     
+##  Max.   :0.73228   Max.   :14.0       Max.   :15.000                     
+##  NA&#39;s   :81
+</code></pre>
+
+<pre><code class="r"># sort(unique(ds$GeneName))
+# sort(unique(ds$Site))
+# plyr::ddply(ds[ds$GeneCategory==&quot;Methane Production&quot;, ], .(Site), numcolwise(length))
+# plyr::ddply(ds[ds$GeneName==&quot;mcrA&quot;, ], .(Site), numcolwise(length))
+
+# png(pngOutputPath, width=10, height=7.5, units=&quot;in&quot;, bg=&quot;transparent&quot;, res=500, type=&quot;cairo-png&quot;)
+# &gt; rainbow_hcl(n=3, c = 50, l = 70)
+# [1] &quot;#E495A5&quot; &quot;#86B875&quot; &quot;#7DB0DD&quot;# 
+unique(ds$Basin)
+</code></pre>
+
+<pre><code>## [1] &quot;CookInlet&quot; &quot;Illinois&quot;  &quot;Powder&quot;
+</code></pre>
+
+<pre><code class="r">########################################
+g &lt;- ggplot(data=ds, aes(x=factor(Site), y=AbudanceRelativeToBasinMean, fill=Basin)) +
+  geom_hline(mapping=aes(yintercept=Mean, color=NULL, fill=NULL), data=dsCategoryPretty,  color=&quot;gray90&quot;, size=1.5)   +
+  geom_bar(stat=&quot;identity&quot;, binwidth=1, alpha=.7) +
+  geom_errorbar(mapping=aes(ymin=SELow, ymax=SEHigh),  stat=&quot;identity&quot;, binwidth=1, alpha=.7) +
+  #geom_text(mapping=aes(y=Mean, label=Label, color=NULL, fill=NULL), data=dsCategoryPretty, x=Inf, color=&quot;gray60&quot;, hjust=.5, 
+  geom_text(mapping=aes(label=Label, color=NULL, fill=NULL), data=dsCategoryPretty, x=Inf, y=Inf, color=&quot;gray70&quot;, hjust=1.05, 
+            vjust=1.4, size=4, parse=T) +
+#           vjust=-.2, size=3, angle=90, parse=T) +
+  #   geom_text(stat=&quot;identity&quot;, binwidth=1,aes(y=0, label=UniqueGenbankIDCount), size=3,  hjust=1, vjust=.3, angle=270) +
+  facet_wrap( ~ GeneCategoryPretty) + #, scales=&quot;free_y&quot;) +
+  scale_x_discrete() + #labels=c(&quot;1&quot;, &quot;&quot;, &quot;3&quot;, &quot;&quot;, &quot;5&quot;, &quot;6&quot;, &quot;8&quot;, &quot;&quot;, &quot;10&quot;, &quot;&quot;, &quot;12&quot;, &quot;&quot;, &quot;14&quot;, &quot;&quot;)) + 
+  scale_y_continuous(labels=percent) +
+  #scale_fill_discrete(h.start=120, direction=1, limits=c(&quot;Illinois&quot;,&quot;Cook Inlet&quot;,&quot;Powder&quot;)) + #, labels=c(&quot;Illinois&quot;,&quot;Cook Inlet&quot;,&quot;Powder&quot;)) +
+#   scale_fill_manual(values = c(&quot;#00ba38&quot;, &quot;#f8766d&quot;, &quot;#619cff&quot;), #The original colors
+#   scale_fill_manual(values = c(&quot;#dcebce&quot;, &quot;#fedcd4&quot;, &quot;#e4e2ee&quot;), #Matches Figs #1 &amp; #2 exactly.
+#   scale_fill_manual(values =  muted(c(&quot;#00ba38&quot;, &quot;#f8766d&quot;, &quot;#619cff&quot;), l=80, c=50),  #The original colors, muted
+  scale_fill_manual(values = muted(c(&quot;#dcebce&quot;, &quot;#fedcd4&quot;, &quot;#e4e2ee&quot;), l=80, c=60), #Matches Figs #1 &amp; #2, but unmuted
+                    limits=c(&quot;Illinois&quot;,&quot;CookInlet&quot;,&quot;Powder&quot;), 
+                    labels=c(&quot;Illinois Basin&quot;,&quot;Cook Inlet Gas Field&quot;,&quot;Powder River Basin&quot;)) + 
+  labs(x=&quot;Coalfield Samples&quot;, y=&quot;Functional Gene Relative Abundance&quot;, fill=NULL, title=NULL) +
+  theme_bw() +
+  theme(legend.position=&quot;top&quot;, legend.margin = unit(-.5, &quot;cm&quot;)) +
+  theme(plot.margin=unit(c(0,.15,0,0), &quot;cm&quot;)) +
+  theme(axis.ticks.length = unit(0, &quot;cm&quot;)) +
+  theme(axis.text.x=element_text(colour=&quot;gray30&quot;, size=rel(.8))) + 
+  theme(axis.text.y=element_text(colour=&quot;gray30&quot;, size=rel(.8))) +
+  theme(axis.ticks.length = grid::unit(0, &quot;cm&quot;))
+g
+</code></pre>
+
+<p><img src="figure/BarChartSummary-Rmdauto-report-1.png" title="plot of chunk auto-report" alt="plot of chunk auto-report" style="display: block; margin: auto;" /></p>
+
+<pre><code class="r">#ggsave(pngFacetedOutputPath, plot=g, width=10, height=7.5, dpi=600)
+ggsave(pngFacetedOutputPath, plot=g, width=17, height=13, units=&quot;cm&quot;, dpi=600)
+</code></pre>
+
+<p><img src="figure/BarChartSummary-Rmdauto-report-2.png" title="plot of chunk auto-report" alt="plot of chunk auto-report" style="display: block; margin: auto;" /></p>
+
+<pre><code class="r"># plot(dsCategoryMean)
+
+
+# if( createFactor )  
+#   dsGraph$V1 &lt;- factor(dsGraph[, variableName])
+# else
+#   dsGraph$V1 &lt;- dsGraph[, variableName]
+# 
+# levels(dsGraph$V1) &lt;- gsub(&quot;/&quot;, &quot;/\n&quot;, levels(dsGraph$V1))
+# levels(dsCategory$GeneCategory)
+dsCategory$GeneCategory &lt;- plyr::revalue(dsCategory$GeneCategory, replace=c(
+  &quot;Sulfur Oxidation&quot; = &quot;Sulfur Oxidation&quot;
+  , &quot;Carbon cycling&quot; = &quot;Carbon Cycling&quot;
+  , &quot;Energy process&quot; = &quot;Energy Process&quot;
+  , &quot;Metal Resistance&quot; = &quot;Metal Resistance&quot;
+  , &quot;Methane Production&quot; = &quot;Methane Production&quot;
+  , &quot;Organic Remediation&quot; = &quot;Organic Remediation&quot;
+  , &quot;Sulfate Reduction&quot; = &quot;Sulfate Reduction&quot;
+))
+
+dsCategory$GeneCategoryPretty &lt;- plyr::revalue(dsCategory$GeneCategory, replace=c(
+  &quot;Sulfur Oxidation&quot; = &quot;Sulfur\nOxidation&quot;
+  , &quot;Carbon Cycling&quot; = &quot;Carbon\nCycling&quot;
+  , &quot;Energy Process&quot; = &quot;Energy\nProcess&quot;
+  , &quot;Metal Resistance&quot; = &quot;Metal\nResistance&quot;
+  , &quot;Methane Production&quot; = &quot;Methane\nProduction&quot;
+  , &quot;Organic Remediation&quot; = &quot;Organic\nRemediation&quot;
+  , &quot;Sulfate Reduction&quot; = &quot;Sulfate\nReduction&quot;
+))
+
+# dsCategory$GeneCategory &lt;- ordered(dsCategory$GeneCategory, levels=rev(levels(dsCategory$GeneCategory)))
+# dsCategory$GeneCategoryPretty &lt;- ordered(dsCategory$GeneCategoryPretty, levels=rev(levels(dsCategory$GeneCategoryPretty)))
+
+# if( skipMissing ) {
+#   dsGraph &lt;- dsGraph[dsGraph$V1 != &quot;Missing&quot;, ]
+#   dsGraph &lt;- dsGraph[!is.na(dsGraph$V1), ]
+# }
+
+p &lt;- ggplot(dsCategory, aes(x=GeneCategory, y=Mean, ymin=Mean-SE, ymax=Mean+SE, fill=GeneCategory, label=scales::comma(Mean)))
+p &lt;- p + geom_bar(stat=&quot;identity&quot;, alpha=.7) 
+p &lt;- p + geom_pointrange(stat=&quot;identity&quot;)
+
+p &lt;- p + scale_y_continuous(labels = percent_format())
+p &lt;- p + scale_fill_brewer(palette=&quot;Set3&quot;)
+p &lt;- p + labs(x=NULL, y=&quot;Mean Percentage&quot;)# of Functional Genes Across Coalfields&quot;)  #&quot;Functional\nGene Category&quot;
+
+p &lt;- p + theme_bw()
+p &lt;- p + theme(legend.position = &quot;none&quot;) +
+  theme(plot.margin=unit(c(0,.15,0,0.05), &quot;cm&quot;)) +
+  theme(axis.ticks.length = unit(0, &quot;cm&quot;)) +
+  theme(axis.text.x=element_text(colour=&quot;gray30&quot;, size=rel(1))) + 
+  theme(axis.text.y=element_text(colour=&quot;gray30&quot;, size=rel(1)))  
+#   p &lt;- p + geom_text(stat=&quot;bin&quot;, hjust=hjust, size=labelSize)#, labels = comma_format(digits = 1))
+
+p &lt;- p + coord_flip()#ylim=ylim)
+p 
+</code></pre>
+
+<p><img src="figure/BarChartSummary-Rmdauto-report-3.png" title="plot of chunk auto-report" alt="plot of chunk auto-report" style="display: block; margin: auto;" /></p>
+
+<pre><code class="r">ggsave(pngOutputPath, plot=p, width=15, height=5, units=&quot;cm&quot;, dpi=600)
+
+
+stats::bartlett.test(AbundanceMean ~ GeneCategory, ds)
+</code></pre>
+
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  AbundanceMean by GeneCategory
+## Bartlett&#39;s K-squared = 4.5941, df = 8, p-value = 0.7999
+</code></pre>
+
+<pre><code class="r"># lawstat::levene.test(AbundanceMean ~ GeneCategory, ds)
+table(ds$GeneCategory)
+</code></pre>
+
+<pre><code>## 
+##      Carbon cycling      Energy process    Metal Resistance 
+##                  14                  14                  14 
+##  Methane Production            Nitrogen Organic Remediation 
+##                  14                  14                  14 
+##          Phosphorus   Sulfate Reduction    Sulfur Oxidation 
+##                  14                  14                  14
+</code></pre>
+
+<pre><code class="r">ds$MethaneGene &lt;- (ds$GeneCategory==&quot;Methane Production&quot;)
+summary(lm(AbundanceMean ~ GeneCategory, ds))
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = AbundanceMean ~ GeneCategory, data = ds)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -8928  -3739    816   2622  18645 
+## 
+## Coefficients:
+##                                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                       6524.0     1291.0   5.053 1.62e-06 ***
+## GeneCategoryEnergy process         444.9     1825.8   0.244    0.808    
+## GeneCategoryMetal Resistance       997.3     1825.8   0.546    0.586    
+## GeneCategoryMethane Production    -222.4     1825.8  -0.122    0.903    
+## GeneCategoryNitrogen              -282.5     1825.8  -0.155    0.877    
+## GeneCategoryOrganic Remediation    423.7     1825.8   0.232    0.817    
+## GeneCategoryPhosphorus             787.1     1825.8   0.431    0.667    
+## GeneCategorySulfate Reduction     -137.1     1825.8  -0.075    0.940    
+## GeneCategorySulfur Oxidation      2412.8     1825.8   1.322    0.189    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4831 on 117 degrees of freedom
+## Multiple R-squared:  0.02882,    Adjusted R-squared:  -0.03759 
+## F-statistic: 0.434 on 8 and 117 DF,  p-value: 0.8985
+</code></pre>
+
+<pre><code class="r">summary(lm(AbundanceMean ~ MethaneGene, ds))
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = AbundanceMean ~ MethaneGene, data = ds)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7096.0 -4006.7   587.7  2557.2 18644.9 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       7104.8      449.3  15.814   &lt;2e-16 ***
+## MethaneGeneTRUE   -803.1     1347.8  -0.596    0.552    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4755 on 124 degrees of freedom
+## Multiple R-squared:  0.002855,   Adjusted R-squared:  -0.005186 
+## F-statistic: 0.3551 on 1 and 124 DF,  p-value: 0.5523
+</code></pre>
+
+<p>The R session information (including the OS info, R version and all
+packages used):</p>
+
+<pre><code class="r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.1.2 Patched (2014-12-11 r67168)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+##  [1] splines   stats4    grid      stats     graphics  grDevices utils    
+##  [8] datasets  methods   base     
+## 
+## other attached packages:
+## [1] reshape2_1.4.1 dplyr_0.3.0.2  lawstat_2.4.1  VGAM_0.9-6    
+## [5] mvtnorm_1.0-1  scales_0.2.4   ggplot2_1.0.0 
+## 
+## loaded via a namespace (and not attached):
+##  [1] assertthat_0.1     colorspace_1.2-4   DBI_0.3.1         
+##  [4] digest_0.6.6       evaluate_0.5.5     formatR_1.0       
+##  [7] gtable_0.1.2       htmltools_0.2.6    knitr_1.8         
+## [10] labeling_0.3       lazyeval_0.1.9     magrittr_1.5      
+## [13] MASS_7.3-35        munsell_0.4.2      parallel_3.1.2    
+## [16] plyr_1.8.1         proto_0.3-10       RColorBrewer_1.1-2
+## [19] Rcpp_0.11.3        rmarkdown_0.3.11   stringr_0.6.2     
+## [22] tools_3.1.2
+</code></pre>
+
+<pre><code class="r">Sys.time()
+</code></pre>
+
+<pre><code>## [1] &quot;2014-12-18 13:37:53 CST&quot;
+</code></pre>
+
+</body>
+
+</html>
