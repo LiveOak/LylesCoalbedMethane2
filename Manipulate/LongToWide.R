@@ -6,13 +6,12 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ############################
 #+ LoadPackages
 library(knitr)
-library(plyr)
+# library(plyr)
 # library(dplyr)
 # library(reshape)
 
 ############################
 #+ DeclareGlobals
-options(stringsAsFactors=FALSE) #By default, character/string variables will NOT be automatically converted to factors.
 
 pathInput <- "./Data/Derived/AllBasinsLong.csv"
 pathOutput <- "./Data/Derived/AllBasinsWide.csv"
@@ -21,7 +20,7 @@ pathOutput <- "./Data/Derived/AllBasinsWide.csv"
 
 ############################
 #+ LoadData
-dsLong <- read.csv(pathInput)
+dsLong <- read.csv(pathInput, stringsAsFactors=FALSE)
 colnames(dsLong)
 
 ############################

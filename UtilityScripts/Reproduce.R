@@ -12,8 +12,7 @@ base::rm(list=base::ls(all=TRUE))
 
 ###################################
 #' Verify the working directory has been set correctly.  Much of the code assumes the working directory is the repository's root directory.
-#' In the following line, rename `RAnalysisSkeleton` to your repository.
-if( base::basename(base::getwd()) != "RAnalysisSkeleton" ) {
+if( base::basename(base::getwd()) != "LylesCoalbedMethane2" ) {
   base::stop("The working directory should be set to the root of the package/repository.  ",
        "It's currently set to `", base::getwd(), "`.")
 }
@@ -35,25 +34,22 @@ base::library(testit)
 
 ######################################################################################################
 #' The following example comes from https://github.com/wibeasley/Wats.  Rename the paths appropriately.
-#'  
-#'
+#' 
+#' 
+
 ###################################
 #' Declare the paths of the necessary files.
 
 #' The raw/input data files:
-# pathCensus199x <- base::paste0("./Datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
-# pathCensus200x <- "./Datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
-# pathCountyFips <- "./Datasets/CountyFipsCode.csv"
-
-#' The derived/intermediate data files (which are produced by the repository's code files):
-# pathCensusYearly <- "./Datasets/CensusIntercensal/CensusCountyYear.csv"
-# pathCensusMonthly <- "./Datasets/CensusIntercensal/CensusCountyMonth.csv"
-# pathDataForAnalaysis2005 <- "./Datasets/CountyMonthBirthRate2005Version.csv"
-# pathDataForAnalaysis2014 <- "./Datasets/CountyMonthBirthRate2014Version.csv"
+csvPackedIllinoisPath <- "./Data/Raw/IllinoisBasin.csv"
+csvPackedCookInlet1Path <- "./Data/Raw/CookInlet1.csv"
+csvPackedCookInlet2Path <- "./Data/Raw/CookInlet2.csv"
+csvPackedPowderPath <- "./Data/Raw/PowderRiver.csv"
 
 #' Code Files:
-# pathManipulateCensus <- "./UtilityScripts/IsolateCensusPopsForGfr.R"
-# pathCalculateGfr <- "./UtilityScripts/CalculateGfr.R"
+pathManipulate <- "./Manipulate/Manipulate.R"
+pathGroomLong <- "./Manipulate/GroomLong.R"
+pathLongToWide <- "./Manipulate/LongToWide.R"
 
 #' Report Files:
 # pathsReports <- base::file.path("./vignettes", c("MbrFigures.Rmd", "OkFertilityWithIntercensalEstimates.Rmd"))
@@ -62,22 +58,27 @@ base::library(testit)
 #' Verify the necessary path can be found.
 
 #' The raw/input data files:
-# testit::assert("The 10 census files from 199x should exist.", base::file.exists(pathCensus199x))
-# testit::assert("The 200x census file should exist.", base::file.exists(pathCensus200x))
-# testit::assert("The county FIPS values should exist.", base::file.exists(pathCountyFips))
+testit::assert(base::file.exists(csvPackedIllinoisPath))
+testit::assert(base::file.exists(csvPackedCookInlet1Path))
+testit::assert(base::file.exists(csvPackedCookInlet2Path))
+testit::assert(base::file.exists(csvPackedPowderPath))
 
 #' Code Files:
-# testit::assert("The file that restructures the census data should exist.", base::file.exists(pathManipulateCensus))
-# testit::assert("The file that calculates the GFR should exist.", base::file.exists(pathCalculateGfr))
+testit::assert(base::file.exists(pathManipulate))
+testit::assert(base::file.exists(pathGroomLong))
+testit::assert(base::file.exists(pathLongToWide))
 
 #' Report Files:
 # testit::assert("The knitr Rmd files should exist.", base::file.exists(pathsReports))
 
+
 ####################################
 #' Run the files that manipulate and analyze.
 
-#' Execute code that restructures the Census data
-# base::source(pathManipulateCensus, local=base::new.env())
+#' Execute code that restructures the data
+knitr::stitch_rmd(script=pathManipulate, output="./Manipulate/StitchedOutput/Manipulate.md")
+knitr::stitch_rmd(script=pathGroomLong, output="./Manipulate/StitchedOutput/GroomLong.md")
+knitr::stitch_rmd(script=pathLongToWide, output="./Manipulate/StitchedOutput/LongToWide.md")
 
 #' Assert that the intermediate files exist (the two files produced by `IsolateCensusPopsForGfr.R`)
 # testit::assert("The yearly records should exist.", base::file.exists(pathCensusYearly))
