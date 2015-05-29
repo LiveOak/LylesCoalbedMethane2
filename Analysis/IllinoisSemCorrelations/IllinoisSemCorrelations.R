@@ -13,7 +13,6 @@ library(lavaan) #For graphing
 #####################################
 ## @knitr DeclareGlobals
 options(show.signif.stars=F) #Turn off the annotations on p-values
-options(stringsAsFactors=FALSE) #By default, character/string variables will NOT be automatically converted to factors.
 
 pathInputLong <- "./Data/Derived/AllBasinsLong.csv"
 pathInputWide <- "./Data/Derived/AllBasinsWide.csv"
@@ -24,8 +23,8 @@ sitesToDrop <- c(7, 16, 17)
 #####################################
 ## @knitr LoadData
 # 'ds' stands for 'datasets'
-dsLong <- read.csv(pathInputLong)
-dsWide <- read.csv(pathInputWide)
+dsLong <- read.csv(pathInputLong, stringsAsFactors=FALSE)
+dsWide <- read.csv(pathInputWide, stringsAsFactors=FALSE)
 # sapply(dsWide, class)
 
 #####################################
@@ -54,19 +53,19 @@ dsWideIllinois <- dsWide[dsWide$Basin=="Illinois Basin", ]
 ## @knitr Marginals
 
 ggplot(dsLongIllinois, aes(x=TotalAdjusted)) + 
-  geom_density() +
+  geom_histogram(binwidth=5) +
   facet_grid(Substrate~IncubationReplicate, scales="free_y") +
   theme_bw() +
   labs(title="Illinois Basin")
 
 ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) + 
-  geom_density() +
+  geom_histogram(binwidth=10000) +
   facet_grid(Substrate~MicroarraryReplicate, scales="free_y") +
   theme_bw() +
   labs(title="Illinois Basin")
 
 ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) + 
-  geom_density() +
+  geom_histogram(binwidth=1) +
   facet_grid(Substrate~MicroarraryReplicate, scales="free_y") +
   theme_bw() +
   labs(title="Illinois Basin")
@@ -104,7 +103,8 @@ model <- "
 #   Quantity =~ QuantityZ1 
 #   Total =~ TotalAdjusted1
 #   Total =~ TotalAdjusted2
-  Total =~ 1*TotalAdjusted1 + 1*TotalAdjusted2
+  Total =~ 1*TotalAdjusted2
+#   Total =~ 1*TotalAdjusted1 + 1*TotalAdjusted2
 #   Total =~ t*TotalAdjusted1 + t*TotalAdjusted2
   
   # regressions
@@ -134,7 +134,7 @@ inspect(fit,"theta")
 cor(dsSubstrate$TotalAdjusted1, dsSubstrate$TotalAdjusted2)
 M <- cor(dsSubstrate[, c("TotalAdjusted1", "TotalAdjusted2", "Quantity1", "Quantity2", "Quantity3")])
 corrplot::corrplot(M, addCoef.col = "black")
-scattermatrix
+
 
 # # fit <- sem(model, data = dsWide)
 # # summary(fit, standardized = FALSE)
