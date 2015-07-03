@@ -1,16 +1,15 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 #####################################
 ## @knitr LoadPackages
+library(grid) #For graphing
+library(magrittr)
 requireNamespace("dplyr")
 requireNamespace("plyr")
 requireNamespace("scales") #For formating values in graphs
 requireNamespace("RColorBrewer")
-library("grid") #For graphing
 requireNamespace("gplots") #For a simple venn diagram
 requireNamespace("VennDiagram")
-library(ggplot2) #For graphing
-library(magrittr)
-# library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+
 #####################################
 ## @knitr DeclareGlobals
 options(show.signif.stars=F) #Turn off the annotations on p-values
@@ -22,11 +21,8 @@ pathVennTotal <- file.path(pathVennDirectory, "AllCategories.tiff")
 basinOrder <- c("Illinois", "CookInlet", "Powder")
 geochipBasinVersion <- c("CookInlet"=3.2,  "Illinois"=4.0, "Powder"=4.0)
 
-# paletteBasinDark <- c(RColorBrewer::brewer.pal(n=length(sitesIllinois), "Dark2"), RColorBrewer::brewer.pal(n=length(sitesCook), "Set1"), RColorBrewer::brewer.pal(n=length(sitesPowder), "Dark2"))
 paletteBasinDark <- scales::muted(c("Illinois"="#dcebce", "CookInlet"="#fedcd4", "Powder"="#e4e2ee"), l=80, c=60) #Matches Figs #1 & #2, but unmuted)
 
-# paletteSiteLight <- grDevices::adjustcolor(paletteSiteDark, alpha.f=.5)
-# names(paletteSiteLight) <- c(sitesIllinois, sitesCook, sitesPowder)
 # dput(unique(dsLong$GeneCategory))
 geneCategoryRecode <- c(
   "Antibiotic resistance"   = "AntibioticResistance",
@@ -47,21 +43,11 @@ geneCategoryRecode <- c(
   "Missing"                 = "Missing"
 )
 
-ReportTheme <- theme_bw() +
-  theme(axis.ticks.length = grid::unit(0, "cm")) +
-  theme(axis.text = element_text(color="gray40")) +
-  theme(axis.title = element_text(color="gray40")) +
-  theme(panel.border = element_rect(color="gray80")) +
-  theme(axis.ticks = element_line(color="gray80")) +
-  theme(strip.background=element_rect(color=NA, fill="gray95"))
-
 #####################################
 ## @knitr LoadData
-# 'ds' stands for 'datasets'
 dsLong <- read.csv(pathInputLong, stringsAsFactors=FALSE)
 
 # sapply(dsLong, class)
-
 #####################################
 ## @knitr TweakData
 dsLong <- dsLong %>%
@@ -86,12 +72,6 @@ dsLongBasinUnique <- dsLong %>%
   
 table(dsLong$Basin)
 
-vennListTotal <- list(
-  "Illinois\n(v.40)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
-  "Cook Inlet\n(v3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
-  "Powder\n(v4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
-)
-# dsLong$Basin
 #####################################
 ## @knitr CalculateOverlap
 
@@ -120,17 +100,17 @@ dsLong %>%
   dplyr::group_by(GeneCategory) %>%
   dplyr::summarize(
     CountTotal = scales::comma(length(IsV32)),
-    CountV32 = scales::comma(sum(IsV32)),
-    CountV40 = scales::comma(sum(!IsV32))
+    CountV32   = scales::comma(sum(IsV32)),
+    CountV40   = scales::comma(sum(!IsV32))
   )
 
 dsLongBasinProbeCount <- dsLongBasinUnique %>%
   dplyr::group_by(GeneCategory) %>%
   dplyr::summarize(
-    Total = scales::comma(length(Basin)),
-    Illinois = scales::comma(sum(Basin=="Illinois")),
+    Total     = scales::comma(length(Basin)),
+    Illinois  = scales::comma(sum(Basin=="Illinois")),
     CookInlet = scales::comma(sum(Basin=="CookInlet")),
-    Powder = scales::comma(sum(Basin=="Powder"))
+    Powder    = scales::comma(sum(Basin=="Powder"))
   )
 dsLongBasinProbeCount
 
@@ -140,26 +120,26 @@ library(VennDiagram)
 
 plotVenn <- function( vennList, pathGraph ) {
   VennDiagram::venn.diagram(
-    x = vennList,
-    filename = pathGraph,
-    height = 2000,
-    width = 2000,
-    cat.pos = c(330, 30, 180),
-    euler.d = FALSE,
-    scaled = FALSE,
-    col = "transparent",
-    fill = paletteBasinDark,
-    alpha = 0.50,
-    cex = 1.5,
-    fontface = "bold",
-    margin = 0.0
+    x           = vennList,
+    filename    = pathGraph,
+    height      = 2000,
+    width       = 2000,
+    cat.pos     = c(330, 30, 180),
+    euler.d     = FALSE,
+    scaled      = FALSE,
+    col         = "transparent",
+    fill        = paletteBasinDark,
+    alpha       = 0.50,
+    cex         = 1.5,
+    fontface    = "bold",
+    margin      = 0.0
   )
 }
 
 vennListTotal <- list(
-  "Illinois\n(v4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
+  "Illinois\n(v4.0)"   = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
   "Cook Inlet\n(v3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
-  "Powder\n(v4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
+  "Powder\n(v4.0)"     = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
 )
 plotVenn(vennListTotal, pathVennTotal)
 
@@ -176,40 +156,5 @@ for( category in sort(unique(dsLongBasinUnique$GeneCategory))) {
   plotVenn(vennListCategory, pathVennCategory)
 }
 
-# venn.plot
-# pushViewport(plotViewport())
-
-# grid.newpage()
-# pushViewport(viewport())
-# print(venn.plot, newpage=F)
-# # print(lattice::barchart(table(mtcars$gear)), newpage=F)
-# popViewport(0)
-
 gplots::venn(vennListTotal)
-
-
-#####################################
-## @knitr Marginals
-
-# ggplot(dsLongIllinois, aes(x=TotalAdjusted)) + 
-#   geom_density() +
-#   facet_grid(Substrate~IncubationReplicate, scales="free_y") +
-#   ReportTheme +
-#   labs(title="Illinois Basin")
-
-#####################################
-## @knitr Scatterplots
-
-# gQuantityTotal <- ggplot(dsLongIllinois, aes(x=QuantityMcrGenes, y=TotalAdjusted, color=factor(Site), fill=factor(Site), shape=IncubationReplicate)) + 
-#   geom_smooth(aes(color=NULL, fill=NULL, shape=NULL), method="loess") +
-#   geom_smooth(aes(color=NULL, fill=NULL, shape=NULL), method="lm") +
-#   geom_point(shape=21) +
-#   scale_x_continuous(label=scales::comma) +
-#   scale_color_manual(values=paletteSiteDark) +
-#   scale_fill_manual(values=paletteSiteLight) +
-#   facet_grid(Substrate~., scales="free_y") +
-#   ReportTheme +
-#   theme(legend.position="none") +
-#   labs(title="Illinois Basin")
-# gQuantityTotal
 

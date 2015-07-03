@@ -11,15 +11,15 @@ This report looks explores the overlap of genes between basins
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 
 ```r
+library(grid) #For graphing
+library(magrittr)
 requireNamespace("dplyr")
 requireNamespace("plyr")
 requireNamespace("scales") #For formating values in graphs
 requireNamespace("RColorBrewer")
-requireNamespace("grid") #For graphing
-requireNamespace("gplots") #For graphing
-library(ggplot2) #For graphing
-library(magrittr)
-# library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+requireNamespace("gplots") #For a simple venn diagram
+requireNamespace("VennDiagram")
+
 #####################################
 ```
 
@@ -29,18 +29,33 @@ library(magrittr)
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
 pathInputLong <- "./Data/Derived/Unpacked.csv"
-# pathInputWide <- "./Data/Derived/AllBasinsWide.csv"
+pathVennDirectory <- "./Analysis/GeneticOverlap/Figures"
+pathVennTotal <- file.path(pathVennDirectory, "AllCategories.tiff")
 
 basinOrder <- c("Illinois", "CookInlet", "Powder")
 geochipBasinVersion <- c("CookInlet"=3.2,  "Illinois"=4.0, "Powder"=4.0)
 
-ReportTheme <- theme_bw() +
-  theme(axis.ticks.length = grid::unit(0, "cm")) +
-  theme(axis.text = element_text(color="gray40")) +
-  theme(axis.title = element_text(color="gray40")) +
-  theme(panel.border = element_rect(color="gray80")) +
-  theme(axis.ticks = element_line(color="gray80")) +
-  theme(strip.background=element_rect(color=NA, fill="gray95"))
+paletteBasinDark <- scales::muted(c("Illinois"="#dcebce", "CookInlet"="#fedcd4", "Powder"="#e4e2ee"), l=80, c=60) #Matches Figs #1 & #2, but unmuted)
+
+# dput(unique(dsLong$GeneCategory))
+geneCategoryRecode <- c(
+  "Antibiotic resistance"   = "AntibioticResistance",
+  "Bacteria phage"          = "BacteriaPhage",
+  "Bioleaching"             = "Bioleaching",
+  "Carbon cycling"          = "CarbonCycling",
+  "Methane Production"      = "MethaneProduction",
+  "Energy process"          = "EnergyProcess",
+  "Metal Resistance"        = "MetalResistance",
+  "Nitrogen"                = "Nitrogen",
+  "Organic Remediation"     = "OrganicRemediation",
+  "other category"          = "Other",
+  "Phosphorus"              = "Phosphorus",
+  "Stress"                  = "Stress",
+  "Sulfate Reduction"       = "SulfateReduction",
+  "Sulfur Oxidation"        = "SulfurOxidation",
+  "virulence"               = "Virulence",
+  "Missing"                 = "Missing"
+)
 
 #####################################
 ```
@@ -51,22 +66,20 @@ ReportTheme <- theme_bw() +
 <!-- Load the datasets.   -->
 
 ```r
-# 'ds' stands for 'datasets'
 dsLong <- read.csv(pathInputLong, stringsAsFactors=FALSE)
 
 # sapply(dsLong, class)
-
 #####################################
 ```
 
 <!-- Tweak the datasets.   -->
 
 ```r
-# a <- as.integer(dsLong$GenbankID)
-# dsLong$GenbankID[is.na(a)]
-# dsLong$GenbankID <- as.integer(dsLong$GenbankID)
+dsLong <- dsLong %>%
+  dplyr::arrange(Basin, GeneCategory)
 
 dsLong$GeochipVersion <- as.numeric(plyr::revalue(dsLong$Basin, replace=geochipBasinVersion))
+dsLong$GeneCategory <- plyr::revalue(dsLong$GeneCategory, replace=geneCategoryRecode)
 
 #Reorder the substrates and basins.  The default alphabetical order isn't the most intuitive
 dsLong$Basin <- factor(dsLong$Basin, levels=basinOrder)
@@ -92,12 +105,6 @@ table(dsLong$Basin)
 ```
 
 ```r
-vennList <- list(
-  "Illinois\n(4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
-  "Cook Inlet\n(3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
-  "Powder\n(4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
-)
-# dsLong$Basin
 #####################################
 ```
 
@@ -159,34 +166,34 @@ print(
 Source: local data frame [27 x 3]
 Groups: GeneCategory
 
-            GeneCategory GeochipVersion  Count
-1  Antibiotic resistance            3.2   1038
-2  Antibiotic resistance            4.0  17479
-3         Bacteria phage            4.0   2862
-4            Bioleaching            4.0   2952
-5         Carbon cycling            3.2   2814
-6         Carbon cycling            4.0  60046
-7         Energy process            3.2    365
-8         Energy process            4.0   5318
-9       Metal Resistance            3.2   3735
-10      Metal Resistance            4.0  57384
-11    Methane Production            3.2     47
-12    Methane Production            4.0   1203
-13               Missing            3.2    293
-14              Nitrogen            3.2   2118
-15              Nitrogen            4.0  40909
-16   Organic Remediation            3.2   6737
-17   Organic Remediation            4.0 120595
-18            Phosphorus            3.2    432
-19            Phosphorus            4.0   7560
-20                Stress            4.0 105907
-21     Sulfate Reduction            3.2    794
-22     Sulfate Reduction            4.0  13223
-23      Sulfur Oxidation            3.2    186
-24      Sulfur Oxidation            4.0   3191
-25        other category            3.2    432
-26        other category            4.0  10360
-27             virulence            4.0  18843
+           GeneCategory GeochipVersion  Count
+1  AntibioticResistance            3.2   1038
+2  AntibioticResistance            4.0  17479
+3         BacteriaPhage            4.0   2862
+4           Bioleaching            4.0   2952
+5         CarbonCycling            3.2   2814
+6         CarbonCycling            4.0  60046
+7         EnergyProcess            3.2    365
+8         EnergyProcess            4.0   5318
+9       MetalResistance            3.2   3735
+10      MetalResistance            4.0  57384
+11    MethaneProduction            3.2     47
+12    MethaneProduction            4.0   1203
+13              Missing            3.2    293
+14             Nitrogen            3.2   2118
+15             Nitrogen            4.0  40909
+16   OrganicRemediation            3.2   6737
+17   OrganicRemediation            4.0 120595
+18                Other            3.2    432
+19                Other            4.0  10360
+20           Phosphorus            3.2    432
+21           Phosphorus            4.0   7560
+22               Stress            4.0 105907
+23     SulfateReduction            3.2    794
+24     SulfateReduction            4.0  13223
+25      SulfurOxidation            3.2    186
+26      SulfurOxidation            4.0   3191
+27            Virulence            4.0  18843
 ```
 
 ```r
@@ -194,41 +201,41 @@ dsLong %>%
   dplyr::group_by(GeneCategory) %>%
   dplyr::summarize(
     CountTotal = scales::comma(length(IsV32)),
-    CountV32 = scales::comma(sum(IsV32)),
-    CountV40 = scales::comma(sum(!IsV32))
+    CountV32   = scales::comma(sum(IsV32)),
+    CountV40   = scales::comma(sum(!IsV32))
   )
 ```
 
 ```
 Source: local data frame [16 x 4]
 
-            GeneCategory CountTotal CountV32 CountV40
-1  Antibiotic resistance     18,517    1,038   17,479
-2         Bacteria phage      2,862        0    2,862
-3            Bioleaching      2,952        0    2,952
-4         Carbon cycling     62,860    2,814   60,046
-5         Energy process      5,683      365    5,318
-6       Metal Resistance     61,119    3,735   57,384
-7     Methane Production      1,250       47    1,203
-8                Missing        293      293        0
-9               Nitrogen     43,027    2,118   40,909
-10   Organic Remediation    127,332    6,737  120,595
-11            Phosphorus      7,992      432    7,560
-12                Stress    105,907        0  105,907
-13     Sulfate Reduction     14,017      794   13,223
-14      Sulfur Oxidation      3,377      186    3,191
-15        other category     10,792      432   10,360
-16             virulence     18,843        0   18,843
+           GeneCategory CountTotal CountV32 CountV40
+1  AntibioticResistance     18,517    1,038   17,479
+2         BacteriaPhage      2,862        0    2,862
+3           Bioleaching      2,952        0    2,952
+4         CarbonCycling     62,860    2,814   60,046
+5         EnergyProcess      5,683      365    5,318
+6       MetalResistance     61,119    3,735   57,384
+7     MethaneProduction      1,250       47    1,203
+8               Missing        293      293        0
+9              Nitrogen     43,027    2,118   40,909
+10   OrganicRemediation    127,332    6,737  120,595
+11                Other     10,792      432   10,360
+12           Phosphorus      7,992      432    7,560
+13               Stress    105,907        0  105,907
+14     SulfateReduction     14,017      794   13,223
+15      SulfurOxidation      3,377      186    3,191
+16            Virulence     18,843        0   18,843
 ```
 
 ```r
 dsLongBasinProbeCount <- dsLongBasinUnique %>%
   dplyr::group_by(GeneCategory) %>%
   dplyr::summarize(
-    Total = scales::comma(length(Basin)),
-    Illinois = scales::comma(sum(Basin=="Illinois")),
+    Total     = scales::comma(length(Basin)),
+    Illinois  = scales::comma(sum(Basin=="Illinois")),
     CookInlet = scales::comma(sum(Basin=="CookInlet")),
-    Powder = scales::comma(sum(Basin=="Powder"))
+    Powder    = scales::comma(sum(Basin=="Powder"))
   )
 dsLongBasinProbeCount
 ```
@@ -236,23 +243,23 @@ dsLongBasinProbeCount
 ```
 Source: local data frame [16 x 5]
 
-            GeneCategory  Total Illinois CookInlet Powder
-1  Antibiotic resistance  2,117      945       346    826
-2         Bacteria phage    314      146         0    168
-3            Bioleaching    309      156         0    153
-4         Carbon cycling  6,943    3,266       913  2,764
-5         Energy process    645      290       113    242
-6       Metal Resistance  6,946    3,128     1,202  2,616
-7     Methane Production    130       69        19     42
-8                Missing     96        0        96      0
-9               Nitrogen  4,842    2,219       717  1,906
-10   Organic Remediation 13,966    6,665     2,146  5,155
-11            Phosphorus    892      412       135    345
-12                Stress 10,689    5,741         0  4,948
-13     Sulfate Reduction  1,562      729       261    572
-14      Sulfur Oxidation    369      177        58    134
-15        other category  1,201      560       151    490
-16             virulence  1,914    1,017         0    897
+           GeneCategory  Total Illinois CookInlet Powder
+1  AntibioticResistance  2,117      945       346    826
+2         BacteriaPhage    314      146         0    168
+3           Bioleaching    309      156         0    153
+4         CarbonCycling  6,943    3,266       913  2,764
+5         EnergyProcess    645      290       113    242
+6       MetalResistance  6,946    3,128     1,202  2,616
+7     MethaneProduction    130       69        19     42
+8               Missing     96        0        96      0
+9              Nitrogen  4,842    2,219       717  1,906
+10   OrganicRemediation 13,966    6,665     2,146  5,155
+11                Other  1,201      560       151    490
+12           Phosphorus    892      412       135    345
+13               Stress 10,689    5,741         0  4,948
+14     SulfateReduction  1,562      729       261    572
+15      SulfurOxidation    369      177        58    134
+16            Virulence  1,914    1,017         0    897
 ```
 
 ```r
@@ -260,21 +267,38 @@ Source: local data frame [16 x 5]
 ```
 
 # Venn Diagrams
+
+```
+[1] 1
+```
+
+```
+./Analysis/GeneticOverlap/Figures/AntibioticResistance.tiff
+./Analysis/GeneticOverlap/Figures/BacteriaPhage.tiff
+./Analysis/GeneticOverlap/Figures/Bioleaching.tiff
+./Analysis/GeneticOverlap/Figures/CarbonCycling.tiff
+./Analysis/GeneticOverlap/Figures/EnergyProcess.tiff
+./Analysis/GeneticOverlap/Figures/MetalResistance.tiff
+./Analysis/GeneticOverlap/Figures/MethaneProduction.tiff
+./Analysis/GeneticOverlap/Figures/Missing.tiff
+./Analysis/GeneticOverlap/Figures/Nitrogen.tiff
+./Analysis/GeneticOverlap/Figures/OrganicRemediation.tiff
+./Analysis/GeneticOverlap/Figures/Other.tiff
+./Analysis/GeneticOverlap/Figures/Phosphorus.tiff
+./Analysis/GeneticOverlap/Figures/Stress.tiff
+./Analysis/GeneticOverlap/Figures/SulfateReduction.tiff
+./Analysis/GeneticOverlap/Figures/SulfurOxidation.tiff
+./Analysis/GeneticOverlap/Figures/Virulence.tiff
+```
+
 ![plot of chunk PlotVennDiagrams](Figures/PlotVennDiagrams-1.png) 
 
-# Questions
-## Unanswered Questions
- 1. - - - 
- 
-## Answered Questions
- 1. - - - 
- 
 # Session Information
 For the sake of documentation and reproducibility, the current report was build on a system using the following software.
 
 
 ```
-Report created by Will at 2015-07-03, 14:45 -0500
+Report created by Will at 2015-07-03, 16:55 -0500
 ```
 
 ```
@@ -287,15 +311,14 @@ locale:
 [4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] magrittr_1.5  ggplot2_1.0.1 knitr_1.10.5 
+[1] VennDiagram_1.6.9 magrittr_1.5      knitr_1.10.5     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.11.6        MASS_7.3-41        munsell_0.4.2      colorspace_1.2-6   R6_2.0.1           stringr_1.0.0     
- [7] plyr_1.8.3         dplyr_0.4.2        caTools_1.17.1     tools_3.2.1        parallel_3.2.1     grid_3.2.1        
-[13] gtable_0.1.2       KernSmooth_2.23-14 DBI_0.3.1          gtools_3.5.0       lazyeval_0.1.10    assertthat_0.1    
-[19] digest_0.6.8       reshape2_1.4.1     RColorBrewer_1.1-2 formatR_1.2        bitops_1.0-6       evaluate_0.7      
-[25] gdata_2.16.1       stringi_0.5-5      gplots_2.17.0      scales_0.2.5       proto_0.3-10      
+ [1] Rcpp_0.11.6        gtools_3.5.0       dplyr_0.4.2        assertthat_0.1     bitops_1.0-6       R6_2.0.1          
+ [7] plyr_1.8.3         DBI_0.3.1          formatR_1.2        evaluate_0.7       scales_0.2.5       KernSmooth_2.23-14
+[13] gplots_2.17.0      stringi_0.5-5      lazyeval_0.1.10    gdata_2.16.1       RColorBrewer_1.1-2 tools_3.2.1       
+[19] stringr_1.0.0      munsell_0.4.2      parallel_3.2.1     colorspace_1.2-6   caTools_1.17.1    
 ```

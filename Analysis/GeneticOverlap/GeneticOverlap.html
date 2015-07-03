@@ -191,15 +191,15 @@ hljs.initHighlightingOnLoad();
 
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 
-<pre><code class="r">requireNamespace(&quot;dplyr&quot;)
+<pre><code class="r">library(grid) #For graphing
+library(magrittr)
+requireNamespace(&quot;dplyr&quot;)
 requireNamespace(&quot;plyr&quot;)
 requireNamespace(&quot;scales&quot;) #For formating values in graphs
 requireNamespace(&quot;RColorBrewer&quot;)
-requireNamespace(&quot;grid&quot;) #For graphing
-requireNamespace(&quot;gplots&quot;) #For graphing
-library(ggplot2) #For graphing
-library(magrittr)
-# library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+requireNamespace(&quot;gplots&quot;) #For a simple venn diagram
+requireNamespace(&quot;VennDiagram&quot;)
+
 #####################################
 </code></pre>
 
@@ -208,18 +208,33 @@ library(magrittr)
 <pre><code class="r">options(show.signif.stars=F) #Turn off the annotations on p-values
 
 pathInputLong &lt;- &quot;./Data/Derived/Unpacked.csv&quot;
-# pathInputWide &lt;- &quot;./Data/Derived/AllBasinsWide.csv&quot;
+pathVennDirectory &lt;- &quot;./Analysis/GeneticOverlap/Figures&quot;
+pathVennTotal &lt;- file.path(pathVennDirectory, &quot;AllCategories.tiff&quot;)
 
 basinOrder &lt;- c(&quot;Illinois&quot;, &quot;CookInlet&quot;, &quot;Powder&quot;)
 geochipBasinVersion &lt;- c(&quot;CookInlet&quot;=3.2,  &quot;Illinois&quot;=4.0, &quot;Powder&quot;=4.0)
 
-ReportTheme &lt;- theme_bw() +
-  theme(axis.ticks.length = grid::unit(0, &quot;cm&quot;)) +
-  theme(axis.text = element_text(color=&quot;gray40&quot;)) +
-  theme(axis.title = element_text(color=&quot;gray40&quot;)) +
-  theme(panel.border = element_rect(color=&quot;gray80&quot;)) +
-  theme(axis.ticks = element_line(color=&quot;gray80&quot;)) +
-  theme(strip.background=element_rect(color=NA, fill=&quot;gray95&quot;))
+paletteBasinDark &lt;- scales::muted(c(&quot;Illinois&quot;=&quot;#dcebce&quot;, &quot;CookInlet&quot;=&quot;#fedcd4&quot;, &quot;Powder&quot;=&quot;#e4e2ee&quot;), l=80, c=60) #Matches Figs #1 &amp; #2, but unmuted)
+
+# dput(unique(dsLong$GeneCategory))
+geneCategoryRecode &lt;- c(
+  &quot;Antibiotic resistance&quot;   = &quot;AntibioticResistance&quot;,
+  &quot;Bacteria phage&quot;          = &quot;BacteriaPhage&quot;,
+  &quot;Bioleaching&quot;             = &quot;Bioleaching&quot;,
+  &quot;Carbon cycling&quot;          = &quot;CarbonCycling&quot;,
+  &quot;Methane Production&quot;      = &quot;MethaneProduction&quot;,
+  &quot;Energy process&quot;          = &quot;EnergyProcess&quot;,
+  &quot;Metal Resistance&quot;        = &quot;MetalResistance&quot;,
+  &quot;Nitrogen&quot;                = &quot;Nitrogen&quot;,
+  &quot;Organic Remediation&quot;     = &quot;OrganicRemediation&quot;,
+  &quot;other category&quot;          = &quot;Other&quot;,
+  &quot;Phosphorus&quot;              = &quot;Phosphorus&quot;,
+  &quot;Stress&quot;                  = &quot;Stress&quot;,
+  &quot;Sulfate Reduction&quot;       = &quot;SulfateReduction&quot;,
+  &quot;Sulfur Oxidation&quot;        = &quot;SulfurOxidation&quot;,
+  &quot;virulence&quot;               = &quot;Virulence&quot;,
+  &quot;Missing&quot;                 = &quot;Missing&quot;
+)
 
 #####################################
 </code></pre>
@@ -228,21 +243,19 @@ ReportTheme &lt;- theme_bw() +
 
 <!-- Load the datasets.   -->
 
-<pre><code class="r"># &#39;ds&#39; stands for &#39;datasets&#39;
-dsLong &lt;- read.csv(pathInputLong, stringsAsFactors=FALSE)
+<pre><code class="r">dsLong &lt;- read.csv(pathInputLong, stringsAsFactors=FALSE)
 
 # sapply(dsLong, class)
-
 #####################################
 </code></pre>
 
 <!-- Tweak the datasets.   -->
 
-<pre><code class="r"># a &lt;- as.integer(dsLong$GenbankID)
-# dsLong$GenbankID[is.na(a)]
-# dsLong$GenbankID &lt;- as.integer(dsLong$GenbankID)
+<pre><code class="r">dsLong &lt;- dsLong %&gt;%
+  dplyr::arrange(Basin, GeneCategory)
 
 dsLong$GeochipVersion &lt;- as.numeric(plyr::revalue(dsLong$Basin, replace=geochipBasinVersion))
+dsLong$GeneCategory &lt;- plyr::revalue(dsLong$GeneCategory, replace=geneCategoryRecode)
 
 #Reorder the substrates and basins.  The default alphabetical order isn&#39;t the most intuitive
 dsLong$Basin &lt;- factor(dsLong$Basin, levels=basinOrder)
@@ -266,13 +279,7 @@ table(dsLong$Basin)
    382800     18991     85032 
 </code></pre>
 
-<pre><code class="r">vennList &lt;- list(
-  &quot;Illinois\n(4.0)&quot; = dsLongBasinUnique[dsLongBasinUnique$Basin==&quot;Illinois&quot;, ]$GenbankID,
-  &quot;Cook Inlet\n(3.2)&quot; = dsLongBasinUnique[dsLongBasinUnique$Basin==&quot;CookInlet&quot;, ]$GenbankID,
-  &quot;Powder\n(4.0)&quot; = dsLongBasinUnique[dsLongBasinUnique$Basin==&quot;Powder&quot;, ]$GenbankID
-)
-# dsLong$Basin
-#####################################
+<pre><code class="r">#####################################
 </code></pre>
 
 <h1>Calculate Overlap</h1>
@@ -323,96 +330,96 @@ length(commonGenbankIDs)
 <pre><code>Source: local data frame [27 x 3]
 Groups: GeneCategory
 
-            GeneCategory GeochipVersion  Count
-1  Antibiotic resistance            3.2   1038
-2  Antibiotic resistance            4.0  17479
-3         Bacteria phage            4.0   2862
-4            Bioleaching            4.0   2952
-5         Carbon cycling            3.2   2814
-6         Carbon cycling            4.0  60046
-7         Energy process            3.2    365
-8         Energy process            4.0   5318
-9       Metal Resistance            3.2   3735
-10      Metal Resistance            4.0  57384
-11    Methane Production            3.2     47
-12    Methane Production            4.0   1203
-13               Missing            3.2    293
-14              Nitrogen            3.2   2118
-15              Nitrogen            4.0  40909
-16   Organic Remediation            3.2   6737
-17   Organic Remediation            4.0 120595
-18            Phosphorus            3.2    432
-19            Phosphorus            4.0   7560
-20                Stress            4.0 105907
-21     Sulfate Reduction            3.2    794
-22     Sulfate Reduction            4.0  13223
-23      Sulfur Oxidation            3.2    186
-24      Sulfur Oxidation            4.0   3191
-25        other category            3.2    432
-26        other category            4.0  10360
-27             virulence            4.0  18843
+           GeneCategory GeochipVersion  Count
+1  AntibioticResistance            3.2   1038
+2  AntibioticResistance            4.0  17479
+3         BacteriaPhage            4.0   2862
+4           Bioleaching            4.0   2952
+5         CarbonCycling            3.2   2814
+6         CarbonCycling            4.0  60046
+7         EnergyProcess            3.2    365
+8         EnergyProcess            4.0   5318
+9       MetalResistance            3.2   3735
+10      MetalResistance            4.0  57384
+11    MethaneProduction            3.2     47
+12    MethaneProduction            4.0   1203
+13              Missing            3.2    293
+14             Nitrogen            3.2   2118
+15             Nitrogen            4.0  40909
+16   OrganicRemediation            3.2   6737
+17   OrganicRemediation            4.0 120595
+18                Other            3.2    432
+19                Other            4.0  10360
+20           Phosphorus            3.2    432
+21           Phosphorus            4.0   7560
+22               Stress            4.0 105907
+23     SulfateReduction            3.2    794
+24     SulfateReduction            4.0  13223
+25      SulfurOxidation            3.2    186
+26      SulfurOxidation            4.0   3191
+27            Virulence            4.0  18843
 </code></pre>
 
 <pre><code class="r">dsLong %&gt;%
   dplyr::group_by(GeneCategory) %&gt;%
   dplyr::summarize(
     CountTotal = scales::comma(length(IsV32)),
-    CountV32 = scales::comma(sum(IsV32)),
-    CountV40 = scales::comma(sum(!IsV32))
+    CountV32   = scales::comma(sum(IsV32)),
+    CountV40   = scales::comma(sum(!IsV32))
   )
 </code></pre>
 
 <pre><code>Source: local data frame [16 x 4]
 
-            GeneCategory CountTotal CountV32 CountV40
-1  Antibiotic resistance     18,517    1,038   17,479
-2         Bacteria phage      2,862        0    2,862
-3            Bioleaching      2,952        0    2,952
-4         Carbon cycling     62,860    2,814   60,046
-5         Energy process      5,683      365    5,318
-6       Metal Resistance     61,119    3,735   57,384
-7     Methane Production      1,250       47    1,203
-8                Missing        293      293        0
-9               Nitrogen     43,027    2,118   40,909
-10   Organic Remediation    127,332    6,737  120,595
-11            Phosphorus      7,992      432    7,560
-12                Stress    105,907        0  105,907
-13     Sulfate Reduction     14,017      794   13,223
-14      Sulfur Oxidation      3,377      186    3,191
-15        other category     10,792      432   10,360
-16             virulence     18,843        0   18,843
+           GeneCategory CountTotal CountV32 CountV40
+1  AntibioticResistance     18,517    1,038   17,479
+2         BacteriaPhage      2,862        0    2,862
+3           Bioleaching      2,952        0    2,952
+4         CarbonCycling     62,860    2,814   60,046
+5         EnergyProcess      5,683      365    5,318
+6       MetalResistance     61,119    3,735   57,384
+7     MethaneProduction      1,250       47    1,203
+8               Missing        293      293        0
+9              Nitrogen     43,027    2,118   40,909
+10   OrganicRemediation    127,332    6,737  120,595
+11                Other     10,792      432   10,360
+12           Phosphorus      7,992      432    7,560
+13               Stress    105,907        0  105,907
+14     SulfateReduction     14,017      794   13,223
+15      SulfurOxidation      3,377      186    3,191
+16            Virulence     18,843        0   18,843
 </code></pre>
 
 <pre><code class="r">dsLongBasinProbeCount &lt;- dsLongBasinUnique %&gt;%
   dplyr::group_by(GeneCategory) %&gt;%
   dplyr::summarize(
-    Total = scales::comma(length(Basin)),
-    Illinois = scales::comma(sum(Basin==&quot;Illinois&quot;)),
+    Total     = scales::comma(length(Basin)),
+    Illinois  = scales::comma(sum(Basin==&quot;Illinois&quot;)),
     CookInlet = scales::comma(sum(Basin==&quot;CookInlet&quot;)),
-    Powder = scales::comma(sum(Basin==&quot;Powder&quot;))
+    Powder    = scales::comma(sum(Basin==&quot;Powder&quot;))
   )
 dsLongBasinProbeCount
 </code></pre>
 
 <pre><code>Source: local data frame [16 x 5]
 
-            GeneCategory  Total Illinois CookInlet Powder
-1  Antibiotic resistance  2,117      945       346    826
-2         Bacteria phage    314      146         0    168
-3            Bioleaching    309      156         0    153
-4         Carbon cycling  6,943    3,266       913  2,764
-5         Energy process    645      290       113    242
-6       Metal Resistance  6,946    3,128     1,202  2,616
-7     Methane Production    130       69        19     42
-8                Missing     96        0        96      0
-9               Nitrogen  4,842    2,219       717  1,906
-10   Organic Remediation 13,966    6,665     2,146  5,155
-11            Phosphorus    892      412       135    345
-12                Stress 10,689    5,741         0  4,948
-13     Sulfate Reduction  1,562      729       261    572
-14      Sulfur Oxidation    369      177        58    134
-15        other category  1,201      560       151    490
-16             virulence  1,914    1,017         0    897
+           GeneCategory  Total Illinois CookInlet Powder
+1  AntibioticResistance  2,117      945       346    826
+2         BacteriaPhage    314      146         0    168
+3           Bioleaching    309      156         0    153
+4         CarbonCycling  6,943    3,266       913  2,764
+5         EnergyProcess    645      290       113    242
+6       MetalResistance  6,946    3,128     1,202  2,616
+7     MethaneProduction    130       69        19     42
+8               Missing     96        0        96      0
+9              Nitrogen  4,842    2,219       717  1,906
+10   OrganicRemediation 13,966    6,665     2,146  5,155
+11                Other  1,201      560       151    490
+12           Phosphorus    892      412       135    345
+13               Stress 10,689    5,741         0  4,948
+14     SulfateReduction  1,562      729       261    572
+15      SulfurOxidation    369      177        58    134
+16            Virulence  1,914    1,017         0    897
 </code></pre>
 
 <pre><code class="r">#####################################
@@ -420,27 +427,34 @@ dsLongBasinProbeCount
 
 <h1>Venn Diagrams</h1>
 
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAJACAMAAABSRCkEAAAAgVBMVEUAAAAAADoAAGYAOmYAOpAAZrY6AAA6ADo6AGY6OgA6OmY6OpA6ZrY6kJA6kLY6kNtmAABmADpmAGZmOgBmOpBmkJBmtv+QOgCQOjqQOmaQZgCQkGaQtpCQ29uQ2/+2ZgC2Zjq225C2/7a2///bkDrb////tmb/25D//7b//9v////hQSSnAAAACXBIWXMAAAsSAAALEgHS3X78AAAXYUlEQVR4nO2diXbbSJJFYY/tclfNjLz0yOqlxJ4WLZn8/w9sJBauQGB5GZkRiXdPnZJFipkvkJcJgMRSHQkBqHIHIL6hQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAo3x9qmqeRh87vDjMXEas1CgMd4+vxyPv74+Dz1HgU5QoDEagYIpv75U71/CP95+ez6+fvhZ//5f37uHj2+/f6//v2Eo0BiNQMGZ3UPQZv9w3FePx/pH+L3+V/1j/7Fe0W18LqJAY7TbQPVM8+0lrMne/vj5r398PDw9h9/r+Sis3Op/NpptGQo0Rq9G+Nl48+9v///5350yu8d6DVZV754pUO4AZunV6Gag4+7//vvw9I+Px34G+vZy+VebhQKNcVKj3Qaqt3varaCLbaD6YQqUO4BZTmq0u1vtPtj7Zs+s3wt798wZiAIRCApEICgQgaBABIICEQgKNM0+fCXff39a73zV+/Rvf/zMm8kMFGiSVpbmI6DWo/3HTipCgWawC+a8/f69ESh8AB0+++k+iCYUaIpGlcPTn+0qLExH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" alt="plot of chunk PlotVennDiagrams"/> </p>
+<pre><code>[1] 1
+</code></pre>
 
-<h1>Questions</h1>
+<pre><code>./Analysis/GeneticOverlap/Figures/AntibioticResistance.tiff
+./Analysis/GeneticOverlap/Figures/BacteriaPhage.tiff
+./Analysis/GeneticOverlap/Figures/Bioleaching.tiff
+./Analysis/GeneticOverlap/Figures/CarbonCycling.tiff
+./Analysis/GeneticOverlap/Figures/EnergyProcess.tiff
+./Analysis/GeneticOverlap/Figures/MetalResistance.tiff
+./Analysis/GeneticOverlap/Figures/MethaneProduction.tiff
+./Analysis/GeneticOverlap/Figures/Missing.tiff
+./Analysis/GeneticOverlap/Figures/Nitrogen.tiff
+./Analysis/GeneticOverlap/Figures/OrganicRemediation.tiff
+./Analysis/GeneticOverlap/Figures/Other.tiff
+./Analysis/GeneticOverlap/Figures/Phosphorus.tiff
+./Analysis/GeneticOverlap/Figures/Stress.tiff
+./Analysis/GeneticOverlap/Figures/SulfateReduction.tiff
+./Analysis/GeneticOverlap/Figures/SulfurOxidation.tiff
+./Analysis/GeneticOverlap/Figures/Virulence.tiff
+</code></pre>
 
-<h2>Unanswered Questions</h2>
-
-<ol>
-<li>- - - </li>
-</ol>
-
-<h2>Answered Questions</h2>
-
-<ol>
-<li>- - - </li>
-</ol>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAJACAMAAABSRCkEAAAAhFBMVEUAAAAAADoAAGYAOmYAOpAAZrY6AAA6ADo6AGY6OgA6OmY6OpA6ZrY6kJA6kLY6kNtmAABmADpmAGZmOgBmOpBmkJBmtv+QOgCQOjqQOmaQZgCQkGaQtpCQ29uQ2/+2ZgC2Zjq225C2/7a2///bkDrb/9vb////tmb/25D//7b//9v///8hw+9LAAAACXBIWXMAAAsSAAALEgHS3X78AAAXnklEQVR4nO2dC3vbOJJFmWySyXZ2193pWccz023NjjW2I/7//7cEH3qz+LgooAq858sX27IF3CKOQFLio6oJAahyByC+oUAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggKN8f6lani4+7vDj8fEacxCgcZ4//pS1z9/e773Owp0hAKN0QoUTPn5a/XxJXzz/pfn+u3Ta/Pzf/zeP1y///J78/+GoUBjtAIFZ3YPQZv9Q72vHuvmS/i5+a75sv/crOg2PhdRoDG6baBmpvn+EtZk799e//mPz4en5/BzMx+FlVvzbavZlqFAYwxqhK+tN//6/n9f/9Urs3ts1mBV9eGZAuUOYJZBjX4Gqnf/+1+Hp398rocZ6PvL+V9tFgo0xlGNbhuo2e7ptoLOtoGahylQ7gBmOarR7W51+2Af2z2zYS/swzNnIApEICgQgaBABIICEQgKRCAo0BT74wfyw0eozf5Xs1v//u01WyZDUKAJzjxp3wXqPNp/Pjdry1CgCXaPQaHD03P44L0VKLwHHd7+6d+L3jgUSKax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xkyGSoHNVDIGB8vjIUtxsJpLxtpqzJ7RyTAbTMbUu9IGZ8R02E0mY2jQTMmcHMvZZIyM2+rbyM+PYXqMTIeTMTEJbVwf1wIlGb2JHiw4nBfr+SbIOwHkFzg/5gNOkHE9ZmIVmh0HESfINAlRnw4XIWVy7Adtfd/rhJOYMslnA+pzxE1QmaQzAvU5w1HUCRINawpVPQ2Kp6wTJBlazj5XOIs7gfLSVxfI1+TT4i7wBHpDUKmvwhzqU55ASsNw0ah+D47wmXqC2Gua2+bUO3CD2+ATRBuSURn1e3CB4+hTRBiYiSYijLxreQLO40+A7DbNeypiqe+pp8d/BZMst2jhM1ZomuIdpTSUUcUkVTVvyGb+2foe5gZxQ0GlzKA6Mfko2oFSD9YorqC5jAy1Tg86HZig5NpIAigQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCBoEAEggIRCApEICgQgaBABIICEQgKRCAoEIGgQASCAhEICkQgKBCB+H8im6SYT4GSfQAAAABJRU5ErkJggg==" alt="plot of chunk PlotVennDiagrams"/> </p>
 
 <h1>Session Information</h1>
 
 <p>For the sake of documentation and reproducibility, the current report was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 2015-07-03, 14:45 -0500
+<pre><code>Report created by Will at 2015-07-03, 16:55 -0500
 </code></pre>
 
 <pre><code>R version 3.2.1 Patched (2015-06-18 r68542)
@@ -452,17 +466,16 @@ locale:
 [4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] magrittr_1.5  ggplot2_1.0.1 knitr_1.10.5 
+[1] VennDiagram_1.6.9 magrittr_1.5      knitr_1.10.5     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.11.6        MASS_7.3-41        munsell_0.4.2      colorspace_1.2-6   R6_2.0.1           stringr_1.0.0     
- [7] plyr_1.8.3         dplyr_0.4.2        caTools_1.17.1     tools_3.2.1        parallel_3.2.1     grid_3.2.1        
-[13] gtable_0.1.2       KernSmooth_2.23-14 DBI_0.3.1          gtools_3.5.0       lazyeval_0.1.10    assertthat_0.1    
-[19] digest_0.6.8       reshape2_1.4.1     RColorBrewer_1.1-2 formatR_1.2        bitops_1.0-6       evaluate_0.7      
-[25] gdata_2.16.1       stringi_0.5-5      gplots_2.17.0      scales_0.2.5       proto_0.3-10      
+ [1] Rcpp_0.11.6        gtools_3.5.0       dplyr_0.4.2        assertthat_0.1     bitops_1.0-6       R6_2.0.1          
+ [7] plyr_1.8.3         DBI_0.3.1          formatR_1.2        evaluate_0.7       scales_0.2.5       KernSmooth_2.23-14
+[13] gplots_2.17.0      stringi_0.5-5      lazyeval_0.1.10    gdata_2.16.1       RColorBrewer_1.1-2 tools_3.2.1       
+[19] stringr_1.0.0      munsell_0.4.2      parallel_3.2.1     colorspace_1.2-6   caTools_1.17.1    
 </code></pre>
 
 </body>
