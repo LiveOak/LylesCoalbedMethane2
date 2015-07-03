@@ -145,6 +145,8 @@ plotVenn <- function( vennList, pathGraph ) {
     height = 2000,
     width = 2000,
     cat.pos = c(330, 30, 180),
+    euler.d = FALSE,
+    scaled = FALSE,
     col = "transparent",
     fill = paletteBasinDark,
     alpha = 0.50,
@@ -154,13 +156,12 @@ plotVenn <- function( vennList, pathGraph ) {
   )
 }
 
-plotVenn(vennListTotal, pathVennTotal)
-
 vennListTotal <- list(
   "Illinois\n(v4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
   "Cook Inlet\n(v3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
   "Powder\n(v4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
 )
+plotVenn(vennListTotal, pathVennTotal)
 
 for( category in sort(unique(dsLongBasinUnique$GeneCategory))) {
   pathVennCategory <- paste0(file.path(pathVennDirectory, category), ".tiff")
