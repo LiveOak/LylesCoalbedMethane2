@@ -5,8 +5,9 @@ requireNamespace("dplyr")
 requireNamespace("plyr")
 requireNamespace("scales") #For formating values in graphs
 requireNamespace("RColorBrewer")
-requireNamespace("grid") #For graphing
-requireNamespace("gplots") #For graphing
+library("grid") #For graphing
+requireNamespace("gplots") #For a simple venn diagram
+requireNamespace("VennDiagram")
 library(ggplot2) #For graphing
 library(magrittr)
 # library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
@@ -15,10 +16,36 @@ library(magrittr)
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
 pathInputLong <- "./Data/Derived/Unpacked.csv"
-# pathInputWide <- "./Data/Derived/AllBasinsWide.csv"
+pathVennDirectory <- "./Analysis/GeneticOverlap/Figures"
+pathVennTotal <- file.path(pathVennDirectory, "AllCategories.tiff")
 
 basinOrder <- c("Illinois", "CookInlet", "Powder")
 geochipBasinVersion <- c("CookInlet"=3.2,  "Illinois"=4.0, "Powder"=4.0)
+
+# paletteBasinDark <- c(RColorBrewer::brewer.pal(n=length(sitesIllinois), "Dark2"), RColorBrewer::brewer.pal(n=length(sitesCook), "Set1"), RColorBrewer::brewer.pal(n=length(sitesPowder), "Dark2"))
+paletteBasinDark <- scales::muted(c("Illinois"="#dcebce", "CookInlet"="#fedcd4", "Powder"="#e4e2ee"), l=80, c=60) #Matches Figs #1 & #2, but unmuted)
+
+# paletteSiteLight <- grDevices::adjustcolor(paletteSiteDark, alpha.f=.5)
+# names(paletteSiteLight) <- c(sitesIllinois, sitesCook, sitesPowder)
+# dput(unique(dsLong$GeneCategory))
+geneCategoryRecode <- c(
+  "Antibiotic resistance"   = "AntibioticResistance",
+  "Bacteria phage"          = "BacteriaPhage",
+  "Bioleaching"             = "Bioleaching",
+  "Carbon cycling"          = "CarbonCycling",
+  "Methane Production"      = "MethaneProduction",
+  "Energy process"          = "EnergyProcess",
+  "Metal Resistance"        = "MetalResistance",
+  "Nitrogen"                = "Nitrogen",
+  "Organic Remediation"     = "OrganicRemediation",
+  "other category"          = "Other",
+  "Phosphorus"              = "Phosphorus",
+  "Stress"                  = "Stress",
+  "Sulfate Reduction"       = "SulfateReduction",
+  "Sulfur Oxidation"        = "SulfurOxidation",
+  "virulence"               = "Virulence",
+  "Missing"                 = "Missing"
+)
 
 ReportTheme <- theme_bw() +
   theme(axis.ticks.length = grid::unit(0, "cm")) +
@@ -37,11 +64,11 @@ dsLong <- read.csv(pathInputLong, stringsAsFactors=FALSE)
 
 #####################################
 ## @knitr TweakData
-# a <- as.integer(dsLong$GenbankID)
-# dsLong$GenbankID[is.na(a)]
-# dsLong$GenbankID <- as.integer(dsLong$GenbankID)
+dsLong <- dsLong %>%
+  dplyr::arrange(Basin, GeneCategory)
 
 dsLong$GeochipVersion <- as.numeric(plyr::revalue(dsLong$Basin, replace=geochipBasinVersion))
+dsLong$GeneCategory <- plyr::revalue(dsLong$GeneCategory, replace=geneCategoryRecode)
 
 #Reorder the substrates and basins.  The default alphabetical order isn't the most intuitive
 dsLong$Basin <- factor(dsLong$Basin, levels=basinOrder)
@@ -59,10 +86,10 @@ dsLongBasinUnique <- dsLong %>%
   
 table(dsLong$Basin)
 
-vennList <- list(
-  "Illinois\n(4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
-  "Cook Inlet\n(3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
-  "Powder\n(4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
+vennListTotal <- list(
+  "Illinois\n(v.40)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
+  "Cook Inlet\n(v3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
+  "Powder\n(v4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
 )
 # dsLong$Basin
 #####################################
@@ -109,8 +136,56 @@ dsLongBasinProbeCount
 
 #####################################
 ## @knitr PlotVennDiagrams
+library(VennDiagram)  
 
-gplots::venn(vennList)
+plotVenn <- function( vennList, pathGraph ) {
+  VennDiagram::venn.diagram(
+    x = vennList,
+    filename = pathGraph,
+    height = 2000,
+    width = 2000,
+    cat.pos = c(330, 30, 180),
+    col = "transparent",
+    fill = paletteBasinDark,
+    alpha = 0.50,
+    cex = 1.5,
+    fontface = "bold",
+    margin = 0.0
+  )
+}
+
+plotVenn(vennListTotal, pathVennTotal)
+
+vennListTotal <- list(
+  "Illinois\n(v4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
+  "Cook Inlet\n(v3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
+  "Powder\n(v4.0)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
+)
+
+for( category in sort(unique(dsLongBasinUnique$GeneCategory))) {
+  pathVennCategory <- paste0(file.path(pathVennDirectory, category), ".tiff")
+  message(pathVennCategory)
+  
+  vennListCategory <- list(
+    "Illinois\n(V4.0)"   = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois"  & dsLongBasinUnique$GeneCategory==category, ]$GenbankID,
+    "Cook Inlet\n(V3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet" & dsLongBasinUnique$GeneCategory==category, ]$GenbankID,
+    "Powder\n(V4.0)"     = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder"    & dsLongBasinUnique$GeneCategory==category, ]$GenbankID
+  )
+  
+  plotVenn(vennListCategory, pathVennCategory)
+}
+
+# venn.plot
+# pushViewport(plotViewport())
+
+# grid.newpage()
+# pushViewport(viewport())
+# print(venn.plot, newpage=F)
+# # print(lattice::barchart(table(mtcars$gear)), newpage=F)
+# popViewport(0)
+
+gplots::venn(vennListTotal)
+
 
 #####################################
 ## @knitr Marginals
