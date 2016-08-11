@@ -124,7 +124,7 @@ ggplot(dsLongIllinois, aes(x=TotalAdjusted)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals-1.png) 
+![plot of chunk Marginals](Figures/Marginals-1.png)
 
 ```r
 ggplot(dsLongIllinois, aes(x=AdjustedRate)) + 
@@ -134,7 +134,7 @@ ggplot(dsLongIllinois, aes(x=AdjustedRate)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals-2.png) 
+![plot of chunk Marginals](Figures/Marginals-2.png)
 
 ```r
 ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) + 
@@ -144,7 +144,7 @@ ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals-3.png) 
+![plot of chunk Marginals](Figures/Marginals-3.png)
 
 ```r
 ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) + 
@@ -154,7 +154,7 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals-4.png) 
+![plot of chunk Marginals](Figures/Marginals-4.png)
 
 ```r
 #####################################
@@ -163,17 +163,17 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
 # Scatterplots
 The first pair scatterplot matrices are for the *quantity* of genes, while the second pair is the count of *unique* genes.  Within each pair, the first scatterplot matrix has all replicates (2 incubation and 3 microarray replications per site), while the second within each pair shows a site's average across the replicates.
 
-![plot of chunk Scatterplots](Figures/Scatterplots-1.png) ![plot of chunk Scatterplots](Figures/Scatterplots-2.png) ![plot of chunk Scatterplots](Figures/Scatterplots-3.png) 
+![plot of chunk Scatterplots](Figures/Scatterplots-1.png)![plot of chunk Scatterplots](Figures/Scatterplots-2.png)![plot of chunk Scatterplots](Figures/Scatterplots-3.png)
 
 ```
 Error in inherits(x, "theme"): object 'gQuantity' not found
 ```
 
-![plot of chunk Scatterplots](Figures/Scatterplots-4.png) 
+![plot of chunk Scatterplots](Figures/Scatterplots-4.png)
 
 The these scatterplots combine the site means, with the individual replicate measurements.  The rectangles show the range for each Substrate-by-Site group of measurements.  In these two graphs, the **total** methane produced is shown.
 
-![plot of chunk LayeredScatterplotsTotal](Figures/LayeredScatterplotsTotal-1.png) ![plot of chunk LayeredScatterplotsTotal](Figures/LayeredScatterplotsTotal-2.png) 
+![plot of chunk LayeredScatterplotsTotal](Figures/LayeredScatterplotsTotal-1.png)![plot of chunk LayeredScatterplotsTotal](Figures/LayeredScatterplotsTotal-2.png)
 
 |Basin                |Substrate  | CorrRateUnique| CorrRateQuantity| CorrTotalUnique| CorrTotalQuantity|
 |:--------------------|:----------|--------------:|----------------:|---------------:|-----------------:|
@@ -195,7 +195,7 @@ The these scatterplots combine the site means, with the individual replicate mea
 
 In these two graphs, the **rate** of methane produced is shown.
 
-![plot of chunk LayeredScatterplotsRate](Figures/LayeredScatterplotsRate-1.png) ![plot of chunk LayeredScatterplotsRate](Figures/LayeredScatterplotsRate-2.png) 
+![plot of chunk LayeredScatterplotsRate](Figures/LayeredScatterplotsRate-1.png)![plot of chunk LayeredScatterplotsRate](Figures/LayeredScatterplotsRate-2.png)
 
 # Questions
 ## Unanswered Questions
@@ -209,12 +209,13 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2014-12-18, 11:09 -0600
+Report created by Will at 2016-08-11, 13:52 -0500
 ```
 
 ```
-R version 3.1.2 Patched (2014-12-11 r67168)
+R version 3.3.1 Patched (2016-06-24 r70831)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows >= 8 x64 (build 9200)
 
 locale:
 [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
@@ -224,10 +225,10 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_1.0.0      RColorBrewer_1.1-2 scales_0.2.4       plyr_1.8.1         knitr_1.8         
+[1] ggplot2_2.1.0      RColorBrewer_1.1-2 scales_0.4.0       plyr_1.8.4         knitr_1.13        
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4 digest_0.6.6     evaluate_0.5.5   formatR_1.0      gtable_0.1.2     labeling_0.3    
- [7] MASS_7.3-35      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.3      reshape2_1.4.1   stringr_0.6.2   
-[13] tools_3.1.2     
+ [1] Rcpp_0.12.6      gtable_0.2.0     formatR_1.4      magrittr_1.5     evaluate_0.9     highr_0.6       
+ [7] stringi_1.1.1    reshape2_1.4.1   labeling_0.3     tools_3.3.1      stringr_1.0.0    munsell_0.4.3   
+[13] colorspace_1.2-6
 ```
