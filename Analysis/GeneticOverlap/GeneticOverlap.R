@@ -197,16 +197,17 @@ ds_long_intersection_basin <- dsLong %>%
   dplyr::filter(GeneCategory %in% categoriesToDisplay)
 
 # ---- display-table ----------------------------------------------------------
+# webshot::install_phantomjs()
 DT::datatable(
   data         = ds_long_intersection_basin,
   filter       = "bottom",
-  # caption      = paste("Violations at", Sys.time()),
+  caption      = "Site Count for Genes Found in All Three Basins",
   escape       = FALSE,
-  options      = list(pageLength = 30, dom = 'tip')
+  options      = list(pageLength=20, dom = 'tip')
 )
 
 ds_long_intersection_basin %>% 
-  head(20) %>%
+  # head(20) %>%
   knitr::kable(
     x           = .,
     #col.names   = c("Model", "Year", "Referral Out (children)", "referral out (adults)", "asq3", "asqse", "audio refer", "visual screen", "edinburgh total", "violence screen", "injury education"),
