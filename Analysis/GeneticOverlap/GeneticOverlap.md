@@ -29,6 +29,7 @@ requireNamespace("VennDiagram")
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
 pathInputLong <- "./Data/Derived/Unpacked.csv"
+pathOutputGenesByBasin <- "./Data/Derived/GeneByBasin.csv"
 pathVennDirectory <- "./Analysis/GeneticOverlap/Figures"
 pathVennTotal <- file.path(pathVennDirectory, "AllCategories.tiff")
 
@@ -55,6 +56,12 @@ geneCategoryRecode <- c(
   "Sulfur Oxidation"        = "SulfurOxidation",
   "virulence"               = "Virulence",
   "Missing"                 = "Missing"
+)
+
+
+categoriesToDisplay <- c(
+  "CarbonCycling", "MethaneProduction", "EnergyProcess", "MetalResistance",
+  "Nitrogen", "OrganicRemediation", "Phosphorus", "SulfateReduction", "SulfurOxidation"
 )
 
 #####################################
@@ -119,9 +126,9 @@ dsLong %>%
 ```
 
 ```
-Source: local data frame [2 x 2]
-
+# A tibble: 2 x 2
   GeochipVersion  Count
+           <dbl>  <int>
 1            3.2  18991
 2            4.0 467832
 ```
@@ -164,9 +171,10 @@ print(
 
 ```
 Source: local data frame [27 x 3]
-Groups: GeneCategory
+Groups: GeneCategory [?]
 
            GeneCategory GeochipVersion  Count
+                  <chr>          <dbl>  <int>
 1  AntibioticResistance            3.2   1038
 2  AntibioticResistance            4.0  17479
 3         BacteriaPhage            4.0   2862
@@ -207,9 +215,9 @@ dsLong %>%
 ```
 
 ```
-Source: local data frame [16 x 4]
-
+# A tibble: 16 x 4
            GeneCategory CountTotal CountV32 CountV40
+                  <chr>      <chr>    <chr>    <chr>
 1  AntibioticResistance     18,517    1,038   17,479
 2         BacteriaPhage      2,862        0    2,862
 3           Bioleaching      2,952        0    2,952
@@ -241,9 +249,9 @@ dsLongBasinProbeCount
 ```
 
 ```
-Source: local data frame [16 x 5]
-
+# A tibble: 16 x 5
            GeneCategory  Total Illinois CookInlet Powder
+                  <chr>  <chr>    <chr>     <chr>  <chr>
 1  AntibioticResistance  2,117      945       346    826
 2         BacteriaPhage    314      146         0    168
 3           Bioleaching    309      156         0    153
@@ -269,42 +277,192 @@ Source: local data frame [16 x 5]
 # Venn Diagrams
 
 ```
+Loading required package: futile.logger
+```
+
+```
 [1] 1
 ```
 
 ```
 ./Analysis/GeneticOverlap/Figures/AntibioticResistance.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/BacteriaPhage.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/Bioleaching.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/CarbonCycling.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/EnergyProcess.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/MetalResistance.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/MethaneProduction.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/Missing.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/Nitrogen.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/OrganicRemediation.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/Other.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/Phosphorus.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/Stress.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/SulfateReduction.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/SulfurOxidation.tiff
+```
+
+```
 ./Analysis/GeneticOverlap/Figures/Virulence.tiff
 ```
 
-![plot of chunk PlotVennDiagrams](Figures/PlotVennDiagrams-1.png) 
+![plot of chunk PlotVennDiagrams](Figures/PlotVennDiagrams-1.png)
+
+# Display Table
+
+```r
+ds_intersection <- dplyr::bind_rows(intersection_list, .id="category")
+```
+
+```
+Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character
+```
+
+```r
+ds_long_intersection_basin <- dsLong %>% 
+  tibble::as_tibble() %>% 
+  dplyr::right_join(ds_intersection, by="GenbankID" ) %>% 
+  dplyr::group_by(GeneCategory, GenbankID, Basin) %>% 
+  dplyr::summarize(
+    unique_site_count    = dplyr::n_distinct(Site)
+  ) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::left_join( #Force it to take the V4.0 GeneName.  Sometimes the 3.2 and 4.0 versions differ.
+    dsLong %>% 
+      dplyr::filter(!IsV32) %>% 
+      dplyr::distinct(GenbankID, GeneName),
+    by="GenbankID"
+  ) %>% 
+  tidyr::spread(key=Basin, value=unique_site_count) %>% 
+  dplyr::filter(GeneCategory %in% categoriesToDisplay)
+```
+
+
+```r
+DT::datatable(
+  data         = ds_long_intersection_basin,
+  filter       = "bottom",
+  # caption      = paste("Violations at", Sys.time()),
+  escape       = FALSE,
+  options      = list(pageLength = 30, dom = 'tip')
+)
+```
+
+```
+PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
+```
+
+```
+Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]=".\webshot57e429d81f2.png": The system cannot
+find the file specified
+```
+
+```
+Warning in file(con, "rb"): cannot open file 'C:\Users\Will\AppData\Local\Temp\RtmpGUy8cw
+\file57e427476116\webshot57e429d81f2.png': No such file or directory
+```
+
+```
+Error in file(con, "rb"): cannot open the connection
+```
+
+```r
+ds_long_intersection_basin %>% 
+  head(20) %>%
+  knitr::kable(
+    x           = .,
+    #col.names   = c("Model", "Year", "Referral Out (children)", "referral out (adults)", "asq3", "asqse", "audio refer", "visual screen", "edinburgh total", "violence screen", "injury education"),
+    col.names   = c("Gene Category", "Genbank ID", "Gene Name", "Illinois Site Count", "Cook Inlet Site Count", "Powder Site Count"),
+    align       = c("l", "r", "l", "r", "r", "r"),
+    row.names   = FALSE,
+    format      = "markdown"
+  )
+```
+
+
+
+|Gene Category | Genbank ID|Gene Name     | Illinois Site Count| Cook Inlet Site Count| Powder Site Count|
+|:-------------|----------:|:-------------|-------------------:|---------------------:|-----------------:|
+|CarbonCycling |   10175887|amyX          |                   5|                     5|                 4|
+|CarbonCycling |   10184710|vdh           |                   5|                     2|                 4|
+|CarbonCycling |  103488518|xylanase      |                   5|                     3|                 4|
+|CarbonCycling |  104304159|pmoA          |                   5|                     5|                 4|
+|CarbonCycling |  106769175|FTHFS         |                   5|                     2|                 4|
+|CarbonCycling |  106771910|pcc           |                   5|                     2|                 4|
+|CarbonCycling |  106889690|ara           |                   5|                     5|                 4|
+|CarbonCycling |  108460873|exochitinase  |                   5|                     2|                 4|
+|CarbonCycling |  108766126|AceA          |                   5|                     3|                 4|
+|CarbonCycling |  109455731|vanA          |                   5|                     5|                 4|
+|CarbonCycling |  109456619|AceB          |                   5|                     3|                 4|
+|CarbonCycling |  110827739|ara           |                   5|                     2|                 4|
+|CarbonCycling |  111021049|pcc           |                   5|                     2|                 4|
+|CarbonCycling |  111220842|CDH           |                   5|                     2|                 4|
+|CarbonCycling |  111223515|camDCAB       |                   5|                     2|                 4|
+|CarbonCycling |  111281411|pcc           |                   5|                     5|                 4|
+|CarbonCycling |  111611107|pcc           |                   5|                     5|                 4|
+|CarbonCycling |  112955899|endochitinase |                   5|                     5|                 4|
+|CarbonCycling |  113731760|pcc           |                   5|                     2|                 4|
+|CarbonCycling |  113897923|amyA          |                   5|                     5|                 4|
+
+```r
+readr::write_csv(ds_long_intersection_basin, pathOutputGenesByBasin)
+# sum(ds_long_intersection_basin$GeneCategory=="CarbonCycling")
+```
 
 # Session Information
 For the sake of documentation and reproducibility, the current report was build on a system using the following software.
 
 
 ```
-Report created by Will at 2015-07-03, 16:55 -0500
+Report created by Will at 2016-08-11, 15:02 -0500
 ```
 
 ```
-R version 3.2.1 Patched (2015-06-18 r68542)
+R version 3.3.1 Patched (2016-06-24 r70831)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 8 x64 (build 9200)
+Running under: Windows >= 8 x64 (build 9200)
 
 locale:
 [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
@@ -314,11 +472,14 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] VennDiagram_1.6.9 magrittr_1.5      knitr_1.10.5     
+[1] VennDiagram_1.6.17  futile.logger_1.4.3 magrittr_1.5        knitr_1.13         
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.11.6        gtools_3.5.0       dplyr_0.4.2        assertthat_0.1     bitops_1.0-6       R6_2.0.1          
- [7] plyr_1.8.3         DBI_0.3.1          formatR_1.2        evaluate_0.7       scales_0.2.5       KernSmooth_2.23-14
-[13] gplots_2.17.0      stringi_0.5-5      lazyeval_0.1.10    gdata_2.16.1       RColorBrewer_1.1-2 tools_3.2.1       
-[19] stringr_1.0.0      munsell_0.4.2      parallel_3.2.1     colorspace_1.2-6   caTools_1.17.1    
+ [1] Rcpp_0.12.6          munsell_0.4.3        colorspace_1.2-6     R6_2.1.2             highr_0.6           
+ [6] stringr_1.0.0        plyr_1.8.4           dplyr_0.5.0          caTools_1.17.1       tools_3.3.1         
+[11] webshot_0.3.2        DT_0.2               KernSmooth_2.23-15   DBI_0.4-1            lambda.r_1.1.9      
+[16] htmltools_0.3.5      gtools_3.5.0         yaml_2.1.13          digest_0.6.10        lazyeval_0.2.0      
+[21] assertthat_0.1       tibble_1.1           readr_1.0.0          RColorBrewer_1.1-2   formatR_1.4         
+[26] tidyr_0.5.1          htmlwidgets_0.7      futile.options_1.0.0 bitops_1.0-6         evaluate_0.9        
+[31] gdata_2.17.0         stringi_1.1.1        gplots_3.0.1         scales_0.4.0         jsonlite_1.0        
 ```

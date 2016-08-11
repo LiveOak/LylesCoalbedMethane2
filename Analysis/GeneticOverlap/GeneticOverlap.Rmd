@@ -57,6 +57,16 @@ read_chunk("./Analysis/GeneticOverlap/GeneticOverlap.R") #This allows knitr to c
 ```{r PlotVennDiagrams, echo=F, message=TRUE, fig.width = 8, fig.height = 8}
 ```
 
+# Display Table
+
+To download the CSV, please go to `r pathOutputGenesByBasin` at [https://github.com/LiveOak/LylesCoalbedMethane2](https://github.com/LiveOak/LylesCoalbedMethane2).
+
+```{r DetermineIntersection, echo=echoChunks, message=TRUE, results='asis'}
+```
+
+```{r display-table, echo=echoChunks, message=TRUE, results='asis'}
+```
+
 # Session Information
 For the sake of documentation and reproducibility, the current report was build on a system using the following software.
 

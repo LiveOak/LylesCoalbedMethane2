@@ -15,6 +15,7 @@ requireNamespace("VennDiagram")
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
 pathInputLong <- "./Data/Derived/Unpacked.csv"
+pathOutputGenesByBasin <- "./Data/Derived/GeneByBasin.csv"
 pathVennDirectory <- "./Analysis/GeneticOverlap/Figures"
 pathVennTotal <- file.path(pathVennDirectory, "AllCategories.tiff")
 
@@ -41,6 +42,12 @@ geneCategoryRecode <- c(
   "Sulfur Oxidation"        = "SulfurOxidation",
   "virulence"               = "Virulence",
   "Missing"                 = "Missing"
+)
+
+
+categoriesToDisplay <- c(
+  "CarbonCycling", "MethaneProduction", "EnergyProcess", "MetalResistance",
+  "Nitrogen", "OrganicRemediation", "Phosphorus", "SulfateReduction", "SulfurOxidation"
 )
 
 #####################################
@@ -143,7 +150,9 @@ vennListTotal <- list(
 )
 plotVenn(vennListTotal, pathVennTotal)
 
-for( category in sort(unique(dsLongBasinUnique$GeneCategory))) {
+intersection_list <- list()# dplyr::n_distinct(dsLongBasinUnique$GeneCategory))
+for( category in sort(unique(dsLongBasinUnique$GeneCategory)) ) {
+  # category <- "CarbonCycling"
   pathVennCategory <- paste0(file.path(pathVennDirectory, category), ".tiff")
   message(pathVennCategory)
   
@@ -154,7 +163,59 @@ for( category in sort(unique(dsLongBasinUnique$GeneCategory))) {
   )
   
   plotVenn(vennListCategory, pathVennCategory)
+  
+  #Create a list of data.frames
+  intersection_list[[category]] <- data.frame(
+    GenbankID = vennListCategory[[1]] %>% 
+      intersect(vennListCategory[[2]]) %>% 
+      intersect(vennListCategory[[3]])
+  )
 }
 
 gplots::venn(vennListTotal)
 
+
+#####################################
+## @knitr DetermineIntersection
+
+ds_intersection <- dplyr::bind_rows(intersection_list, .id="category")
+ds_long_intersection_basin <- dsLong %>% 
+  tibble::as_tibble() %>% 
+  dplyr::right_join(ds_intersection, by="GenbankID" ) %>% 
+  dplyr::group_by(GeneCategory, GenbankID, Basin) %>% 
+  dplyr::summarize(
+    unique_site_count    = dplyr::n_distinct(Site)
+  ) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::left_join( #Force it to take the V4.0 GeneName.  Sometimes the 3.2 and 4.0 versions differ.
+    dsLong %>% 
+      dplyr::filter(!IsV32) %>% 
+      dplyr::distinct(GenbankID, GeneName),
+    by="GenbankID"
+  ) %>% 
+  tidyr::spread(key=Basin, value=unique_site_count) %>% 
+  dplyr::filter(GeneCategory %in% categoriesToDisplay)
+
+# ---- display-table ----------------------------------------------------------
+DT::datatable(
+  data         = ds_long_intersection_basin,
+  filter       = "bottom",
+  # caption      = paste("Violations at", Sys.time()),
+  escape       = FALSE,
+  options      = list(pageLength = 30, dom = 'tip')
+)
+
+ds_long_intersection_basin %>% 
+  head(20) %>%
+  knitr::kable(
+    x           = .,
+    #col.names   = c("Model", "Year", "Referral Out (children)", "referral out (adults)", "asq3", "asqse", "audio refer", "visual screen", "edinburgh total", "violence screen", "injury education"),
+    col.names   = c("Gene Category", "Genbank ID", "Gene Name", "Illinois Site Count", "Cook Inlet Site Count", "Powder Site Count"),
+    align       = c("l", "r", "l", "r", "r", "r"),
+    row.names   = FALSE,
+    format      = "markdown"
+  )
+    
+
+readr::write_csv(ds_long_intersection_basin, pathOutputGenesByBasin)
+# sum(ds_long_intersection_basin$GeneCategory=="CarbonCycling")
