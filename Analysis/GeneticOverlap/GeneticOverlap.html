@@ -446,6 +446,8 @@ dsLongBasinProbeCount
 
 <p>To <a href="https://github.com/LiveOak/LylesCoalbedMethane2/blob/master/Data/Derived/GeneByBasin.csv">download the CSV</a>, please go to ./Data/Derived/GeneByBasin.csv at <a href="https://github.com/LiveOak/LylesCoalbedMethane2">https://github.com/LiveOak/LylesCoalbedMethane2</a>.</p>
 
+<p>The Illinois Basin and Cook Inlet Gas Field each contained 5 sites that DNA was amplified, while the Powder River Basin contained 4.  See the paper and supplemental information for additional details. </p>
+
 <pre><code class="r">ds_intersection &lt;- dplyr::bind_rows(intersection_list, .id=&quot;category&quot;)
 </code></pre>
 
@@ -15934,11 +15936,11 @@ DT::datatable(
 # sum(ds_long_intersection_basin$GeneCategory==&quot;CarbonCycling&quot;)
 </code></pre>
 
-Session Information</h1>
+<h1>Session Information</h1>
 
 <p>For the sake of documentation and reproducibility, the current report was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 2016-08-11, 15:29 -0500
+<pre><code>Report created by Will at 2016-08-11, 15:46 -0500
 </code></pre>
 
 <pre><code>R version 3.3.1 Patched (2016-06-24 r70831)

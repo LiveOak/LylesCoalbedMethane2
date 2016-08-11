@@ -289,6 +289,9 @@ The Venn diagrams are [available to download on GitHub](https://github.com/LiveO
 To [download the CSV](https://github.com/LiveOak/LylesCoalbedMethane2/blob/master/Data/Derived/GeneByBasin.csv), please go to ./Data/Derived/GeneByBasin.csv at [https://github.com/LiveOak/LylesCoalbedMethane2](https://github.com/LiveOak/LylesCoalbedMethane2).
 
 
+The Illinois Basin and Cook Inlet Gas Field each contained 5 sites that DNA was amplified, while the Powder River Basin contained 4.  See the paper and supplemental information for additional details. 
+
+
 ```r
 ds_intersection <- dplyr::bind_rows(intersection_list, .id="category")
 ```
@@ -2286,7 +2289,7 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2016-08-11, 15:29 -0500
+Report created by Will at 2016-08-11, 15:46 -0500
 ```
 
 ```
