@@ -64,6 +64,17 @@ categoriesToDisplay <- c(
   "Nitrogen", "OrganicRemediation", "Phosphorus", "SulfateReduction", "SulfurOxidation"
 )
 
+col_types <- readr::cols_only(
+  GenbankID             = readr::col_character(),  # Force it to be read as a string.
+  GeneName              = readr::col_character(),
+  GeneCategory          = readr::col_character(),
+  Replicate             = readr::col_integer(),
+  Site                  = readr::col_integer(),
+  Abundance             = readr::col_double(),
+  Basin                 = readr::col_character(),
+  AbundanceWithFloor    = readr::col_double()
+)
+
 #####################################
 ```
 
@@ -73,7 +84,7 @@ categoriesToDisplay <- c(
 <!-- Load the datasets.   -->
 
 ```r
-dsLong <- read.csv(pathInputLong, stringsAsFactors=FALSE)
+dsLong <- readr::read_csv(pathInputLong, col_types=col_types)
 
 # sapply(dsLong, class)
 #####################################
@@ -126,7 +137,7 @@ dsLong %>%
 ```
 
 ```
-# A tibble: 2 x 2
+# A tibble: 2 × 2
   GeochipVersion  Count
            <dbl>  <int>
 1            3.2  18991
@@ -215,7 +226,7 @@ dsLong %>%
 ```
 
 ```
-# A tibble: 16 x 4
+# A tibble: 16 × 4
            GeneCategory CountTotal CountV32 CountV40
                   <chr>      <chr>    <chr>    <chr>
 1  AntibioticResistance     18,517    1,038   17,479
@@ -249,7 +260,7 @@ dsLongBasinProbeCount
 ```
 
 ```
-# A tibble: 16 x 5
+# A tibble: 16 × 5
            GeneCategory  Total Illinois CookInlet Powder
                   <chr>  <chr>    <chr>     <chr>  <chr>
 1  AntibioticResistance  2,117      945       346    826
@@ -2289,30 +2300,31 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2016-08-11, 15:46 -0500
+Report created by wibeasley at 2017-02-23, 23:47 -0600
 ```
 
 ```
-R version 3.3.1 Patched (2016-06-24 r70831)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows >= 8 x64 (build 9200)
+R version 3.3.1 (2016-06-21)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 16.04.2 LTS
 
 locale:
-[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] VennDiagram_1.6.17  futile.logger_1.4.3 magrittr_1.5        knitr_1.13         
+[1] VennDiagram_1.6.17  futile.logger_1.4.3 bindrcpp_0.1        magrittr_1.5        knitr_1.15.1       
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.6          munsell_0.4.3        colorspace_1.2-6     R6_2.1.2             highr_0.6           
- [6] stringr_1.0.0        plyr_1.8.4           dplyr_0.5.0          caTools_1.17.1       tools_3.3.1         
-[11] webshot_0.3.2        DT_0.2               KernSmooth_2.23-15   DBI_0.4-1            lambda.r_1.1.9      
-[16] htmltools_0.3.5      gtools_3.5.0         yaml_2.1.13          digest_0.6.10        lazyeval_0.2.0      
-[21] assertthat_0.1       tibble_1.1           readr_1.0.0          RColorBrewer_1.1-2   formatR_1.4         
-[26] tidyr_0.5.1          htmlwidgets_0.7      futile.options_1.0.0 bitops_1.0-6         evaluate_0.9        
-[31] gdata_2.17.0         stringi_1.1.1        gplots_3.0.1         scales_0.4.0         jsonlite_1.0        
+ [1] Rcpp_0.12.9          bindr_0.1            munsell_0.4.3        colorspace_1.3-2     R6_2.2.0            
+ [6] highr_0.6            stringr_1.2.0        plyr_1.8.4           dplyr_0.5.0.9000     caTools_1.17.1      
+[11] tools_3.3.1          webshot_0.4.0        DT_0.2               KernSmooth_2.23-15   DBI_0.5-1           
+[16] lambda.r_1.1.9       htmltools_0.3.5      gtools_3.5.0         yaml_2.1.14          digest_0.6.12       
+[21] lazyeval_0.2.0       assertthat_0.1       tibble_1.2           tidyr_0.6.1          readr_1.0.0         
+[26] RColorBrewer_1.1-2   htmlwidgets_0.8      futile.options_1.0.0 bitops_1.0-6         evaluate_0.10       
+[31] gdata_2.17.0         stringi_1.1.2        gplots_3.0.1         scales_0.4.1         jsonlite_1.2        
 ```

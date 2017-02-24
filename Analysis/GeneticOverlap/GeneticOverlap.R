@@ -50,9 +50,20 @@ categoriesToDisplay <- c(
   "Nitrogen", "OrganicRemediation", "Phosphorus", "SulfateReduction", "SulfurOxidation"
 )
 
+col_types <- readr::cols_only(
+  GenbankID             = readr::col_character(),  # Force it to be read as a string.
+  GeneName              = readr::col_character(),
+  GeneCategory          = readr::col_character(),
+  Replicate             = readr::col_integer(),
+  Site                  = readr::col_integer(),
+  Abundance             = readr::col_double(),
+  Basin                 = readr::col_character(),
+  AbundanceWithFloor    = readr::col_double()
+)
+
 #####################################
 ## @knitr LoadData
-dsLong <- read.csv(pathInputLong, stringsAsFactors=FALSE)
+dsLong <- readr::read_csv(pathInputLong, col_types=col_types)
 
 # sapply(dsLong, class)
 #####################################
@@ -129,24 +140,29 @@ plotVenn <- function( vennList, pathGraph ) {
   VennDiagram::venn.diagram(
     x           = vennList,
     filename    = pathGraph,
-    height      = 2000,
-    width       = 2000,
-    cat.pos     = c(330, 30, 180),
+    height      = 1600,
+    width       = 1600,
+    resolution  = 600,
+    cat.pos     = c(340, 20, 180),
+    cat.dist    = c(0, 0, -.04),
+    cat.col     = "gray40",
+    cat.cex     = .8,
+    cat.fontfamily= "sans serif",
     euler.d     = FALSE,
     scaled      = FALSE,
     col         = "transparent",
     fill        = paletteBasinDark,
     alpha       = 0.50,
-    cex         = 1.5,
+    cex         = 1.4,
     fontface    = "bold",
     margin      = 0.0
   )
 }
 
 vennListTotal <- list(
-  "Illinois\n(v4.0)"   = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
-  "Cook Inlet\n(v3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
-  "Powder\n(v4.0)"     = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
+  "Illinois (v4.0)"   = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois", ]$GenbankID,
+  "Cook Inlet (v3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
+  "Powder (v4.0)"     = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
 )
 plotVenn(vennListTotal, pathVennTotal)
 
@@ -157,9 +173,9 @@ for( category in sort(unique(dsLongBasinUnique$GeneCategory)) ) {
   message(pathVennCategory)
   
   vennListCategory <- list(
-    "Illinois\n(V4.0)"   = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois"  & dsLongBasinUnique$GeneCategory==category, ]$GenbankID,
-    "Cook Inlet\n(V3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet" & dsLongBasinUnique$GeneCategory==category, ]$GenbankID,
-    "Powder\n(V4.0)"     = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder"    & dsLongBasinUnique$GeneCategory==category, ]$GenbankID
+    "Illinois (V4.0)"   = dsLongBasinUnique[dsLongBasinUnique$Basin=="Illinois"  & dsLongBasinUnique$GeneCategory==category, ]$GenbankID,
+    "Cook Inlet (V3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet" & dsLongBasinUnique$GeneCategory==category, ]$GenbankID,
+    "Powder (V4.0)"     = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder"    & dsLongBasinUnique$GeneCategory==category, ]$GenbankID
   )
   
   plotVenn(vennListCategory, pathVennCategory)
