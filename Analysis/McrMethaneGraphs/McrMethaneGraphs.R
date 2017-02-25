@@ -114,9 +114,9 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
 #####################################
 ## @knitr Scatterplots
 
-gQuantityTotal <- ggplot(dsLongIllinois, aes(x=QuantityMcrGenes, y=TotalAdjusted, color=factor(Site), fill=factor(Site), shape=IncubationReplicate)) + 
-  geom_smooth(aes(color=NULL, fill=NULL, shape=NULL), method="loess") +
-  geom_smooth(aes(color=NULL, fill=NULL, shape=NULL), method="lm") +
+gQuantityTotal <- ggplot(dsLongIllinois, aes(x=QuantityMcrGenes, y=TotalAdjusted, color=factor(Site), fill=factor(Site))) + 
+  geom_smooth(aes(color=NULL, fill=NULL), method="loess") +
+  geom_smooth(aes(color=NULL, fill=NULL), method="lm") +
   geom_point(shape=21) +
   scale_x_continuous(label=scales::comma) +
   scale_color_manual(values=paletteSiteDark) +
@@ -127,9 +127,9 @@ gQuantityTotal <- ggplot(dsLongIllinois, aes(x=QuantityMcrGenes, y=TotalAdjusted
   labs(title="Illinois Basin")
 gQuantityTotal
 
-gQuantityRate <- ggplot(dsLongIllinois, aes(x=QuantityMcrGenes, y=AdjustedRate, color=factor(Site), fill=factor(Site), shape=IncubationReplicate)) + 
-  geom_smooth(aes(color=NULL, fill=NULL, shape=NULL), method="loess") +
-  geom_smooth(aes(color=NULL, fill=NULL, shape=NULL), method="lm") +
+gQuantityRate <- ggplot(dsLongIllinois, aes(x=QuantityMcrGenes, y=AdjustedRate, color=factor(Site), fill=factor(Site))) + 
+  geom_smooth(aes(color=NULL, fill=NULL), method="loess") +
+  geom_smooth(aes(color=NULL, fill=NULL), method="lm") +
   geom_point(shape=21) +
   scale_x_continuous(label=scales::comma) +
   scale_color_manual(values=paletteSiteDark) +
@@ -142,7 +142,7 @@ gQuantityRate
 
 gQuantitySite <- ggplot(dsWide, aes(x=QuantityMean, y=TotalAdjustedMean, label=Site, color=factor(Site))) + 
   #   geom_smooth(aes(color=NULL, label=NULL), method="loess") +
-  geom_smooth(aes(color=NULL, label=NULL), method="lm", se=FALSE, color="gray30", linetype="F3") +
+  geom_smooth(aes(color=NULL), method="lm", se=FALSE, color="gray30", linetype="F3") +
   geom_text() +
   scale_x_continuous(label=scales::comma) +
   scale_color_manual(values=paletteSiteDark) +
@@ -152,7 +152,7 @@ gQuantitySite <- ggplot(dsWide, aes(x=QuantityMean, y=TotalAdjustedMean, label=S
   labs(title="All Basins")
 gQuantitySite
 
-gQuantity %+% aes(x=UniqueMcrGenes)
+gQuantityRate %+% aes(x=UniqueMcrGenes)
 gQuantitySite %+% aes(x=UniqueMean)
 
 #####################################
@@ -162,10 +162,10 @@ gQuantitySite %+% aes(x=UniqueMean)
 #   geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin, xmax=QuantityMcrGenesMax, ymin=RateMin, ymax=RateMax, x=NULL, y=NULL)) +
 #   scale_fill_manual(values=paletteSiteLight)
 
-ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
-  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrTotalQuantityPretty, fill=NULL), color="gray50", hjust=1, vjust=1, parse=T) +
-  geom_smooth(aes(x=QuantityMean, y=TotalAdjustedMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
-  geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin, xmax=QuantityMcrGenesMax, ymin=TotalAdjustedMin, ymax=TotalAdjustedMax, x=NULL, y=NULL), alpha=.1) +
+ggplot(dsWide, aes(label=Site, color=factor(Site))) +
+  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrTotalQuantityPretty), color="gray50", hjust=1, vjust=1, parse=T) +
+  geom_smooth(aes(x=QuantityMean, y=TotalAdjustedMean, group=Substrate, fill=factor(Site)), method="lm", se=FALSE, color="gray30", linetype="F3") +
+  geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin, xmax=QuantityMcrGenesMax, ymin=TotalAdjustedMin, ymax=TotalAdjustedMax), alpha=.1) +
   geom_point(data=dsLong, aes(x=QuantityMcrGenes, y=TotalAdjusted, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
   geom_text(aes(x=QuantityMean, y=TotalAdjustedMean), alpha=1) +
   scale_x_continuous(label=scales::comma) +
@@ -176,10 +176,10 @@ ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
   theme(legend.position="none") +
   labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Methane*phantom(0)*(mu*mol)))
 
-ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
-  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrTotalUniquePretty, fill=NULL), color="gray50", hjust=1, vjust=1, parse=T) +
-  geom_smooth(aes(x=UniqueMean, y=TotalAdjustedMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
-  geom_rect(data=dsSiteRange, aes(xmin=UniqueMcrGenesMin, xmax=UniqueMcrGenesMax, ymin=TotalAdjustedMin, ymax=TotalAdjustedMax, x=NULL, y=NULL), alpha=.1) +
+ggplot(dsWide, aes(label=Site, color=factor(Site))) +
+  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrTotalUniquePretty), color="gray50", hjust=1, vjust=1, parse=T) +
+  geom_smooth(aes(x=UniqueMean, y=TotalAdjustedMean, fill=factor(Site), group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
+  geom_rect(data=dsSiteRange, aes(xmin=UniqueMcrGenesMin, xmax=UniqueMcrGenesMax, ymin=TotalAdjustedMin, ymax=TotalAdjustedMax), alpha=.1) +
   geom_point(data=dsLong, aes(x=UniqueMcrGenes, y=TotalAdjusted, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
   geom_text(aes(x=UniqueMean, y=TotalAdjustedMean), alpha=1) +
   scale_x_continuous(label=scales::comma) +
@@ -196,10 +196,10 @@ prettyColumns <- grep("Pretty", x=colnames(dsCorrelation))
 kable(dsCorrelation[, -prettyColumns], format="markdown")
 #####################################
 ## @knitr LayeredScatterplotsRate
-ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
-  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateQuantityPretty, fill=NULL), color="gray50", hjust=1, vjust=1, parse=T) +
+ggplot(dsWide, aes(label=Site, color=factor(Site))) +
+  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateQuantityPretty), color="gray50", hjust=1, vjust=1, parse=T) +
   geom_smooth(aes(x=QuantityMean, y=RateMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
-  geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin, xmax=QuantityMcrGenesMax, ymin=RateMin, ymax=RateMax, x=NULL, y=NULL), alpha=.1) +
+  geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin, xmax=QuantityMcrGenesMax, ymin=RateMin, ymax=RateMax, fill=factor(Site)), alpha=.1) +
   geom_point(data=dsLong, aes(x=QuantityMcrGenes, y=AdjustedRate, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
   geom_text(aes(x=QuantityMean, y=RateMean), alpha=1) +
   scale_x_continuous(label=scales::comma) +
@@ -210,10 +210,10 @@ ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
   theme(legend.position="none") +
   labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
 
-ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
-  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateUniquePretty, fill=NULL), color="gray50", hjust=1, vjust=1, parse=T) +
+ggplot(dsWide, aes(label=Site, color=factor(Site))) +
+  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateUniquePretty), color="gray50", hjust=1, vjust=1, parse=T) +
   geom_smooth(aes(x=UniqueMean, y=RateMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
-  geom_rect(data=dsSiteRange, aes(xmin=UniqueMcrGenesMin, xmax=UniqueMcrGenesMax, ymin=RateMin, ymax=RateMax, x=NULL, y=NULL), alpha=.1) +
+  geom_rect(data=dsSiteRange, aes(xmin=UniqueMcrGenesMin, xmax=UniqueMcrGenesMax, ymin=RateMin, ymax=RateMax, fill=factor(Site)), alpha=.1) +
   geom_point(data=dsLong, aes(x=UniqueMcrGenes, y=AdjustedRate, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
   geom_text(aes(x=UniqueMean, y=RateMean), alpha=1) +
   scale_x_continuous(label=scales::comma) +
@@ -223,4 +223,3 @@ ggplot(dsWide, aes(label=Site, color=factor(Site), fill=factor(Site))) +
   ReportTheme +
   theme(legend.position="none") +  
   labs(x=expression(Number*phantom(0)*of*phantom(0)*positive*phantom(0)*italic(mcr)*phantom(0)*probes), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
-  

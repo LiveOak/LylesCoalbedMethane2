@@ -163,13 +163,7 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
 # Scatterplots
 The first pair scatterplot matrices are for the *quantity* of genes, while the second pair is the count of *unique* genes.  Within each pair, the first scatterplot matrix has all replicates (2 incubation and 3 microarray replications per site), while the second within each pair shows a site's average across the replicates.
 
-![plot of chunk Scatterplots](Figures/Scatterplots-1.png)![plot of chunk Scatterplots](Figures/Scatterplots-2.png)![plot of chunk Scatterplots](Figures/Scatterplots-3.png)
-
-```
-Error in inherits(x, "theme"): object 'gQuantity' not found
-```
-
-![plot of chunk Scatterplots](Figures/Scatterplots-4.png)
+![plot of chunk Scatterplots](Figures/Scatterplots-1.png)![plot of chunk Scatterplots](Figures/Scatterplots-2.png)![plot of chunk Scatterplots](Figures/Scatterplots-3.png)![plot of chunk Scatterplots](Figures/Scatterplots-4.png)![plot of chunk Scatterplots](Figures/Scatterplots-5.png)
 
 The these scatterplots combine the site means, with the individual replicate measurements.  The rectangles show the range for each Substrate-by-Site group of measurements.  In these two graphs, the **total** methane produced is shown.
 
@@ -209,26 +203,27 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by Will at 2016-08-11, 13:52 -0500
+Report created by wibeasley at 2017-02-24, 22:49 -0600
 ```
 
 ```
-R version 3.3.1 Patched (2016-06-24 r70831)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows >= 8 x64 (build 9200)
+R version 3.3.1 (2016-06-21)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 16.04.2 LTS
 
 locale:
-[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_2.1.0      RColorBrewer_1.1-2 scales_0.4.0       plyr_1.8.4         knitr_1.13        
+[1] ggplot2_2.2.1      RColorBrewer_1.1-2 scales_0.4.1       plyr_1.8.4         knitr_1.15.1      
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.6      gtable_0.2.0     formatR_1.4      magrittr_1.5     evaluate_0.9     highr_0.6       
- [7] stringi_1.1.1    reshape2_1.4.1   labeling_0.3     tools_3.3.1      stringr_1.0.0    munsell_0.4.3   
-[13] colorspace_1.2-6
+ [1] Rcpp_0.12.9      assertthat_0.1   gtable_0.2.0     magrittr_1.5     evaluate_0.10    highr_0.6       
+ [7] stringi_1.1.2    reshape2_1.4.2   lazyeval_0.2.0   labeling_0.3     tools_3.3.1      stringr_1.2.0   
+[13] munsell_0.4.3    colorspace_1.3-2 tibble_1.2      
 ```
