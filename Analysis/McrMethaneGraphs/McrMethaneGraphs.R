@@ -21,12 +21,12 @@ substrateOrder <- c("Formate", "Acetate", "Propionate", "Butyrate", "Valerate")
 sitesToDrop <- c(7, 16, 17)
 
 ReportTheme <- theme_bw() +
-  theme(axis.ticks.length = grid::unit(0, "cm")) +
-  theme(axis.text = element_text(color="gray40")) +
-  theme(axis.title = element_text(color="gray40")) +
+  theme(axis.ticks = element_blank()) +
+  theme(axis.text = element_text(color="gray10")) +
+  theme(axis.title = element_text(color="gray10")) +
   theme(panel.border = element_rect(color="gray80")) +
-  theme(axis.ticks = element_line(color="gray80")) +
-  theme(strip.background=element_rect(color=NA, fill="gray95"))
+  theme(strip.text = element_text(color="gray5")) +
+  theme(strip.background=element_rect(color=NA, fill="gray97"))
 #####################################
 ## @knitr LoadData
 # 'ds' stands for 'datasets'
@@ -197,7 +197,7 @@ kable(dsCorrelation[, -prettyColumns], format="markdown")
 #####################################
 ## @knitr LayeredScatterplotsRate
 ggplot(dsWide, aes(label=Site, color=factor(Site))) +
-  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateQuantityPretty), color="gray50", hjust=1, vjust=1, parse=T) +
+  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateQuantityPretty), color="gray30", hjust=1, vjust=1, parse=T) +
   geom_smooth(aes(x=QuantityMean, y=RateMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
   geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin, xmax=QuantityMcrGenesMax, ymin=RateMin, ymax=RateMax, fill=factor(Site)), alpha=.1) +
   geom_point(data=dsLong, aes(x=QuantityMcrGenes, y=AdjustedRate, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
@@ -211,8 +211,8 @@ ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
 
 ggplot(dsWide, aes(label=Site, color=factor(Site))) +
-  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateUniquePretty), color="gray50", hjust=1, vjust=1, parse=T) +
-  geom_smooth(aes(x=UniqueMean, y=RateMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
+  geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateUniquePretty), color="gray30", hjust=1, vjust=1, parse=T) +
+  geom_smooth(aes(x=UniqueMean, y=RateMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="A1") +
   geom_rect(data=dsSiteRange, aes(xmin=UniqueMcrGenesMin, xmax=UniqueMcrGenesMax, ymin=RateMin, ymax=RateMax, fill=factor(Site)), alpha=.1) +
   geom_point(data=dsLong, aes(x=UniqueMcrGenes, y=AdjustedRate, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
   geom_text(aes(x=UniqueMean, y=RateMean), alpha=1) +

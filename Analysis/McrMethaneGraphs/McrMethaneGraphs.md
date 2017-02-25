@@ -35,12 +35,12 @@ substrateOrder <- c("Formate", "Acetate", "Propionate", "Butyrate", "Valerate")
 sitesToDrop <- c(7, 16, 17)
 
 ReportTheme <- theme_bw() +
-  theme(axis.ticks.length = grid::unit(0, "cm")) +
-  theme(axis.text = element_text(color="gray40")) +
-  theme(axis.title = element_text(color="gray40")) +
+  theme(axis.ticks = element_blank()) +
+  theme(axis.text = element_text(color="gray10")) +
+  theme(axis.title = element_text(color="gray10")) +
   theme(panel.border = element_rect(color="gray80")) +
-  theme(axis.ticks = element_line(color="gray80")) +
-  theme(strip.background=element_rect(color=NA, fill="gray95"))
+  theme(strip.text = element_text(color="gray5")) +
+  theme(strip.background=element_rect(color=NA, fill="gray97"))
 #####################################
 ```
 
@@ -124,7 +124,7 @@ ggplot(dsLongIllinois, aes(x=TotalAdjusted)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals-1.png)
+<img src="Figures/Marginals-1.png" title="plot of chunk Marginals" alt="plot of chunk Marginals" width="650px" />
 
 ```r
 ggplot(dsLongIllinois, aes(x=AdjustedRate)) + 
@@ -134,7 +134,7 @@ ggplot(dsLongIllinois, aes(x=AdjustedRate)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals-2.png)
+<img src="Figures/Marginals-2.png" title="plot of chunk Marginals" alt="plot of chunk Marginals" width="650px" />
 
 ```r
 ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) + 
@@ -144,7 +144,7 @@ ggplot(dsLongIllinois, aes(x=QuantityMcrGenes)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals-3.png)
+<img src="Figures/Marginals-3.png" title="plot of chunk Marginals" alt="plot of chunk Marginals" width="650px" />
 
 ```r
 ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) + 
@@ -154,7 +154,7 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
   labs(title="Illinois Basin")
 ```
 
-![plot of chunk Marginals](Figures/Marginals-4.png)
+<img src="Figures/Marginals-4.png" title="plot of chunk Marginals" alt="plot of chunk Marginals" width="650px" />
 
 ```r
 #####################################
@@ -163,11 +163,11 @@ ggplot(dsLongIllinois, aes(x=UniqueMcrGenes)) +
 # Scatterplots
 The first pair scatterplot matrices are for the *quantity* of genes, while the second pair is the count of *unique* genes.  Within each pair, the first scatterplot matrix has all replicates (2 incubation and 3 microarray replications per site), while the second within each pair shows a site's average across the replicates.
 
-![plot of chunk Scatterplots](Figures/Scatterplots-1.png)![plot of chunk Scatterplots](Figures/Scatterplots-2.png)![plot of chunk Scatterplots](Figures/Scatterplots-3.png)![plot of chunk Scatterplots](Figures/Scatterplots-4.png)![plot of chunk Scatterplots](Figures/Scatterplots-5.png)
+<img src="Figures/Scatterplots-1.png" title="plot of chunk Scatterplots" alt="plot of chunk Scatterplots" width="650px" /><img src="Figures/Scatterplots-2.png" title="plot of chunk Scatterplots" alt="plot of chunk Scatterplots" width="650px" /><img src="Figures/Scatterplots-3.png" title="plot of chunk Scatterplots" alt="plot of chunk Scatterplots" width="650px" /><img src="Figures/Scatterplots-4.png" title="plot of chunk Scatterplots" alt="plot of chunk Scatterplots" width="650px" /><img src="Figures/Scatterplots-5.png" title="plot of chunk Scatterplots" alt="plot of chunk Scatterplots" width="650px" />
 
 The these scatterplots combine the site means, with the individual replicate measurements.  The rectangles show the range for each Substrate-by-Site group of measurements.  In these two graphs, the **total** methane produced is shown.
 
-![plot of chunk LayeredScatterplotsTotal](Figures/LayeredScatterplotsTotal-1.png)![plot of chunk LayeredScatterplotsTotal](Figures/LayeredScatterplotsTotal-2.png)
+<img src="Figures/LayeredScatterplotsTotal-1.png" title="plot of chunk LayeredScatterplotsTotal" alt="plot of chunk LayeredScatterplotsTotal" width="650px" /><img src="Figures/LayeredScatterplotsTotal-2.png" title="plot of chunk LayeredScatterplotsTotal" alt="plot of chunk LayeredScatterplotsTotal" width="650px" />
 
 |Basin                |Substrate  | CorrRateUnique| CorrRateQuantity| CorrTotalUnique| CorrTotalQuantity|
 |:--------------------|:----------|--------------:|----------------:|---------------:|-----------------:|
@@ -189,7 +189,7 @@ The these scatterplots combine the site means, with the individual replicate mea
 
 In these two graphs, the **rate** of methane produced is shown.
 
-![plot of chunk LayeredScatterplotsRate](Figures/LayeredScatterplotsRate-1.png)![plot of chunk LayeredScatterplotsRate](Figures/LayeredScatterplotsRate-2.png)
+<img src="Figures/LayeredScatterplotsRate-1.png" title="plot of chunk LayeredScatterplotsRate" alt="plot of chunk LayeredScatterplotsRate" width="650px" /><img src="Figures/LayeredScatterplotsRate-2.png" title="plot of chunk LayeredScatterplotsRate" alt="plot of chunk LayeredScatterplotsRate" width="650px" />
 
 # Questions
 ## Unanswered Questions
@@ -203,7 +203,7 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by wibeasley at 2017-02-24, 23:07 -0600
+Report created by wibeasley at 2017-02-25, 00:11 -0600
 ```
 
 ```

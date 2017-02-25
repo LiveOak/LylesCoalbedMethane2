@@ -19,12 +19,12 @@ opts_chunk$set(
   comment = NA, 
   tidy = FALSE,
   dpi = 600,
+  out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
   fig.width = 6.5, 
   fig.height = 4, 
   fig.path = 'Figures/'
 )
 # dpi = 400,
-# out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
 
 echoChunks <- TRUE
 options(width=120) #So the output is 50% wider than the default.
