@@ -18,6 +18,7 @@ opts_chunk$set(
   results='show', 
   comment = NA, 
   tidy = FALSE,
+  dpi = 600,
   fig.width = 6.5, 
   fig.height = 4, 
   fig.path = 'Figures/'
@@ -64,12 +65,12 @@ The first pair scatterplot matrices are for the *quantity* of genes, while the s
 
 The these scatterplots combine the site means, with the individual replicate measurements.  The rectangles show the range for each Substrate-by-Site group of measurements.  In these two graphs, the **total** methane produced is shown.
 
-```{r LayeredScatterplotsTotal, echo=F, message=TRUE, fig.width = 8, fig.height = 12, results='asis'}
+```{r LayeredScatterplotsTotal, echo=F, message=TRUE, fig.width = 6, fig.height = 9, results='asis'}
 ```  
 
 In these two graphs, the **rate** of methane produced is shown.
 
-```{r LayeredScatterplotsRate, echo=F, message=TRUE, fig.width = 8, fig.height = 12, results='asis'}
+```{r LayeredScatterplotsRate, echo=F, message=TRUE, fig.width = 6, fig.height = 9, results='asis'}
 ```
 
 # Questions
