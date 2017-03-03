@@ -164,17 +164,17 @@ gQuantitySite %+% aes(x=UniqueMean)
 
 ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrTotalQuantityPretty), color="gray50", hjust=1, vjust=1, parse=T) +
-  geom_smooth(aes(x=QuantityMean, y=TotalAdjustedMean, group=Substrate, fill=factor(Site)), method="lm", se=FALSE, color="gray30", linetype="F3") +
-  geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin, xmax=QuantityMcrGenesMax, ymin=TotalAdjustedMin, ymax=TotalAdjustedMax), alpha=.1) +
-  geom_point(data=dsLong, aes(x=QuantityMcrGenes, y=TotalAdjusted, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
-  geom_text(aes(x=QuantityMean, y=TotalAdjustedMean), alpha=1) +
+  geom_smooth(aes(x=QuantityMean/1000, y=TotalAdjustedMean, group=Substrate, fill=factor(Site)), method="lm", se=FALSE, color="gray30", linetype="F3") +
+  geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin/1000, xmax=QuantityMcrGenesMax/1000, ymin=TotalAdjustedMin, ymax=TotalAdjustedMax), alpha=.1) +
+  geom_point(data=dsLong, aes(x=QuantityMcrGenes/1000, y=TotalAdjusted, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
+  geom_text(aes(x=QuantityMean/1000, y=TotalAdjustedMean), alpha=1) +
   scale_x_continuous(label=scales::comma) +
   scale_color_manual(values=paletteSiteLight) +
   scale_fill_manual(values=paletteSiteLight) +
   facet_grid(Substrate~Basin, scales="free") +
   ReportTheme +
   theme(legend.position="none") +
-  labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Methane*phantom(0)*(mu*mol)))
+  labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes*phantom(0)*(thousands)), y=expression(Methane*phantom(0)*(mu*mol)))
 
 ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrTotalUniquePretty), color="gray50", hjust=1, vjust=1, parse=T) +
@@ -198,17 +198,18 @@ kable(dsCorrelation[, -prettyColumns], format="markdown")
 ## @knitr LayeredScatterplotsRate
 ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateQuantityPretty), color="gray30", hjust=1, vjust=1, parse=T) +
-  geom_smooth(aes(x=QuantityMean, y=RateMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
-  geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin, xmax=QuantityMcrGenesMax, ymin=RateMin, ymax=RateMax, fill=factor(Site)), alpha=.1) +
-  geom_point(data=dsLong, aes(x=QuantityMcrGenes, y=AdjustedRate, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
-  geom_text(aes(x=QuantityMean, y=RateMean), alpha=1) +
-  scale_x_continuous(label=scales::comma) +
+  geom_smooth(aes(x=QuantityMean/1000, y=RateMean, group=Substrate), method="lm", se=FALSE, color="gray30", linetype="F3") +
+  geom_rect(data=dsSiteRange, aes(xmin=QuantityMcrGenesMin/1000, xmax=QuantityMcrGenesMax/1000, ymin=RateMin, ymax=RateMax, fill=factor(Site)), alpha=.1) +
+  geom_point(data=dsLong, aes(x=QuantityMcrGenes/1000, y=AdjustedRate, shape=IncubationReplicate, fill=factor(Site)), shape=21) +
+  geom_text(aes(x=QuantityMean/1000, y=RateMean), alpha=1) +
+  # scale_x_continuous(label=scales::comma) +
+  # scale_x_continuous(label=scales::unit_format(unit = "K")) +
   scale_color_manual(values=paletteSiteLight) +
   scale_fill_manual(values=paletteSiteLight) +
   facet_grid(Substrate~Basin, scales="free") +
   ReportTheme +
   theme(legend.position="none") +
-  labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
+  labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes*phantom(0)*(thousands)), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
 
 ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateUniquePretty), color="gray30", hjust=1, vjust=1, parse=T) +
