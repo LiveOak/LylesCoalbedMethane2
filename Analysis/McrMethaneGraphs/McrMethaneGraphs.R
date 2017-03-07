@@ -174,7 +174,7 @@ ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   facet_grid(Substrate~Basin, scales="free") +
   ReportTheme +
   theme(legend.position="none") +
-  labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes*phantom(0)*(thousands)), y=expression(Methane*phantom(0)*(mu*mol)))
+  labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes*phantom(0)*(x1000)), y=expression(Methane*phantom(0)*(mu*mol)))
 
 ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrTotalUniquePretty), color="gray50", hjust=1, vjust=1, parse=T) +
@@ -209,7 +209,7 @@ ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   facet_grid(Substrate~Basin, scales="free") +
   ReportTheme +
   theme(legend.position="none") +
-  labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes*phantom(0)*(thousands)), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
+  labs(x=expression(Signal*phantom(0)*intensity*phantom(0)*of*phantom(0)*italic(mcr)*phantom(0)*genes*phantom(0)*(x1000)), y=expression(Rates*phantom(0)*of*phantom(0)*methanogenesis*phantom(0)*(mu*mol/day)))
 
 ggplot(dsWide, aes(label=Site, color=factor(Site))) +
   geom_text(data=dsCorrelation, aes(x=Inf, y=Inf, label=CorrRateUniquePretty), color="gray30", hjust=1, vjust=1, parse=T) +
