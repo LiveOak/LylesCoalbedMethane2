@@ -1,4 +1,4 @@
-Welcome ot the code repository for the [article](https://academic.oup.com/femsec/article-abstract/doi/10.1093/femsec/fix040/3078548/Elucidation-of-the-methanogenic-potential-from?redirectedFrom=fulltext).
+Welcome to the code repository for the [article](https://academic.oup.com/femsec/article-abstract/doi/10.1093/femsec/fix040/3078548/Elucidation-of-the-methanogenic-potential-from).  [![DOI](https://zenodo.org/badge/22930297.svg)](https://zenodo.org/badge/latestdoi/22930297)
 
 ## Elucidation of the methanogenic potential from coalbed microbial communities amended with volatile fatty acids
 
@@ -55,4 +55,4 @@ The following directories are part of the repository:
 
 ## Code Repository
 
-The analysis is written primarily in R, under the GPL-2 License.  The DOI of the *repository* (not of the article) is [zzz](zzz).
+The analysis is written primarily in R, under the GPL-2 License.  The DOI of the *repository* (not of the article) is [10.5281/zenodo.439418](https://zenodo.org/badge/latestdoi/22930297).
