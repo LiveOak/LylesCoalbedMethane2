@@ -28,17 +28,21 @@ The following figures can be reproduced from the datasets and analytical code in
 
 Venn diagrams showing the genetic overlap of functional genes associated with nine gene categories from three coalfields using the GeoChip functional gene microarray (3.2 and 4.0). The numeric value indicates the number of shared genes between the coalfields. A list of the shared genes between all three coalfields can be found in the supplemental information (Table S3).
 
+<img src="./Analysis/GeneticOverlap/Figures/CarbonCycling.png" alt="figure_2a" width="200" /> <img src="Analysis/GeneticOverlap/Figures/EnergyProcess.png" alt="figure_2b" width="200" /> <img src="Analysis/GeneticOverlap/Figures/MetalResistance.png" alt="figure_2c" width="200" /> <img src="Analysis/GeneticOverlap/Figures/MethaneProduction.png" alt="figure_2d" width="200" /> <img src="Analysis/GeneticOverlap/Figures/Nitrogen.png" alt="figure_2e" width="200" /> <img src="Analysis/GeneticOverlap/Figures/OrganicRemediation.png" alt="figure_2f" width="200" /> <img src="Analysis/GeneticOverlap/Figures/Phosphorus.png" alt="figure_2g" width="200" /> <img src="Analysis/GeneticOverlap/Figures/SulfateReduction.png" alt="figure_2h" width="200" /> <img src="Analysis/GeneticOverlap/Figures/SulfurOxidation.png" alt="figure_2i" width="200" />
+
 #### Figure 5
 
 A scatterplot correlating the total amount of methane (μ mol) to the **number of positive mcr probes** as measured by the GeoChip.  
 
 The boxes associated with the Illinois Basin data represent the range of error between three technical replicates of the GeoChip and the methane produced in duplicate incubations. The vertical bars for the Cook Inlet gas field and the Powder River Basin represent the error between the methane produced in duplicate incubations.
 
+![figure_5](Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-2.png)
 
 #### Figure 6
 
 A scatterplot correlating the total amount of methane (μ mol) to the **signal intensities of mcr probes** as measured by the GeoChip.
 
+![figure_6](Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-1.png)
 
 ## Directories
 The following directories are part of the repository:
