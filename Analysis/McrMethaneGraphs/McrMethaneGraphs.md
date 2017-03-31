@@ -203,11 +203,11 @@ For the sake of documentation and reproducibility, the current report was build 
 
 
 ```
-Report created by wibeasley at 2017-03-07, 06:40 -0600
+Report created by wibeasley at 2017-03-31, 09:52 -0500
 ```
 
 ```
-R version 3.3.1 (2016-06-21)
+R version 3.3.3 (2017-03-06)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 16.04.2 LTS
 
@@ -223,7 +223,7 @@ other attached packages:
 [1] ggplot2_2.2.1      RColorBrewer_1.1-2 scales_0.4.1       plyr_1.8.4         knitr_1.15.1      
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.9      assertthat_0.1   gtable_0.2.0     magrittr_1.5     evaluate_0.10    highr_0.6       
- [7] stringi_1.1.2    reshape2_1.4.2   lazyeval_0.2.0   labeling_0.3     tools_3.3.1      stringr_1.2.0   
+ [1] Rcpp_0.12.10     assertthat_0.1   gtable_0.2.0     magrittr_1.5     evaluate_0.10    highr_0.6       
+ [7] stringi_1.1.3    reshape2_1.4.2   lazyeval_0.2.0   labeling_0.3     tools_3.3.3      stringr_1.2.0   
 [13] munsell_0.4.3    colorspace_1.3-2 tibble_1.2      
 ```
