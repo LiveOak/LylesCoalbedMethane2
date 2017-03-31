@@ -20,12 +20,25 @@ Organization 1: [Department of Microbiology and Plant Biology](http://mpbio.ou.e
 > Keywords:
 coalbed methane; coal basin; metabolite analysis; alkanoic acids; microbial communities; functional gene array
 
-<img src="Analysis/GeneticOverlap/Figures/CarbonCycling.png" alt="Figure6" style="width: 200px;"/>
-<img src="Analysis/GeneticOverlap/Figures/EnergyProcess.png" alt="Figure6" style="width: 200px;"/>
-<img src="Analysis/GeneticOverlap/Figures/MetalResistance.png" alt="Figure6" style="width: 200px;"/>
-<img src="Analysis/GeneticOverlap/Figures/MethaneProduction.png" alt="Figure6" style="width: 200px;"/>
-<img src="Analysis/GeneticOverlap/Figures/Nitrogen.png" alt="Figure6" style="width: 200px;"/>
-<img src="Analysis/GeneticOverlap/Figures/OrganicRemediation.png" alt="Figure6" style="width: 200px;"/>
-<img src="Analysis/GeneticOverlap/Figures/Phosphorus.png" alt="Figure6" style="width: 200px;"/>
-<img src="Analysis/GeneticOverlap/Figures/SulfateReduction.png" alt="Figure6" style="width: 200px;"/>
-<img src="Analysis/GeneticOverlap/Figures/SulfurOxidation.png" alt="Figure6" style="width: 200px;"/>
+
+## Selected Figures from Manuscript
+The following figures can be reproduced from the datasets and analytical code in this repository. These are low-resolution versions; the high-resolution versions can be found in the [article](https://academic.oup.com/femsec/article-abstract/doi/10.1093/femsec/fix040/3078548/Elucidation-of-the-methanogenic-potential-from) or in the [`./Analysis/`](./Analysis/) directory.
+
+#### Figure 2
+
+<img src="Analysis/GeneticOverlap/Figures/CarbonCycling.png" alt="figure_2a" style="width: 200px;"/>
+<img src="Analysis/GeneticOverlap/Figures/EnergyProcess.png" alt="figure_2b" style="width: 200px;"/>
+<img src="Analysis/GeneticOverlap/Figures/MetalResistance.png" alt="figure_2c" style="width: 200px;"/>
+<img src="Analysis/GeneticOverlap/Figures/MethaneProduction.png" alt="figure_2d" style="width: 200px;"/>
+<img src="Analysis/GeneticOverlap/Figures/Nitrogen.png" alt="figure_2e" style="width: 200px;"/>
+<img src="Analysis/GeneticOverlap/Figures/OrganicRemediation.png" alt="figure_2f" style="width: 200px;"/>
+<img src="Analysis/GeneticOverlap/Figures/Phosphorus.png" alt="figure_2g" style="width: 200px;"/>
+<img src="Analysis/GeneticOverlap/Figures/SulfateReduction.png" alt="figure_2h" style="width: 200px;"/>
+<img src="Analysis/GeneticOverlap/Figures/SulfurOxidation.png" alt="figure_2i" style="width: 200px;"/>
+
+
+#### Figure 5
+<img src="Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-2.png" alt="figure_5" style="width: 600px;"/>
+
+#### Figure 6
+<img src="Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-1.png" alt="figure_6" style="width: 600px;"/>
