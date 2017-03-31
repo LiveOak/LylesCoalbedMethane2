@@ -5,8 +5,8 @@ Welcome to the code repository for the [article](https://academic.oup.com/femsec
 [Christopher N. Lyles](https://sciences.nsula.edu/contact-usfaculty/)<sup>[1](http://mpbio.ou.edu/)</sup>,
 [Victoria A. Parisi](https://www.linkedin.com/in/victoria-parisi-4a64437/)<sup>[1](http://mpbio.ou.edu/)</sup>,
 [William H. Beasley](http://scholar.google.com/citations?user=ffsJTC0AAAAJ&hl=en)<sup>[3](http://howardliveoak.com/)</sup>
-[Joy D. Van Nostrand](http://ieg.ou.edu/mediawiki/index.php?title=IEG_Members:Joy_Van_Nostrand)<sup>[1](http://mpbio.ou.edu/),[2](http://ieg.ou.edu/)</sup>
-[Jizhong Zhou](http://ieg.ou.edu/people/jizhongzhou.html)<sup>[1](http://mpbio.ou.edu/),[2](http://ieg.ou.edu/)</sup>
+[Joy D. Van Nostrand](https://www.linkedin.com/in/joy-van-nostrand-64310120/)<sup>[1](http://mpbio.ou.edu/),[2](http://ieg.ou.edu/)</sup>
+[Jizhong Zhou]( http://www.ou.edu/content/ieg/people/ieg-director.html)<sup>[1](http://mpbio.ou.edu/),[2](http://ieg.ou.edu/)</sup>
 [Joseph M. Suflita](http://mpbio.ou.edu/joseph-m-sulfita-ph-d)<sup>[1](http://mpbio.ou.edu/)</sup> (2017). **[Elucidation of the methanogenic potential from coalbed microbial communities amended with volatile fatty acids](https://academic.oup.com/femsec/article-abstract/doi/10.1093/femsec/fix040/3078548/Elucidation-of-the-methanogenic-potential-from?redirectedFrom=fulltext)**. [*FEMS Microbiology Ecology*](https://academic.oup.com/femsec), 93.  doi: https://doi.org/10.1093/femsec/fix040.
 
 Organization 1: [Department of Microbiology and Plant Biology](http://mpbio.ou.edu/), and the [Institute for Energy and the Environment](http://vpr-norman.ou.edu/centers-institutes/list/ou-institute-energy-and-environment), Norman, OK; Organization 2: [Institute for Environmental Genomics](http://ieg.ou.edu/), [University of Oklahoma](http://www.ou.edu/), Norman, OK; Organization 3: [Howard Live Oak, LLC](http://howardliveoak.com/), Norman, OK.
