@@ -17,7 +17,7 @@ options(show.signif.stars=F) #Turn off the annotations on p-values
 pathInputLong <- "./Data/Derived/Unpacked.csv"
 pathOutputGenesByBasin <- "./Data/Derived/GeneByBasin.csv"
 pathVennDirectory <- "./Analysis/GeneticOverlap/Figures"
-pathVennTotal <- file.path(pathVennDirectory, "AllCategories.tiff")
+pathVennTotal <- file.path(pathVennDirectory, "AllCategories.png")
 
 basinOrder <- c("Illinois", "CookInlet", "Powder")
 geochipBasinVersion <- c("CookInlet"=3.2,  "Illinois"=4.0, "Powder"=4.0)
@@ -136,10 +136,12 @@ dsLongBasinProbeCount
 ## @knitr PlotVennDiagrams
 library(VennDiagram)  
 
-plotVenn <- function( vennList, pathGraph ) {
+plotVenn <- function( vennList, pathGraph, title_main ) {
   VennDiagram::venn.diagram(
     x           = vennList,
     filename    = pathGraph,
+    main        = title_main,
+    imagetype   = "png",
     height      = 1600,
     width       = 1600,
     resolution  = 600,
@@ -155,7 +157,7 @@ plotVenn <- function( vennList, pathGraph ) {
     alpha       = 0.50,
     cex         = 1.4,
     fontface    = "bold",
-    margin      = 0.0
+    margin      = 0.0 
   )
 }
 
@@ -164,12 +166,12 @@ vennListTotal <- list(
   "Cook Inlet (v3.2)" = dsLongBasinUnique[dsLongBasinUnique$Basin=="CookInlet", ]$GenbankID,
   "Powder (v4.0)"     = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder", ]$GenbankID
 )
-plotVenn(vennListTotal, pathVennTotal)
+plotVenn(vennListTotal, pathVennTotal, title_main = "All")
 
 intersection_list <- list()# dplyr::n_distinct(dsLongBasinUnique$GeneCategory))
 for( category in sort(unique(dsLongBasinUnique$GeneCategory)) ) {
   # category <- "CarbonCycling"
-  pathVennCategory <- paste0(file.path(pathVennDirectory, category), ".tiff")
+  pathVennCategory <- paste0(file.path(pathVennDirectory, category), ".png")
   message(pathVennCategory)
   
   vennListCategory <- list(
@@ -178,7 +180,7 @@ for( category in sort(unique(dsLongBasinUnique$GeneCategory)) ) {
     "Powder (V4.0)"     = dsLongBasinUnique[dsLongBasinUnique$Basin=="Powder"    & dsLongBasinUnique$GeneCategory==category, ]$GenbankID
   )
   
-  plotVenn(vennListCategory, pathVennCategory)
+  plotVenn(vennListCategory, pathVennCategory, title_main=category)
   
   #Create a list of data.frames
   intersection_list[[category]] <- data.frame(
