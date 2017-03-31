@@ -34,13 +34,11 @@ A scatterplot correlating the total amount of methane (μ mol) to the **number o
 
 The boxes associated with the Illinois Basin data represent the range of error between three technical replicates of the GeoChip and the methane produced in duplicate incubations. The vertical bars for the Cook Inlet gas field and the Powder River Basin represent the error between the methane produced in duplicate incubations.
 
-<img src="Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-2.png" alt="figure_5" width="600" />
 
 #### Figure 6
 
 A scatterplot correlating the total amount of methane (μ mol) to the **signal intensities of mcr probes** as measured by the GeoChip.
 
-<img src="Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-1.png" alt="figure_6" width="600" />
 
 ## Directories
 The following directories are part of the repository:
