@@ -38,11 +38,13 @@ The boxes associated with the Illinois Basin data represent the range of error b
 
 [![figure_5](Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-2.png)](Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-2.png)
 
+
 #### Figure 6
 
 A scatterplot correlating the total amount of methane (μ mol) to the **signal intensities of mcr probes** as measured by the GeoChip.
 
 [![figure_6](Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-1.png)](Analysis/McrMethaneGraphs/Figures/LayeredScatterplotsTotal-1.png)
+
 
 ## Directories
 The following directories are part of the repository:
